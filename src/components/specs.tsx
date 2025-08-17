@@ -33,7 +33,7 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 	const powerAtDriveCurrent = calculatePowerAtDriveCurrent(driveCurrent, stepper);
 
 	return (
-		<Card className="w-full sm:w-[calc(50%-0.25rem)]">
+		<Card className="w-full sm:w-[calc(50%-0.25rem)] xl:w-[calc(33.333%-0.5rem)]">
 			<CardHeader>
 				<CardTitle>
 					{stepper.manufacturer} {stepper.model}
