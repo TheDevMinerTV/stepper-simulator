@@ -18,7 +18,7 @@ export function App() {
 
 			<div className="flex flex-col gap-2 w-full md:w-2/3">
 				<Card>
-					<CardHeader className="flex flex-row justify-between">
+					<CardHeader className="flex flex-row items-center justify-between">
 						<CardTitle>Steppers</CardTitle>
 						<div className="flex flex-row gap-4 items-center">
 							<AddStepperCard />
