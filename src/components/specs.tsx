@@ -1,20 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import type { StepperDefinition } from "@/lib/stepper";
-import {
-	driveSettingsAtom,
-	gantrySettingsAtom,
-	maxPowerAtom,
-	steppersAtom,
-} from "@/state/atoms";
-import { useAtomValue, useSetAtom } from "jotai";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import type { StepperDefinition } from '@/lib/stepper';
+import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
 	BicepsFlexedIcon,
 	CircuitBoardIcon,
@@ -23,22 +12,21 @@ import {
 	RulerDimensionLineIcon,
 	TrashIcon,
 	TriangleRightIcon,
-	ZapIcon,
-} from "lucide-react";
+	ZapIcon
+} from 'lucide-react';
 
 export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
+	const debug = useAtomValue(debugAtom);
 	const driveSettings = useAtomValue(driveSettingsAtom);
 	const gantrySettings = useAtomValue(gantrySettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
 	const setSteppers = useSetAtom(steppersAtom);
 
-	const maxCurrentAtSpecifiedPower = Math.sqrt(
-		maxPower / 2 / stepper.resistance,
-	);
+	const maxCurrentAtSpecifiedPower = Math.sqrt(maxPower / 2 / stepper.resistance);
 	const driveCurrent = Math.min(
 		driveSettings.maxDriveCurrent,
 		driveSettings.maxDrivePercent * stepper.ratedCurrent,
-		maxCurrentAtSpecifiedPower,
+		maxCurrentAtSpecifiedPower
 	);
 	const torqueRotor =
 		(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * 2)) *
@@ -49,7 +37,7 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 	const powerAtDriveCurrent = driveCurrent ** 2 * stepper.resistance * 2;
 
 	return (
-		<Card className="w-[calc(50%-0.5rem)]">
+		<Card className="w-full sm:w-[calc(50%-0.5rem)]">
 			<CardHeader>
 				<CardTitle>
 					{stepper.manufacturer} {stepper.model}
@@ -88,24 +76,28 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 						<span>{stepper.rotorInertia.toFixed(1)} gcm²</span>
 					</div>
 
-					<Separator />
+					{debug && (
+						<>
+							<Separator />
 
-					<div className="flex items-center gap-2">
-						<span>max current at specified power</span>
-						<span>{maxCurrentAtSpecifiedPower.toFixed(2)} A</span>
-					</div>
-					<div className="flex items-center gap-2">
-						<span>drive current</span>
-						<span>{driveCurrent.toFixed(2)} A</span>
-					</div>
-					<div className="flex items-center gap-2">
-						<span>torque rotor</span>
-						<span>{torqueRotor.toFixed(2)} Ncm</span>
-					</div>
-					<div className="flex items-center gap-2">
-						<span>power at drive current</span>
-						<span>{powerAtDriveCurrent.toFixed(2)} W</span>
-					</div>
+							<div className="flex items-center gap-2">
+								<span>max current at specified power</span>
+								<span>{maxCurrentAtSpecifiedPower.toFixed(2)} A</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<span>drive current</span>
+								<span>{driveCurrent.toFixed(2)} A</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<span>torque rotor</span>
+								<span>{torqueRotor.toFixed(2)} Ncm</span>
+							</div>
+							<div className="flex items-center gap-2">
+								<span>power at drive current</span>
+								<span>{powerAtDriveCurrent.toFixed(2)} W</span>
+							</div>
+						</>
+					)}
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-end">
@@ -113,11 +105,7 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 					type="button"
 					variant="destructive"
 					size="icon"
-					onClick={() =>
-						setSteppers((previous) =>
-							previous.filter((s) => s.model !== stepper.model),
-						)
-					}
+					onClick={() => setSteppers((previous) => previous.filter((s) => s.model !== stepper.model))}
 				>
 					<TrashIcon />
 				</Button>

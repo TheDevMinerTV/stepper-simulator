@@ -1,29 +1,40 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue
+} from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import { calculateRequiredTorque } from '@/lib/formulas';
 import type { Ampere, Grams, MillimetersPerSecondSquared, Percent, StepperDefinition, Volts } from '@/lib/stepper';
 import { STEPPER_DB } from '@/lib/stepper-db';
-import { driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
+import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { ArrowRightFromLineIcon, CogIcon, PlusIcon, WeightIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export function DriveSettings() {
 	const [driveSettings, setDriveSettings] = useAtom(driveSettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
+	const debug = useAtomValue(debugAtom);
 
 	return (
-		<Card>
+		<Card className="w-full">
 			<CardHeader>
 				<CardTitle>Drive Settings</CardTitle>
 			</CardHeader>
-			<CardContent className='space-y-2'>
-				<div className='flex w-full max-w-sm items-center gap-2'>
+			<CardContent className="space-y-2">
+				<div className="flex w-full max-w-sm items-center gap-2">
 					<Input
-						type='number'
-						placeholder='Input Voltage'
+						type="number"
+						placeholder="Input Voltage"
 						min={8}
 						value={driveSettings.inputVoltage}
 						onChange={(e) =>
@@ -35,10 +46,10 @@ export function DriveSettings() {
 					/>
 					<span>V</span>
 				</div>
-				<div className='flex w-full max-w-sm items-center gap-2'>
+				<div className="flex w-full max-w-sm items-center gap-2">
 					<Input
-						type='number'
-						placeholder='Max Drive Current'
+						type="number"
+						placeholder="Max Drive Current"
 						min={0}
 						max={5}
 						value={driveSettings.maxDriveCurrent}
@@ -51,10 +62,10 @@ export function DriveSettings() {
 					/>
 					<span>A</span>
 				</div>
-				<div className='flex w-full max-w-sm items-center gap-2'>
+				<div className="flex w-full max-w-sm items-center gap-2">
 					<Input
-						type='number'
-						placeholder='Max Drive Percent'
+						type="number"
+						placeholder="Max Drive Percent"
 						value={driveSettings.maxDrivePercent}
 						max={100}
 						onChange={(e) =>
@@ -67,12 +78,16 @@ export function DriveSettings() {
 					<span>%</span>
 				</div>
 
-				<Separator />
+				{debug && (
+					<>
+						<Separator />
 
-				{/* TODO: check if we might need to specify this manually */}
-				<div className='flex flex-col w-full max-w-sm gap-2'>
-					<span>max power: {maxPower.toFixed(1)} W</span>
-				</div>
+						{/* TODO: check if we might need to specify this manually */}
+						<div className="flex flex-col w-full max-w-sm gap-2">
+							<span>max power: {maxPower.toFixed(1)} W</span>
+						</div>
+					</>
+				)}
 			</CardContent>
 		</Card>
 	);
@@ -80,17 +95,18 @@ export function DriveSettings() {
 
 export function GantrySettings() {
 	const [gantrySettings, setGantrySettings] = useAtom(gantrySettingsAtom);
+	const debug = useAtomValue(debugAtom);
 
 	return (
-		<Card>
+		<Card className="w-full">
 			<CardHeader>
 				<CardTitle>Gantry Settings</CardTitle>
 			</CardHeader>
-			<CardContent className='space-y-2'>
-				<div className='flex w-full max-w-sm items-center gap-2'>
+			<CardContent className="space-y-2">
+				<div className="flex w-full max-w-sm items-center gap-2">
 					<Input
-						type='number'
-						placeholder='Pulley Teeth'
+						type="number"
+						placeholder="Pulley Teeth"
 						value={gantrySettings.pulleyTeeth}
 						onChange={(e) =>
 							setGantrySettings({
@@ -101,21 +117,25 @@ export function GantrySettings() {
 					/>
 					<span>Teeth</span>
 				</div>
-				<Input
-					type='number'
-					placeholder='Gear Ratio'
-					value={gantrySettings.gearRatio}
-					onChange={(e) =>
-						setGantrySettings({
-							...gantrySettings,
-							gearRatio: e.target.valueAsNumber
-						})
-					}
-				/>
-				<div className='flex w-full max-w-sm items-center gap-2'>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<CogIcon />
 					<Input
-						type='number'
-						placeholder='Acceleration'
+						type="number"
+						placeholder="Gear Ratio"
+						value={gantrySettings.gearRatio}
+						onChange={(e) =>
+							setGantrySettings({
+								...gantrySettings,
+								gearRatio: e.target.valueAsNumber
+							})
+						}
+					/>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<ArrowRightFromLineIcon />
+					<Input
+						type="number"
+						placeholder="Acceleration"
 						value={gantrySettings.acceleration}
 						onChange={(e) =>
 							setGantrySettings({
@@ -126,10 +146,11 @@ export function GantrySettings() {
 					/>
 					<span>mm/s²</span>
 				</div>
-				<div className='flex w-full max-w-sm items-center gap-2'>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<WeightIcon />
 					<Input
-						type='number'
-						placeholder='Toolhead and Y Axis Mass'
+						type="number"
+						placeholder="Toolhead and Y Axis Mass"
 						value={gantrySettings.toolheadAndYAxisMass}
 						onChange={(e) =>
 							setGantrySettings({
@@ -141,12 +162,19 @@ export function GantrySettings() {
 					<span>g</span>
 				</div>
 
-				<Separator />
+				{debug && (
+					<>
+						<Separator />
 
-				<div className='flex flex-col w-full max-w-sm gap-2'>
-					<span>{((gantrySettings.pulleyTeeth * 2) / (2 * Math.PI)).toFixed(2)} mm effective pulley diameter</span>
-					<span>{calculateRequiredTorque(gantrySettings).toFixed(2)} Ncm required</span>
-				</div>
+						<div className="flex flex-col w-full max-w-sm gap-2">
+							<span>
+								{((gantrySettings.pulleyTeeth * 2) / (2 * Math.PI)).toFixed(2)} mm effective pulley
+								diameter
+							</span>
+							<span>{calculateRequiredTorque(gantrySettings).toFixed(2)} Ncm required</span>
+						</div>
+					</>
+				)}
 			</CardContent>
 		</Card>
 	);
@@ -164,46 +192,50 @@ export function AddStepperCard() {
 				if (!stepper) return;
 				setSteppers((previous) => [...previous, stepper]);
 			}}
-			className='max-w-full'
+			className="flex flex-row gap-2"
 		>
-			<Card className='flex-1'>
-				<CardHeader>
-					<CardTitle>Add Stepper</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<Select
-						name='stepper'
-						value={stepper ? `${stepper.manufacturer}__${stepper.model}` : undefined}
-						onValueChange={(value: string) => {
-							const [manufacturer, model] = value.split('__');
-							const stepper = STEPPER_DB.get(manufacturer)?.get(model) ?? null;
-							setStepper(stepper);
-						}}
-					>
-						<SelectTrigger className='w-full'>
-							<SelectValue placeholder='Select a stepper' />
-						</SelectTrigger>
-						<SelectContent>
-							{Array.from(STEPPER_DB.entries()).map(([brand, models]) => (
-								<SelectGroup key={brand}>
-									<SelectLabel>{brand}</SelectLabel>
-									{Array.from(models.keys()).map((model) => {
-										const key = `${brand}__${model}`;
-										return (
-											<SelectItem key={key} value={key}>
-												{brand} {model}
-											</SelectItem>
-										);
-									})}
-								</SelectGroup>
-							))}
-						</SelectContent>
-					</Select>
-				</CardContent>
-				<CardFooter className='flex justify-end'>
-					<Button type='submit'>Add</Button>
-				</CardFooter>
-			</Card>
+			<Select
+				name="stepper"
+				value={stepper ? `${stepper.manufacturer}__${stepper.model}` : undefined}
+				onValueChange={(value: string) => {
+					const [manufacturer, model] = value.split('__');
+					const stepper = STEPPER_DB.get(manufacturer)?.get(model) ?? null;
+					setStepper(stepper);
+				}}
+			>
+				<SelectTrigger className="w-full">
+					<SelectValue placeholder="Select a stepper" />
+				</SelectTrigger>
+				<SelectContent>
+					{Array.from(STEPPER_DB.entries()).map(([brand, models]) => (
+						<SelectGroup key={brand}>
+							<SelectLabel>{brand}</SelectLabel>
+							{Array.from(models.keys()).map((model) => {
+								const key = `${brand}__${model}`;
+								return (
+									<SelectItem key={key} value={key}>
+										{brand} {model}
+									</SelectItem>
+								);
+							})}
+						</SelectGroup>
+					))}
+				</SelectContent>
+			</Select>
+			<Button type="submit" size="icon">
+				<PlusIcon className="w-4 h-4" />
+			</Button>
 		</form>
+	);
+}
+
+export function DebugSettings() {
+	const [debug, setDebug] = useAtom(debugAtom);
+
+	return (
+		<div className="flex flex-row gap-2 items-center">
+			<Switch checked={debug} onCheckedChange={setDebug} />
+			<span>Debug</span>
+		</div>
 	);
 }

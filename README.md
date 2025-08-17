@@ -18,8 +18,8 @@ You can add more stepper motors by adding a new row to the `data/steppers.csv` f
 
 ## Thanks to
 
--   [eddytheengineer](https://www.youtube.com/@eddietheengineer) for the [initial Excel sheet](https://github.com/eddietheengineer/documentation/blob/master/stepper_motor/data/motor_torque_sim_v9_database.xlsm)
--   [MattThePrintingNerd](https://www.youtube.com/@MattThePrintingNerd) for the [updated sheet](https://github.com/MSzturc/the100/blob/main/Docs/motor_torque_sim_v9_database_updated.xlsm)
+- [eddytheengineer](https://www.youtube.com/@eddietheengineer) for the [initial Excel sheet](https://github.com/eddietheengineer/documentation/blob/master/stepper_motor/data/motor_torque_sim_v9_database.xlsm)
+- [MattThePrintingNerd](https://www.youtube.com/@MattThePrintingNerd) for the [updated sheet](https://github.com/MSzturc/the100/blob/main/Docs/motor_torque_sim_v9_database_updated.xlsm)
 
 ## License
 

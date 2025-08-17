@@ -1,44 +1,35 @@
-import type { StepperDefinition, Watts } from "@/lib/stepper";
-import type { DriveSettings, GantrySettings } from "@/state/atoms";
+import type { StepperDefinition, Watts } from '@/lib/stepper';
+import type { DriveSettings, GantrySettings } from '@/state/atoms';
 
 const PI = Math.PI;
 const SQRT2 = Math.SQRT2;
 
-export const calculateMaxCurrentAtSpecifiedPower = (
-	maxPower: Watts,
-	stepper: StepperDefinition,
-) => Math.sqrt(maxPower / 2 / stepper.resistance);
+export const calculateMaxCurrentAtSpecifiedPower = (maxPower: Watts, stepper: StepperDefinition) =>
+	Math.sqrt(maxPower / 2 / stepper.resistance);
 
 export const calculateDriveCurrent = (
 	driveSettings: DriveSettings,
 	stepper: StepperDefinition,
-	maxCurrentAtSpecifiedPower: number,
+	maxCurrentAtSpecifiedPower: number
 ) =>
 	Math.min(
 		driveSettings.maxDriveCurrent,
 		driveSettings.maxDrivePercent * stepper.ratedCurrent,
-		maxCurrentAtSpecifiedPower,
+		maxCurrentAtSpecifiedPower
 	);
 
-export const calculateTorqueRotor = (
-	gantrySettings: GantrySettings,
-	stepper: StepperDefinition,
-) =>
+export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: StepperDefinition) =>
 	(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * 2)) *
 	2 *
 	PI *
 	(stepper.rotorInertia / (1000 * 100 ** 2)) *
 	100;
 
-export const calculatePowerAtDriveCurrent = (
-	driveCurrent: number,
-	stepper: StepperDefinition,
-) => driveCurrent ** 2 * stepper.resistance * 2;
+export const calculatePowerAtDriveCurrent = (driveCurrent: number, stepper: StepperDefinition) =>
+	driveCurrent ** 2 * stepper.resistance * 2;
 
 export const calculateRequiredTorque = (gantrySettings: GantrySettings) =>
-	((((gantrySettings.acceleration / 1000) *
-		gantrySettings.toolheadAndYAxisMass) /
-		1000) *
+	((((gantrySettings.acceleration / 1000) * gantrySettings.toolheadAndYAxisMass) / 1000) *
 		((gantrySettings.pulleyTeeth * 2) / gantrySettings.gearRatio)) /
 	(2 * Math.PI * 10);
 
@@ -50,13 +41,12 @@ export function calculateSingleCoilTorque(
 	resistance: number,
 	inputVoltage: number,
 	driveCurrent: number,
-	rotationsPerSecond: number,
+	rotationsPerSecond: number
 ) {
 	const fCoil = (rotationsPerSecond * (360 / stepAngle)) / 4;
 	const xCoil = (2 * PI * fCoil * inductance) / 1000;
 	const zCoil = xCoil + resistance;
-	const vGen =
-		2 * PI * rotationsPerSecond * (torque / (100 * SQRT2) / ratedCurrent);
+	const vGen = 2 * PI * rotationsPerSecond * (torque / (100 * SQRT2) / ratedCurrent);
 	const vAvail = inputVoltage > vGen ? inputVoltage - vGen : 0;
 	const iAvail = vAvail / zCoil;
 	const iActual = iAvail > driveCurrent ? driveCurrent : iAvail;
@@ -74,7 +64,7 @@ export function calculateStepperPower(
 	resistance: number,
 	inputVoltage: number,
 	driveCurrent: number,
-	rps: number,
+	rps: number
 ): number {
 	const fCoil = (rps * (360 / stepAngle)) / 4;
 	const xCoil = (2 * PI * fCoil * inductance) / 1000;
