@@ -56,7 +56,7 @@ export function AttributionCard({ className }: { className?: string }) {
 					</p>
 
 					<div className="flex flex-row gap-2">
-						<Button className="flex-1" variant="outline">
+						<Button className="flex-1" variant="outline" asChild>
 							<a
 								href="https://github.com/TheDevMinerTV/stepper-simulator"
 								className="flex items-center gap-2"
@@ -68,7 +68,7 @@ export function AttributionCard({ className }: { className?: string }) {
 								Repository
 							</a>
 						</Button>
-						<Button className="flex-1" variant="outline">
+						<Button className="flex-1" variant="outline" asChild>
 							<a href="https://ko-fi.com/devminer" className="flex items-center gap-2">
 								<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
 									<title>Ko-fi</title>
