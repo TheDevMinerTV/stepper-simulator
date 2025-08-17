@@ -8,6 +8,7 @@ import {
 	calculateSingleCoilTorque,
 	calculateTorqueRotor
 } from '@/lib/formulas';
+import type { StepperDefinition } from '@/lib/stepper';
 import { driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
@@ -15,6 +16,10 @@ import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'rec
 
 const STEP_SIZE = 20;
 const DEFAULT_MAX_VELOCITY = 2000;
+
+function generateKey(stepper: StepperDefinition) {
+	return `${stepper.manufacturer} ${stepper.model}`;
+}
 
 export function Graph() {
 	const driveSettings = useAtomValue(driveSettingsAtom);
@@ -50,7 +55,7 @@ export function Graph() {
 				);
 
 				const torque = Math.max(rawTorque - torqueRotor, 0);
-				dataPoint[`${stepper.manufacturer}__${stepper.model}`] = torque;
+				dataPoint[generateKey(stepper)] = torque;
 			}
 
 			return dataPoint;
@@ -73,7 +78,7 @@ export function Graph() {
 
 		return steppers.reduce(
 			(acc, stepper, index) => {
-				acc[`${stepper.manufacturer}__${stepper.model}`] = {
+				acc[generateKey(stepper)] = {
 					label: `${stepper.manufacturer} ${stepper.model}`,
 					color: colors[index % colors.length]
 				};
@@ -156,7 +161,7 @@ export function Graph() {
 									}
 								/>
 								{steppers.map((stepper) => {
-									const key = `${stepper.manufacturer}__${stepper.model}`;
+									const key = generateKey(stepper);
 									return (
 										<Line
 											key={key}
