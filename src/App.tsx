@@ -1,8 +1,10 @@
 import { AttributionCard } from '@/components/attribution';
 import { Graph } from '@/components/graph';
-import { AddStepperCard, DebugSettings, DriveSettings, GantrySettings } from '@/components/settings';
+import { DriveSettings, GantrySettings } from '@/components/settings';
 import { StepperSpecs } from '@/components/specs';
+import { StepperSelection } from '@/components/stepper-management';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { StepperDefinition } from '@/lib/stepper';
 import { steppersAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 
@@ -12,21 +14,18 @@ export function App() {
 	return (
 		<div className="flex max-md:flex-col gap-2 p-2 max-w-7xl mx-auto">
 			<div className="md:hidden flex flex-row md:flex-col gap-2 w-full md:w-1/3">
+				<StepperSelection />
 				<DriveSettings />
 				<GantrySettings />
 			</div>
 
 			<div className="flex flex-col gap-2 w-full md:w-2/3">
 				<Card>
-					<CardHeader className="flex flex-row items-center justify-between">
+					<CardHeader>
 						<CardTitle>Steppers</CardTitle>
-						<div className="flex flex-row gap-4 items-center">
-							<AddStepperCard />
-							<DebugSettings />
-						</div>
 					</CardHeader>
 					<CardContent className="flex flex-wrap gap-2">
-						{steppers.map((stepper) => (
+						{steppers.map((stepper: StepperDefinition) => (
 							<StepperSpecs key={stepper.model} stepper={stepper} />
 						))}
 					</CardContent>
@@ -34,6 +33,7 @@ export function App() {
 				<Graph />
 			</div>
 			<div className="hidden md:flex flex-row md:flex-col gap-2 w-full md:w-1/3">
+				<StepperSelection />
 				<DriveSettings />
 				<GantrySettings />
 

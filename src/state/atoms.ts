@@ -42,13 +42,15 @@ export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySe
 	toolheadAndYAxisMass: 500 as Grams
 });
 
+export const customSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
+
 export const steppersAtom = atom<StepperDefinition[]>([]);
 
 function atomWithLocalStorage<T>(key: string, initialValue: T) {
 	const getInitialValue = () => {
 		const item = localStorage.getItem(key);
 		if (item !== null) {
-			return JSON.parse(item);
+			return JSON.parse(item) as T;
 		}
 		return initialValue;
 	};

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { calculatePowerAtDriveCurrent, calculateTorqueRotor } from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
 import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -28,16 +29,11 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 		driveSettings.maxDrivePercent * stepper.ratedCurrent,
 		maxCurrentAtSpecifiedPower
 	);
-	const torqueRotor =
-		(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * 2)) *
-		2 *
-		Math.PI *
-		(stepper.rotorInertia / (1000 * 100 ** 2)) *
-		100;
-	const powerAtDriveCurrent = driveCurrent ** 2 * stepper.resistance * 2;
+	const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
+	const powerAtDriveCurrent = calculatePowerAtDriveCurrent(driveCurrent, stepper);
 
 	return (
-		<Card className="w-full sm:w-[calc(50%-0.5rem)]">
+		<Card className="w-full sm:w-[calc(50%-0.25rem)]">
 			<CardHeader>
 				<CardTitle>
 					{stepper.manufacturer} {stepper.model}

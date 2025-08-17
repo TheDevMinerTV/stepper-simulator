@@ -1,24 +1,29 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue
-} from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
 import { calculateGearRatio, calculateRequiredTorque } from '@/lib/formulas';
-import type { Ampere, Grams, MillimetersPerSecondSquared, Percent, StepperDefinition, Volts } from '@/lib/stepper';
-import { STEPPER_DB } from '@/lib/stepper-db';
-import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { ArrowRightFromLineIcon, CogIcon, PercentIcon, PlugIcon, PlusIcon, WeightIcon, ZapIcon } from 'lucide-react';
-import { useState } from 'react';
+import type {
+	Ampere,
+	Grams,
+	MillimetersPerSecondSquared,
+	Percent,
+	Volts
+} from '@/lib/stepper';
+import {
+	debugAtom,
+	driveSettingsAtom,
+	gantrySettingsAtom,
+	maxPowerAtom
+} from '@/state/atoms';
+import { useAtom, useAtomValue } from 'jotai';
+import {
+	ArrowRightFromLineIcon,
+	CogIcon,
+	PercentIcon,
+	PlugIcon,
+	WeightIcon,
+	ZapIcon
+} from 'lucide-react';
 
 export function DriveSettings() {
 	const [driveSettings, setDriveSettings] = useAtom(driveSettingsAtom);
@@ -209,65 +214,5 @@ export function GantrySettings() {
 				)}
 			</CardContent>
 		</Card>
-	);
-}
-
-export function AddStepperCard() {
-	const setSteppers = useSetAtom(steppersAtom);
-
-	const [stepper, setStepper] = useState<StepperDefinition | null>(null);
-
-	return (
-		<form
-			onSubmit={(ev) => {
-				ev.preventDefault();
-				if (!stepper) return;
-				setSteppers((previous) => [...previous, stepper]);
-			}}
-			className="flex flex-row gap-2"
-		>
-			<Select
-				name="stepper"
-				value={stepper ? `${stepper.manufacturer}__${stepper.model}` : undefined}
-				onValueChange={(value: string) => {
-					const [manufacturer, model] = value.split('__');
-					const stepper = STEPPER_DB.get(manufacturer)?.get(model) ?? null;
-					setStepper(stepper);
-				}}
-			>
-				<SelectTrigger className="w-full">
-					<SelectValue placeholder="Select a stepper" />
-				</SelectTrigger>
-				<SelectContent>
-					{Array.from(STEPPER_DB.entries()).map(([brand, models]) => (
-						<SelectGroup key={brand}>
-							<SelectLabel>{brand}</SelectLabel>
-							{Array.from(models.keys()).map((model) => {
-								const key = `${brand}__${model}`;
-								return (
-									<SelectItem key={key} value={key}>
-										{brand} {model}
-									</SelectItem>
-								);
-							})}
-						</SelectGroup>
-					))}
-				</SelectContent>
-			</Select>
-			<Button type="submit" size="icon">
-				<PlusIcon className="w-5 h-5" />
-			</Button>
-		</form>
-	);
-}
-
-export function DebugSettings() {
-	const [debug, setDebug] = useAtom(debugAtom);
-
-	return (
-		<div className="flex-row gap-2 items-center hidden md:flex">
-			<Switch checked={debug} onCheckedChange={setDebug} />
-			<span>Debug</span>
-		</div>
 	);
 }

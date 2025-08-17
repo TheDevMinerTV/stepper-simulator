@@ -110,8 +110,7 @@ async function convertCsvToTypeScript() {
 		torque: ${torqueNum} as NewtonCentimeter,
 		inductance: ${inductanceNum} as MilliHenry,
 		resistance: ${resistanceNum} as Ohm,
-		rotorInertia: ${rotorInertiaNum} as GramSquareCentimeter,
-		imageURL: undefined,
+		rotorInertia: ${rotorInertiaNum} as GramSquareCentimeter
 	}`;
 
 		// Add to nested map structure
