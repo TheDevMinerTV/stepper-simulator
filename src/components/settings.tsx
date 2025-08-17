@@ -233,7 +233,7 @@ export function DebugSettings() {
 	const [debug, setDebug] = useAtom(debugAtom);
 
 	return (
-		<div className="flex flex-row gap-2 items-center">
+		<div className="flex-row gap-2 items-center hidden md:flex">
 			<Switch checked={debug} onCheckedChange={setDebug} />
 			<span>Debug</span>
 		</div>
