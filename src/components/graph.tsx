@@ -103,7 +103,7 @@ export function Graph() {
 					<span>mm/s</span>
 				</div>
 			</CardHeader>
-			<CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
+			<CardContent className="pt-0">
 				{chartData.length === 0 ? (
 					<div>No data to display</div>
 				) : steppers.length === 0 ? (
