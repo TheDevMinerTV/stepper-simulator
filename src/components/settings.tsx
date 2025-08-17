@@ -67,6 +67,7 @@ export function DriveSettings() {
 						type="number"
 						placeholder="Max Drive Percent"
 						value={driveSettings.maxDrivePercent}
+						min={0}
 						max={100}
 						onChange={(e) =>
 							setDriveSettings({
