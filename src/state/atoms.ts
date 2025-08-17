@@ -16,7 +16,8 @@ export type DriveSettings = {
 };
 export type GantrySettings = {
 	pulleyTeeth: number;
-	gearRatio: number;
+	gearA: number;
+	gearB: number;
 	acceleration: MillimetersPerSecondSquared;
 	toolheadAndYAxisMass: Grams;
 };
@@ -35,7 +36,8 @@ export const maxPowerAtom = atom<Watts>((get) => {
 
 export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', {
 	pulleyTeeth: 20,
-	gearRatio: 1,
+	gearA: 1,
+	gearB: 1,
 	acceleration: 20000 as MillimetersPerSecondSquared,
 	toolheadAndYAxisMass: 500 as Grams
 });

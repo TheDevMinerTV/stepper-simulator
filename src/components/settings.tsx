@@ -12,12 +12,12 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { calculateRequiredTorque } from '@/lib/formulas';
+import { calculateGearRatio, calculateRequiredTorque } from '@/lib/formulas';
 import type { Ampere, Grams, MillimetersPerSecondSquared, Percent, StepperDefinition, Volts } from '@/lib/stepper';
 import { STEPPER_DB } from '@/lib/stepper-db';
 import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { ArrowRightFromLineIcon, CogIcon, PlusIcon, WeightIcon } from 'lucide-react';
+import { ArrowRightFromLineIcon, CogIcon, PercentIcon, PlugIcon, PlusIcon, WeightIcon, ZapIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export function DriveSettings() {
@@ -32,6 +32,9 @@ export function DriveSettings() {
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<PlugIcon className="w-5 h-5" />
+					</div>
 					<Input
 						type="number"
 						placeholder="Input Voltage"
@@ -47,6 +50,9 @@ export function DriveSettings() {
 					<span>V</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<ZapIcon className="w-5 h-5" />
+					</div>
 					<Input
 						type="number"
 						placeholder="Max Drive Current"
@@ -63,6 +69,9 @@ export function DriveSettings() {
 					<span>A</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<PercentIcon className="w-5 h-5" />
+					</div>
 					<Input
 						type="number"
 						placeholder="Max Drive Percent"
@@ -97,6 +106,7 @@ export function DriveSettings() {
 export function GantrySettings() {
 	const [gantrySettings, setGantrySettings] = useAtom(gantrySettingsAtom);
 	const debug = useAtomValue(debugAtom);
+	const gearRatio = calculateGearRatio(gantrySettings);
 
 	return (
 		<Card className="w-full">
@@ -119,21 +129,39 @@ export function GantrySettings() {
 					<span>Teeth</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
-					<CogIcon />
+					<div className="size-5">
+						<CogIcon className="w-5 h-5" />
+					</div>
 					<Input
 						type="number"
-						placeholder="Gear Ratio"
-						value={gantrySettings.gearRatio}
+						placeholder="Gear A"
+						value={gantrySettings.gearA}
+						min={1}
 						onChange={(e) =>
 							setGantrySettings({
 								...gantrySettings,
-								gearRatio: e.target.valueAsNumber
+								gearA: e.target.valueAsNumber
+							})
+						}
+					/>
+					<span>:</span>
+					<Input
+						type="number"
+						placeholder="Gear B"
+						value={gantrySettings.gearB}
+						min={1}
+						onChange={(e) =>
+							setGantrySettings({
+								...gantrySettings,
+								gearB: e.target.valueAsNumber
 							})
 						}
 					/>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
-					<ArrowRightFromLineIcon />
+					<div className="size-5">
+						<ArrowRightFromLineIcon className="w-5 h-5" />
+					</div>
 					<Input
 						type="number"
 						placeholder="Acceleration"
@@ -148,7 +176,9 @@ export function GantrySettings() {
 					<span>mm/s²</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
-					<WeightIcon />
+					<div className="size-5">
+						<WeightIcon className="w-5 h-5" />
+					</div>
 					<Input
 						type="number"
 						placeholder="Toolhead and Y Axis Mass"
@@ -173,6 +203,7 @@ export function GantrySettings() {
 								diameter
 							</span>
 							<span>{calculateRequiredTorque(gantrySettings).toFixed(2)} Ncm required</span>
+							<span>Gear Ratio: {gearRatio.toFixed(2)}</span>
 						</div>
 					</>
 				)}
@@ -224,7 +255,7 @@ export function AddStepperCard() {
 				</SelectContent>
 			</Select>
 			<Button type="submit" size="icon">
-				<PlusIcon className="w-4 h-4" />
+				<PlusIcon className="w-5 h-5" />
 			</Button>
 		</form>
 	);

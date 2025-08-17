@@ -4,6 +4,8 @@ import type { DriveSettings, GantrySettings } from '@/state/atoms';
 const PI = Math.PI;
 const SQRT2 = Math.SQRT2;
 
+export const calculateGearRatio = (gantrySettings: GantrySettings) => gantrySettings.gearA / gantrySettings.gearB;
+
 export const calculateMaxCurrentAtSpecifiedPower = (maxPower: Watts, stepper: StepperDefinition) =>
 	Math.sqrt(maxPower / 2 / stepper.resistance);
 
@@ -30,7 +32,7 @@ export const calculatePowerAtDriveCurrent = (driveCurrent: number, stepper: Step
 
 export const calculateRequiredTorque = (gantrySettings: GantrySettings) =>
 	((((gantrySettings.acceleration / 1000) * gantrySettings.toolheadAndYAxisMass) / 1000) *
-		((gantrySettings.pulleyTeeth * 2) / gantrySettings.gearRatio)) /
+		((gantrySettings.pulleyTeeth * 2) / calculateGearRatio(gantrySettings))) /
 	(2 * Math.PI * 10);
 
 export function calculateSingleCoilTorque(
