@@ -13,8 +13,10 @@ export function App() {
 
 	return (
 		<div className="flex max-md:flex-col gap-2 p-2 max-w-7xl mx-auto">
-			<div className="md:hidden flex flex-row md:flex-col gap-2 w-full md:w-1/3">
+			<div className="md:hidden">
 				<StepperSelection />
+			</div>
+			<div className="md:hidden flex flex-row md:flex-col gap-2 w-full md:w-1/3">
 				<DriveSettings />
 				<GantrySettings />
 			</div>
