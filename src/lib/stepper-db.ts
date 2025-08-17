@@ -46,6 +46,26 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
+		'ACT',
+		new Map<string, StepperDefinition>([
+			[
+				'17HS5425-06',
+				{
+					manufacturer: 'ACT',
+					model: '17HS5425-06',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 60 as NewtonCentimeter,
+					inductance: 1.75 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
 		'FYSETC',
 		new Map<string, StepperDefinition>([
 			[
