@@ -21,7 +21,7 @@ export type GantrySettings = {
 	toolheadAndYAxisMass: Grams;
 };
 
-export const debugAtom = atom(false);
+export const debugAtom = atomWithLocalStorage<boolean>('debug', false);
 
 export const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', {
 	inputVoltage: 24 as Volts,
