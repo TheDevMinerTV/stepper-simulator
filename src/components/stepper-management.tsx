@@ -4,24 +4,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import type {
-    Ampere,
-    Degree,
-    GramSquareCentimeter,
-    MilliHenry,
-    Millimeter,
-    NewtonCentimeter,
-    Ohm,
-    StepperDefinition
+	Ampere,
+	Degree,
+	GramSquareCentimeter,
+	MilliHenry,
+	Millimeter,
+	NewtonCentimeter,
+	Ohm,
+	StepperDefinition
 } from '@/lib/stepper';
 import { NEMASize } from '@/lib/stepper';
 import { STEPPER_DB } from '@/lib/stepper-db';
@@ -136,6 +136,7 @@ function convertSteppersToCSV(steppers: StepperDefinition[]): string {
 
 	const csvRows = steppers.map((stepper) => {
 		return [
+			`${stepper.manufacturer}__${stepper.model}`,
 			stepper.manufacturer,
 			stepper.model,
 			stepper.nemaSize.toString(),

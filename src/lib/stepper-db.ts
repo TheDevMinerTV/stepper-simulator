@@ -19,13 +19,28 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					manufacturer: 'KeliMotor',
 					model: 'BJ42D41-14V19',
 					nemaSize: 17,
-					bodyLength: 48 as Millimeter,
+					bodyLength: 60 as Millimeter,
 					stepAngle: 1.8 as Degree,
 					ratedCurrent: 2 as Ampere,
 					torque: 65 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.1 as Ohm,
 					rotorInertia: 128 as GramSquareCentimeter
+				}
+			],
+			[
+				'BJ42D22-25V04',
+				{
+					manufacturer: 'KeliMotor',
+					model: 'BJ42D22-25V04',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 6 as MilliHenry,
+					resistance: 2.9 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
 				}
 			]
 		])
