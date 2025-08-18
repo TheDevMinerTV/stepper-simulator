@@ -10,9 +10,9 @@ import type {
 	Volts
 } from '@/lib/stepper';
 import {
-	debugAtom,
-	driveSettingsAtom,
-	gantrySettingsAtom,
+	currentDebugAtom,
+	currentDriveSettingsAtom,
+	currentGantrySettingsAtom,
 	maxPowerAtom
 } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
@@ -26,14 +26,16 @@ import {
 } from 'lucide-react';
 
 export function DriveSettings() {
-	const [driveSettings, setDriveSettings] = useAtom(driveSettingsAtom);
+	const [driveSettings, setDriveSettings] = useAtom(currentDriveSettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
-	const debug = useAtomValue(debugAtom);
+	const debug = useAtomValue(currentDebugAtom);
 
 	return (
 		<Card className="w-full">
 			<CardHeader>
-				<CardTitle>Drive Settings</CardTitle>
+				<div className="flex items-center justify-between">
+					<CardTitle>Drive Settings</CardTitle>
+				</div>
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<div className="flex w-full max-w-sm items-center gap-2">
@@ -109,8 +111,8 @@ export function DriveSettings() {
 }
 
 export function GantrySettings() {
-	const [gantrySettings, setGantrySettings] = useAtom(gantrySettingsAtom);
-	const debug = useAtomValue(debugAtom);
+	const [gantrySettings, setGantrySettings] = useAtom(currentGantrySettingsAtom);
+	const debug = useAtomValue(currentDebugAtom);
 	const gearRatio = calculateGearRatio(gantrySettings);
 
 	return (

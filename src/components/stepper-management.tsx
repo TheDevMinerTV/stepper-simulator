@@ -25,7 +25,7 @@ import type {
 } from '@/lib/stepper';
 import { NEMASize } from '@/lib/stepper';
 import { STEPPER_DB } from '@/lib/stepper-db';
-import { customSteppersAtom, debugAtom, steppersAtom } from '@/state/atoms';
+import { currentCustomSteppersAtom, currentDebugAtom, steppersAtom } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
 import { PlusIcon, SaveIcon, SettingsIcon, ShareIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -50,7 +50,7 @@ export function StepperSelection() {
 
 export function AddStepperWidget() {
 	const [steppers, setSteppers] = useAtom(steppersAtom);
-	const customSteppers = useAtomValue(customSteppersAtom);
+	const customSteppers = useAtomValue(currentCustomSteppersAtom);
 
 	const [stepper, setStepper] = useState<StepperDefinition | null>(null);
 
@@ -154,7 +154,7 @@ function convertSteppersToCSV(steppers: StepperDefinition[]): string {
 }
 
 export function ContributeSteppersButton() {
-	const customSteppers = useAtomValue(customSteppersAtom);
+	const customSteppers = useAtomValue(currentCustomSteppersAtom);
 
 	const handleContribute = async () => {
 		if (customSteppers.length === 0) {
@@ -193,7 +193,7 @@ export function ContributeSteppersButton() {
 }
 
 export function CustomStepperModal() {
-	const [customSteppers, setCustomSteppers] = useAtom(customSteppersAtom);
+	const [customSteppers, setCustomSteppers] = useAtom(currentCustomSteppersAtom);
 	const [open, setOpen] = useState(false);
 	const [formData, setFormData] = useState({
 		manufacturer: '',
@@ -289,10 +289,13 @@ export function CustomStepperModal() {
 								variant="destructive"
 								size="icon"
 								className="p-0 ml-auto"
-								onClick={() => {
+								type="button"
+								onClick={(e) => {
+									e.preventDefault();
 									setCustomSteppers((previous: StepperDefinition[]) =>
 										previous.filter(
-											(s) => s.manufacturer !== stepper.manufacturer && s.model !== stepper.model
+											(s: StepperDefinition) =>
+												s.manufacturer !== stepper.manufacturer && s.model !== stepper.model
 										)
 									);
 								}}
@@ -470,7 +473,7 @@ export function CustomStepperModal() {
 }
 
 export function DebugSettings() {
-	const [debug, setDebug] = useAtom(debugAtom);
+	const [debug, setDebug] = useAtom(currentDebugAtom);
 
 	return (
 		<div className="flex flex-row gap-2 items-center justify-between">
