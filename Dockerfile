@@ -5,6 +5,10 @@ RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 
+COPY data ./data
+COPY .prettierrc .prettierrc
+RUN pnpm data:update-stepper-db
+
 COPY . .
 RUN pnpm build
 
