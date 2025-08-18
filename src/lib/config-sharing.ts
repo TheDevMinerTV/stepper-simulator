@@ -1,49 +1,57 @@
-import type { ShareableConfiguration } from '@/state/atoms';
+import { type ShareableConfiguration } from '@/state/atoms';
+import { z } from 'zod';
+import {
+	Ampere,
+	Grams,
+	MillimetersPerSecondSquared,
+	Percent,
+	StepperDefinition,
+	Volts
+} from './stepper';
+
+const ShareableConfigurationSchema = z.object({
+	driveSettings: z.object({
+		inputVoltage: Volts,
+		maxDriveCurrent: Ampere,
+		maxDrivePercent: Percent
+	}),
+	gantrySettings: z.object({
+		pulleyTeeth: z.number(),
+		gearA: z.number(),
+		gearB: z.number(),
+		acceleration: MillimetersPerSecondSquared,
+		toolheadAndYAxisMass: Grams
+	}),
+	customSteppers: z.array(StepperDefinition),
+	debug: z.boolean(),
+	selectedSteppers: z.array(StepperDefinition)
+});
 
 export function parseConfigFromUrl(): ShareableConfiguration | null {
 	try {
 		const urlParams = new URLSearchParams(window.location.search);
 		const configParam = urlParams.get('config');
-		
+
 		if (!configParam) {
 			return null;
 		}
 
 		const decodedConfig = decodeURIComponent(configParam);
 		const configString = atob(decodedConfig);
-		const config = JSON.parse(configString) as ShareableConfiguration;
-		
+		const config = JSON.parse(configString);
+
 		// Validate the configuration structure
-		if (!isValidConfiguration(config)) {
-			console.warn('Invalid configuration found in URL');
+		const validationResult = ShareableConfigurationSchema.safeParse(config);
+		if (!validationResult.success) {
+			console.warn('Invalid configuration found in URL', validationResult.error);
 			return null;
 		}
-		
-		return config;
+
+		return validationResult.data as ShareableConfiguration;
 	} catch (error) {
 		console.error('Failed to parse configuration from URL:', error);
 		return null;
 	}
-}
-
-function isValidConfiguration(config: any): config is ShareableConfiguration {
-	return (
-		config &&
-		typeof config === 'object' &&
-		config.driveSettings &&
-		typeof config.driveSettings.inputVoltage === 'number' &&
-		typeof config.driveSettings.maxDriveCurrent === 'number' &&
-		typeof config.driveSettings.maxDrivePercent === 'number' &&
-		config.gantrySettings &&
-		typeof config.gantrySettings.pulleyTeeth === 'number' &&
-		typeof config.gantrySettings.gearA === 'number' &&
-		typeof config.gantrySettings.gearB === 'number' &&
-		typeof config.gantrySettings.acceleration === 'number' &&
-		typeof config.gantrySettings.toolheadAndYAxisMass === 'number' &&
-		Array.isArray(config.customSteppers) &&
-		typeof config.debug === 'boolean' &&
-		Array.isArray(config.selectedSteppers)
-	);
 }
 
 export function clearUrlConfig() {
