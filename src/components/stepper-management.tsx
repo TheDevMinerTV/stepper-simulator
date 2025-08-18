@@ -98,7 +98,7 @@ export function AddStepperWidget() {
 								const key = `${stepper.manufacturer}__${stepper.model}`;
 								return (
 									<SelectItem key={key} value={key} disabled={steppers.includes(stepper)}>
-										{stepper.manufacturer} {stepper.model} (Custom)
+										{stepper.manufacturer} {stepper.model}
 									</SelectItem>
 								);
 							})}
@@ -112,7 +112,7 @@ export function AddStepperWidget() {
 								const key = `${brand}__${model}`;
 								return (
 									<SelectItem key={key} value={key} disabled={steppers.includes(stepper)}>
-										{brand} {model}
+										{model}
 									</SelectItem>
 								);
 							})}
