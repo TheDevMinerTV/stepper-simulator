@@ -12,4 +12,7 @@ RUN pnpm build
 FROM ghcr.io/thedevminertv/gostatic
 CMD ["-spa", "/app/dist"]
 
+# curl for healthchecks
+RUN apk add --no-cache curl
+
 COPY --from=builder /app/dist /static
