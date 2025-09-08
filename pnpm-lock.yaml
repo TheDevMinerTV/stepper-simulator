@@ -28,7 +28,7 @@ importers:
         version: 1.2.6(@types/react-dom@19.1.9(@types/react@19.1.12))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@tailwindcss/vite':
         specifier: ^4.1.12
-        version: 4.1.13(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4))
+        version: 4.1.13(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -74,7 +74,7 @@ importers:
         version: 19.1.9(@types/react@19.1.12)
       '@vitejs/plugin-react':
         specifier: ^5.0.0
-        version: 5.0.2(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4))
+        version: 5.0.2(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5))
       globals:
         specifier: ^16.3.0
         version: 16.3.0
@@ -83,7 +83,7 @@ importers:
         version: 3.6.2
       tsx:
         specifier: ^4.20.4
-        version: 4.20.4
+        version: 4.20.5
       typescript:
         specifier: ~5.9.2
         version: 5.9.2
@@ -92,7 +92,7 @@ importers:
         version: 8.43.0(eslint@9.33.0(jiti@2.5.1))(typescript@5.9.2)
       vite:
         specifier: ^7.1.2
-        version: 7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4)
+        version: 7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5)
 
 packages:
 
@@ -1876,8 +1876,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.20.4:
-    resolution: {integrity: sha512-yyxBKfORQ7LuRt/BQKBXrpcq59ZvSW0XxwfjAt3w2/8PmdxaFzijtMhTawprSHhpzeM5BgU2hXHG3lklIERZXg==}
+  tsx@4.20.5:
+    resolution: {integrity: sha512-+wKjMNU9w/EaQayHXb7WA7ZaHY6hN8WgfvHNQ3t1PnU91/7O8TcTnIhCDYTZwnt8JsO9IBqZ30Ln1r7pPF52Aw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -2743,12 +2743,12 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.13
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.13
 
-  '@tailwindcss/vite@4.1.13(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4))':
+  '@tailwindcss/vite@4.1.13(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5))':
     dependencies:
       '@tailwindcss/node': 4.1.13
       '@tailwindcss/oxide': 4.1.13
       tailwindcss: 4.1.13
-      vite: 7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4)
+      vite: 7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5)
 
   '@types/babel__core@7.20.5':
     dependencies:
@@ -2904,7 +2904,7 @@ snapshots:
       '@typescript-eslint/types': 8.43.0
       eslint-visitor-keys: 4.2.1
 
-  '@vitejs/plugin-react@5.0.2(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4))':
+  '@vitejs/plugin-react@5.0.2(vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5))':
     dependencies:
       '@babel/core': 7.28.4
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.4)
@@ -2912,7 +2912,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.34
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4)
+      vite: 7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -3608,7 +3608,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.20.4:
+  tsx@4.20.5:
     dependencies:
       esbuild: 0.25.9
       get-tsconfig: 4.10.1
@@ -3676,7 +3676,7 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.4):
+  vite@7.1.5(@types/node@22.18.1)(jiti@2.5.1)(lightningcss@1.30.1)(tsx@4.20.5):
     dependencies:
       esbuild: 0.25.9
       fdir: 6.5.0(picomatch@4.0.3)
@@ -3689,7 +3689,7 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.5.1
       lightningcss: 1.30.1
-      tsx: 4.20.4
+      tsx: 4.20.5
 
   which@2.0.2:
     dependencies:
