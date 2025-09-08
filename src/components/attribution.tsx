@@ -36,6 +36,12 @@ export function AttributionCard({ className }: { className?: string }) {
 								updated sheet
 							</Link>
 						</li>
+						<li>
+							<Link href="https://bsky.app/profile/peraf191.bsky.social">ijo Pewa</Link> for{' '}
+							<Link href="https://docs.google.com/spreadsheets/d/1k9t3DWM2Y4Woi8LwcusVYmXaR-xXhaoPenG4Cc03Q_Q/edit?gid=2072803242#gid=2072803242">
+								another stepper DB
+							</Link>
+						</li>
 					</ul>
 				</CardContent>
 			</Card>
