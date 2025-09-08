@@ -16,7 +16,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'BJ42D41-14V19',
 				{
-					manufacturer: 'KeliMotor',
+					brand: 'KeliMotor',
 					model: 'BJ42D41-14V19',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -31,7 +31,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'BJ42D22-25V04',
 				{
-					manufacturer: 'KeliMotor',
+					brand: 'KeliMotor',
 					model: 'BJ42D22-25V04',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -51,7 +51,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS5425-06',
 				{
-					manufacturer: 'ACT',
+					brand: 'ACT',
 					model: '17HS5425-06',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -71,7 +71,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'35HSH7402-24B-400A',
 				{
-					manufacturer: 'FYSETC',
+					brand: 'FYSETC',
 					model: '35HSH7402-24B-400A',
 					nemaSize: 14,
 					bodyLength: 51 as Millimeter,
@@ -86,7 +86,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42HSC1404B-200N8',
 				{
-					manufacturer: 'FYSETC',
+					brand: 'FYSETC',
 					model: '42HSC1404B-200N8',
 					nemaSize: 14,
 					bodyLength: 34.5 as Millimeter,
@@ -101,7 +101,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'G36HSY4407-6D-550',
 				{
-					manufacturer: 'FYSETC',
+					brand: 'FYSETC',
 					model: 'G36HSY4407-6D-550',
 					nemaSize: 14,
 					bodyLength: 20.5 as Millimeter,
@@ -116,7 +116,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'TB-3544',
 				{
-					manufacturer: 'FYSETC',
+					brand: 'FYSETC',
 					model: 'TB-3544',
 					nemaSize: 17,
 					bodyLength: 39 as Millimeter,
@@ -131,7 +131,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS19-2004S-C',
 				{
-					manufacturer: 'FYSETC',
+					brand: 'FYSETC',
 					model: '17HS19-2004S-C',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -146,7 +146,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MS17HD2P420A-01',
 				{
-					manufacturer: 'FYSETC',
+					brand: 'FYSETC',
 					model: 'MS17HD2P420A-01',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -166,7 +166,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'23HS4128',
 				{
-					manufacturer: 'Hanpose',
+					brand: 'Hanpose',
 					model: '23HS4128',
 					nemaSize: 23,
 					bodyLength: 41 as Millimeter,
@@ -181,7 +181,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS8401',
 				{
-					manufacturer: 'Hanpose',
+					brand: 'Hanpose',
 					model: '17HS8401',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -201,7 +201,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'35STH48-1504AH(VRN)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '35STH48-1504AH(VRN)',
 					nemaSize: 14,
 					bodyLength: 52 as Millimeter,
@@ -216,7 +216,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'35STH48-1684AHVRN',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '35STH48-1684AHVRN',
 					nemaSize: 14,
 					bodyLength: 48 as Millimeter,
@@ -231,7 +231,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'36STH20-1004AHG(XH)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '36STH20-1004AHG(XH)',
 					nemaSize: 14,
 					bodyLength: 20 as Millimeter,
@@ -246,7 +246,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH20-1004ASH',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH20-1004ASH',
 					nemaSize: 17,
 					bodyLength: 20 as Millimeter,
@@ -261,7 +261,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH38-1684MAC',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH38-1684MAC',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -276,7 +276,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH40-1004MAH(VRN)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH40-1004MAH(VRN)',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -291,7 +291,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH40-1684AC',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH40-1684AC',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -306,7 +306,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH40-2004MAH(VRN)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH40-2004MAH(VRN)',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -321,7 +321,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH47-1684AC',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH47-1684AC',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -336,7 +336,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH47-2504AC',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH47-2504AC',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -351,7 +351,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-1684MAH',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-1684MAH',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -366,7 +366,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2004AC(VRN)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2004AC(VRN)',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -381,7 +381,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2004AH',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2004AH',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -396,7 +396,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2004MAH(VRN)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2004MAH(VRN)',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -411,7 +411,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2504AC',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2504AC',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -426,7 +426,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2504AH',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2504AH',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -441,7 +441,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH60-2004AH',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH60-2004AH',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -456,7 +456,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH60-2004MAC (Railcore)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH60-2004MAC (Railcore)',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -471,7 +471,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH60-2004MAH',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH60-2004MAH',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -486,7 +486,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'57STH41-2804MAC(HEV)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '57STH41-2804MAC(HEV)',
 					nemaSize: 23,
 					bodyLength: 41 as Millimeter,
@@ -501,7 +501,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'57STH56-2804MAC(RC)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '57STH56-2804MAC(RC)',
 					nemaSize: 23,
 					bodyLength: 56 as Millimeter,
@@ -516,7 +516,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2804AC',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2804AC',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -531,7 +531,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42STH48-2504MAC(F)',
 				{
-					manufacturer: 'LDO',
+					brand: 'LDO',
 					model: '42STH48-2504MAC(F)',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -551,7 +551,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MS14HA1P4150',
 				{
-					manufacturer: 'Moons',
+					brand: 'Moons',
 					model: 'MS14HA1P4150',
 					nemaSize: 14,
 					bodyLength: 27 as Millimeter,
@@ -566,7 +566,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MS14HA3P4150',
 				{
-					manufacturer: 'Moons',
+					brand: 'Moons',
 					model: 'MS14HA3P4150',
 					nemaSize: 14,
 					bodyLength: 36 as Millimeter,
@@ -581,7 +581,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MS17HA2P4150',
 				{
-					manufacturer: 'Moons',
+					brand: 'Moons',
 					model: 'MS17HA2P4150',
 					nemaSize: 17,
 					bodyLength: 39.8 as Millimeter,
@@ -596,7 +596,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MS17HA2P4200',
 				{
-					manufacturer: 'Moons',
+					brand: 'Moons',
 					model: 'MS17HA2P4200',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -611,7 +611,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MS17HDBP4100',
 				{
-					manufacturer: 'Moons',
+					brand: 'Moons',
 					model: 'MS17HDBP4100',
 					nemaSize: 17,
 					bodyLength: 63 as Millimeter,
@@ -622,6 +622,21 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 5.6 as Ohm,
 					rotorInertia: 123 as GramSquareCentimeter
 				}
+			],
+			[
+				'MS17HD6P420I-05',
+				{
+					brand: 'Moons',
+					model: 'MS17HD6P420I-05',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 67 as NewtonCentimeter,
+					inductance: 2.7 as MilliHenry,
+					resistance: 1.3 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter
+				}
 			]
 		])
 	],
@@ -631,7 +646,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'MT-1704HSM168RE',
 				{
-					manufacturer: 'Motech',
+					brand: 'Motech',
 					model: 'MT-1704HSM168RE',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -651,7 +666,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'ST4209L1704-A',
 				{
-					manufacturer: 'Nanotec',
+					brand: 'Nanotec',
 					model: 'ST4209L1704-A',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -671,7 +686,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS10-0404S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '14HS10-0404S',
 					nemaSize: 14,
 					bodyLength: 26 as Millimeter,
@@ -686,7 +701,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS13-0804S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '14HS13-0804S',
 					nemaSize: 14,
 					bodyLength: 34 as Millimeter,
@@ -701,7 +716,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS17-0504S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '14HS17-0504S',
 					nemaSize: 14,
 					bodyLength: 42 as Millimeter,
@@ -716,7 +731,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS20-1504S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '14HS20-1504S',
 					nemaSize: 14,
 					bodyLength: 52 as Millimeter,
@@ -731,7 +746,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HM19-1684S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HM19-1684S',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -746,7 +761,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HM19-2004S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HM19-2004S',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -761,7 +776,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS08-1004S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HS08-1004S',
 					nemaSize: 17,
 					bodyLength: 20 as Millimeter,
@@ -776,7 +791,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS13-0404S1',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HS13-0404S1',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
@@ -791,7 +806,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS16-2004S1',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HS16-2004S1',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -806,7 +821,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS19-2004S1',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HS19-2004S1',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -821,7 +836,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS24-2104S',
 				{
-					manufacturer: 'OMC',
+					brand: 'OMC',
 					model: '17HS24-2104S',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -841,7 +856,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42BYGHW811',
 				{
-					manufacturer: 'Wantai',
+					brand: 'Wantai',
 					model: '42BYGHW811',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -856,7 +871,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42BYGHW804',
 				{
-					manufacturer: 'Wantai',
+					brand: 'Wantai',
 					model: '42BYGHW804',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -871,7 +886,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42BYGHW811-06',
 				{
-					manufacturer: 'Wantai',
+					brand: 'Wantai',
 					model: '42BYGHW811-06',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -886,7 +901,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42BYGHW609',
 				{
-					manufacturer: 'Wantai',
+					brand: 'Wantai',
 					model: '42BYGHW609',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -906,7 +921,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17CS03A-130E',
 				{
-					manufacturer: 'Cloudray',
+					brand: 'Cloudray',
 					model: '17CS03A-130E',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
@@ -921,7 +936,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17CS02A-120',
 				{
-					manufacturer: 'Cloudray',
+					brand: 'Cloudray',
 					model: '17CS02A-120',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -936,7 +951,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17CS01A-100',
 				{
-					manufacturer: 'Cloudray',
+					brand: 'Cloudray',
 					model: '17CS01A-100',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
@@ -951,7 +966,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17CS05A-180E',
 				{
-					manufacturer: 'Cloudray',
+					brand: 'Cloudray',
 					model: '17CS05A-180E',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -971,7 +986,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'JK42HS40-1004-02F',
 				{
-					manufacturer: 'JKongMotor',
+					brand: 'JKongMotor',
 					model: 'JK42HS40-1004-02F',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -986,7 +1001,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'JK42HS40-1704',
 				{
-					manufacturer: 'JKongMotor',
+					brand: 'JKongMotor',
 					model: 'JK42HS40-1704',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -1006,7 +1021,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'B0459',
 				{
-					manufacturer: 'Noname',
+					brand: 'Noname',
 					model: 'B0459',
 					nemaSize: 17,
 					bodyLength: 47 as Millimeter,
@@ -1021,7 +1036,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42x4',
 				{
-					manufacturer: 'Noname',
+					brand: 'Noname',
 					model: '42x4',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -1041,7 +1056,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42HS4825A4',
 				{
-					manufacturer: 'G-Penny',
+					brand: 'G-Penny',
 					model: '42HS4825A4',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -1061,7 +1076,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS3430',
 				{
-					manufacturer: 'RATTM',
+					brand: 'RATTM',
 					model: '17HS3430',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
@@ -1076,7 +1091,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS8403',
 				{
-					manufacturer: 'RATTM',
+					brand: 'RATTM',
 					model: '17HS8403',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -1091,7 +1106,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS3410',
 				{
-					manufacturer: 'RATTM',
+					brand: 'RATTM',
 					model: '17HS3410',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
@@ -1111,7 +1126,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42CM08',
 				{
-					manufacturer: 'YunTaiKe',
+					brand: 'YunTaiKe',
 					model: '42CM08',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -1126,7 +1141,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42CM06',
 				{
-					manufacturer: 'YunTaiKe',
+					brand: 'YunTaiKe',
 					model: '42CM06',
 					nemaSize: 17,
 					bodyLength: 47 as Millimeter,
@@ -1141,7 +1156,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42CM02',
 				{
-					manufacturer: 'YunTaiKe',
+					brand: 'YunTaiKe',
 					model: '42CM02',
 					nemaSize: 17,
 					bodyLength: 33 as Millimeter,

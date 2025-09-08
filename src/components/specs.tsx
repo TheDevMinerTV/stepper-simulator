@@ -6,14 +6,14 @@ import type { StepperDefinition } from '@/lib/stepper';
 import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
-	BicepsFlexedIcon,
-	CircuitBoardIcon,
-	OmegaIcon,
-	RedoDotIcon,
-	RulerDimensionLineIcon,
-	TrashIcon,
-	TriangleRightIcon,
-	ZapIcon
+    BicepsFlexedIcon,
+    CircuitBoardIcon,
+    OmegaIcon,
+    RedoDotIcon,
+    RulerDimensionLineIcon,
+    TrashIcon,
+    TriangleRightIcon,
+    ZapIcon
 } from 'lucide-react';
 
 export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
@@ -36,7 +36,7 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 		<Card className="w-full sm:w-[calc(50%-0.25rem)] xl:w-[calc(33.333%-0.5rem)]">
 			<CardHeader>
 				<CardTitle>
-					{stepper.manufacturer} {stepper.model}
+					{stepper.brand} {stepper.model}
 				</CardTitle>
 			</CardHeader>
 			<CardContent>

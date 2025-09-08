@@ -56,14 +56,14 @@ export function AddStepperWidget() {
 
 	const isValidSelection = stepper !== null && !steppers.includes(stepper);
 
-	const findStepper = (manufacturer: string, model: string): StepperDefinition | null => {
-		const predefinedStepper = STEPPER_DB.get(manufacturer)?.get(model);
+	const findStepper = (brand: string, model: string): StepperDefinition | null => {
+		const predefinedStepper = STEPPER_DB.get(brand)?.get(model);
 		if (predefinedStepper) {
 			return predefinedStepper;
 		}
 
 		const customStepper = customSteppers.find(
-			(s: StepperDefinition) => s.manufacturer === manufacturer && s.model === model
+			(s: StepperDefinition) => s.brand === brand && s.model === model
 		);
 		return customStepper || null;
 	};
@@ -80,10 +80,10 @@ export function AddStepperWidget() {
 		>
 			<Select
 				name="stepper"
-				value={stepper ? `${stepper.manufacturer}__${stepper.model}` : undefined}
+				value={stepper ? `${stepper.brand}__${stepper.model}` : undefined}
 				onValueChange={(value: string) => {
-					const [manufacturer, model] = value.split('__');
-					const foundStepper = findStepper(manufacturer, model);
+					const [brand, model] = value.split('__');
+					const foundStepper = findStepper(brand, model);
 					setStepper(foundStepper);
 				}}
 			>
@@ -95,10 +95,10 @@ export function AddStepperWidget() {
 						<SelectGroup>
 							<SelectLabel>Custom Steppers</SelectLabel>
 							{customSteppers.map((stepper: StepperDefinition) => {
-								const key = `${stepper.manufacturer}__${stepper.model}`;
+								const key = `${stepper.brand}__${stepper.model}`;
 								return (
 									<SelectItem key={key} value={key} disabled={steppers.includes(stepper)}>
-										{stepper.manufacturer} {stepper.model}
+										{stepper.brand} {stepper.model}
 									</SelectItem>
 								);
 							})}
@@ -136,8 +136,8 @@ function convertSteppersToCSV(steppers: StepperDefinition[]): string {
 
 	const csvRows = steppers.map((stepper) => {
 		return [
-			`${stepper.manufacturer}__${stepper.model}`,
-			stepper.manufacturer,
+			`${stepper.brand}__${stepper.model}`,
+			stepper.brand,
 			stepper.model,
 			stepper.nemaSize.toString(),
 			formatNumber(stepper.bodyLength),
@@ -196,7 +196,7 @@ export function CustomStepperModal() {
 	const [customSteppers, setCustomSteppers] = useAtom(currentCustomSteppersAtom);
 	const [open, setOpen] = useState(false);
 	const [formData, setFormData] = useState({
-		manufacturer: '',
+		brand: '',
 		model: '',
 		nemaSize: 17 as (typeof NEMASize)[keyof typeof NEMASize],
 		bodyLength: 48,
@@ -213,7 +213,7 @@ export function CustomStepperModal() {
 	const validateForm = () => {
 		const newErrors: Record<string, string> = {};
 
-		if (!formData.manufacturer.trim()) newErrors.manufacturer = 'Manufacturer is required';
+		if (!formData.brand.trim()) newErrors.brand = 'Brand is required';
 		if (!formData.model.trim()) newErrors.model = 'Model is required';
 		if (formData.bodyLength <= 0) newErrors.bodyLength = 'Body length must be positive';
 		if (formData.stepAngle <= 0) newErrors.stepAngle = 'Step angle must be positive';
@@ -233,7 +233,7 @@ export function CustomStepperModal() {
 		if (!validateForm()) return;
 
 		const customStepper: StepperDefinition = {
-			manufacturer: formData.manufacturer,
+			brand: formData.brand,
 			model: formData.model,
 			nemaSize: formData.nemaSize,
 			bodyLength: formData.bodyLength as Millimeter,
@@ -249,7 +249,7 @@ export function CustomStepperModal() {
 
 		// Reset form and close modal
 		setFormData({
-			manufacturer: '',
+			brand: '',
 			model: '',
 			nemaSize: 17 as (typeof NEMASize)[keyof typeof NEMASize],
 			bodyLength: 48,
@@ -280,9 +280,9 @@ export function CustomStepperModal() {
 				<div className="space-y-2">
 					{/* Custom Steppers */}
 					{customSteppers.map((stepper) => (
-						<div key={`${stepper.manufacturer}__${stepper.model}`} className="flex flex-row gap-2">
+						<div key={`${stepper.brand}__${stepper.model}`} className="flex flex-row gap-2">
 							<span>
-								{stepper.manufacturer} {stepper.model}
+								{stepper.brand} {stepper.model}
 							</span>
 
 							<Button
@@ -295,7 +295,7 @@ export function CustomStepperModal() {
 									setCustomSteppers((previous: StepperDefinition[]) =>
 										previous.filter(
 											(s: StepperDefinition) =>
-												s.manufacturer !== stepper.manufacturer && s.model !== stepper.model
+												s.brand !== stepper.brand && s.model !== stepper.model
 										)
 									);
 								}}
@@ -309,16 +309,16 @@ export function CustomStepperModal() {
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div className="space-y-2">
-							<Label htmlFor="manufacturer">Manufacturer</Label>
+							<Label htmlFor="brand">Brand</Label>
 							<Input
-								id="manufacturer"
+								id="brand"
 								type="text"
 								placeholder="e.g., LDO, FYSETC"
-								value={formData.manufacturer}
-								onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
-								className={errors.manufacturer ? 'border-red-500' : ''}
+								value={formData.brand}
+								onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+								className={errors.brand ? 'border-red-500' : ''}
 							/>
-							{errors.manufacturer && <span className="text-sm text-red-500">{errors.manufacturer}</span>}
+							{errors.brand && <span className="text-sm text-red-500">{errors.brand}</span>}
 						</div>
 
 						<div className="space-y-2">

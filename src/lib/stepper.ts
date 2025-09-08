@@ -34,7 +34,7 @@ export const Grams = z.number().brand('g');
 export type Grams = z.infer<typeof Grams>;
 
 export const StepperDefinition = z.object({
-	manufacturer: z.string(),
+	brand: z.string(),
 	model: z.string(),
 	nemaSize: z.enum(NEMASize),
 	bodyLength: Millimeter,
