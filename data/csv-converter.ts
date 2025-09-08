@@ -2,16 +2,36 @@ import fs from 'node:fs';
 import path from 'node:path';
 import prettier from 'prettier';
 
-const prettierConfig = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, '..', '.prettierrc'), 'utf-8'));
+const prettierConfig = JSON.parse(
+	fs.readFileSync(path.join(path.dirname(import.meta.url.replace('file://', '')), '..', '.prettierrc'), 'utf-8')
+);
+
+const CsvFormat = {
+	ORIGINAL: 'original',
+	PERA: 'peras'
+} as const;
+type CsvFormat = (typeof CsvFormat)[keyof typeof CsvFormat];
+
+interface ParsedStepperData {
+	brand: string;
+	model: string;
+	nemaSize: number;
+	bodyLength: number;
+	stepAngle: number;
+	ratedCurrent: number;
+	torque: number;
+	inductance: number;
+	resistance: number;
+	rotorInertia: number;
+}
 
 async function convertCsvToTypeScript() {
-	// Read the CSV file
-	const csvPath = path.join(import.meta.dirname, 'steppers.csv');
-	const csvContent = fs.readFileSync(csvPath, 'utf-8');
+	// Read both CSV files
+	const originalCsvPath = path.join(import.meta.dirname, 'steppers.csv');
+	const perasCsvPath = path.join(import.meta.dirname, 'peras-steppers.csv');
 
-	// Parse CSV data
-	const lines = csvContent.split('\n').filter((line) => line.trim());
-	const dataLines = lines.slice(1).filter((line) => line.trim());
+	const originalCsvContent = fs.readFileSync(originalCsvPath, 'utf-8');
+	const perasCsvContent = fs.readFileSync(perasCsvPath, 'utf-8');
 
 	// Function to convert European decimal format (comma) to US format (period)
 	const parseNumber = (value: string): number | undefined => {
@@ -22,35 +42,41 @@ async function convertCsvToTypeScript() {
 		return isNaN(parsed) ? undefined : parsed;
 	};
 
+	// Function to parse number with unit (e.g., "1.8 deg" -> 1.8)
+	const parseNumberWithUnit = (value: string): number | undefined => {
+		const trimmed = value?.trim();
+		if (!trimmed || trimmed === '') return undefined;
+		// Extract number from string like "1.8 deg", "62 N/cm", "360 g"
+		const match = trimmed.match(/([\d,]+\.?\d*)/);
+		if (!match) return undefined;
+		const normalized = match[1].replace(',', '.');
+		const parsed = parseFloat(normalized);
+		return isNaN(parsed) ? undefined : parsed;
+	};
+
+	// Function to extract NEMA size from body string (e.g., "N17" -> 17)
+	const parseNemaSize = (body: string): number | undefined => {
+		const trimmed = body?.trim();
+		if (!trimmed || trimmed === '') return undefined;
+		const match = trimmed.match(/N(\d+)/i);
+		if (!match) return undefined;
+		const parsed = parseInt(match[1]);
+		return isNaN(parsed) ? undefined : parsed;
+	};
+
 	// Function to escape manufacturer/model names if needed
 	const sanitizeString = (value: string): string => {
 		return value?.trim() || '';
 	};
 
-	// Convert CSV data to nested Map structure
-	const steppersByBrand = new Map<string, Map<string, string>>();
-	let totalEntries = 0;
-	let skippedEntries = 0;
-
-	for (const line of dataLines) {
+	// Function to parse original format CSV line
+	const parseOriginalFormat = (line: string): ParsedStepperData | null => {
 		const columns = line.split('\t');
-		totalEntries++;
 
-		// Skip empty lines or lines with insufficient data
-		if (columns.length < 10) {
-			console.warn(`⚠️  Entry ${totalEntries}: Insufficient columns (${columns.length} < 10) - SKIPPED`);
-			skippedEntries++;
-			continue;
-		}
-
-		if (!columns[0]?.trim()) {
-			console.warn(`⚠️  Entry ${totalEntries}: Empty first column - SKIPPED`);
-			skippedEntries++;
-			continue;
-		}
+		if (columns.length < 11) return null;
 
 		const [
-			_brandModel,
+			_id,
 			brand,
 			model,
 			nema,
@@ -63,9 +89,6 @@ async function convertCsvToTypeScript() {
 			rotorInertia
 		] = columns;
 
-		// Validate and parse values
-		const missingFields: string[] = [];
-
 		const brandStr = sanitizeString(brand);
 		const modelStr = sanitizeString(model);
 		const nemaSize = parseNumber(nema);
@@ -77,62 +100,206 @@ async function convertCsvToTypeScript() {
 		const resistanceNum = parseNumber(resistance);
 		const rotorInertiaNum = parseNumber(rotorInertia);
 
-		// Check required fields
-		if (!brandStr) missingFields.push('Brand');
-		if (!modelStr) missingFields.push('Model');
-		if (!nemaSize) missingFields.push('NEMA Size');
-		if (!bodyLengthNum) missingFields.push('Body Length');
-		if (!stepAngleNum) missingFields.push('Step Angle');
-		if (!ratedCurrentNum) missingFields.push('Rated Current');
-		if (!torqueNum) missingFields.push('Torque');
-		if (!inductanceNum) missingFields.push('Inductance');
-		if (!resistanceNum) missingFields.push('Resistance');
-		if (!rotorInertiaNum) missingFields.push('Rotor Inertia');
-
-		// Skip if essential values are missing
-		if (missingFields.length > 0) {
-			console.warn(
-				`⚠️  Entry ${totalEntries}: ${brandStr || 'Unknown'} ${modelStr || 'Unknown'} - Missing required fields: ${missingFields.join(
-					', '
-				)} - SKIPPED`
-			);
-			skippedEntries++;
-			continue;
+		if (
+			!brandStr ||
+			!modelStr ||
+			!nemaSize ||
+			!bodyLengthNum ||
+			!stepAngleNum ||
+			!ratedCurrentNum ||
+			!torqueNum ||
+			!inductanceNum ||
+			!resistanceNum ||
+			!rotorInertiaNum
+		) {
+			return null;
 		}
 
-		const stepperDefinition = `{
-		manufacturer: "${brandStr}",
-		model: "${modelStr}",
-		nemaSize: ${nemaSize},
-		bodyLength: ${bodyLengthNum} as Millimeter,
-		stepAngle: ${stepAngleNum} as Degree,
-		ratedCurrent: ${ratedCurrentNum} as Ampere,
-		torque: ${torqueNum} as NewtonCentimeter,
-		inductance: ${inductanceNum} as MilliHenry,
-		resistance: ${resistanceNum} as Ohm,
-		rotorInertia: ${rotorInertiaNum} as GramSquareCentimeter
-	}`;
+		return {
+			brand: brandStr,
+			model: modelStr,
+			nemaSize,
+			bodyLength: bodyLengthNum,
+			stepAngle: stepAngleNum,
+			ratedCurrent: ratedCurrentNum,
+			torque: torqueNum,
+			inductance: inductanceNum,
+			resistance: resistanceNum,
+			rotorInertia: rotorInertiaNum
+		};
+	};
 
-		// Add to nested map structure
-		if (!steppersByBrand.has(brandStr)) {
-			steppersByBrand.set(brandStr, new Map<string, string>());
+	// Function to parse peras format CSV line
+	const parsePerasFormat = (line: string): ParsedStepperData | null => {
+		const columns = line.split('\t');
+
+		if (columns.length < 16) return null;
+
+		// Peras CSV has 18 columns, but we only need the first 16
+		// The last 2 columns are empty
+		const [
+			brand,
+			model,
+			_price, // ignored
+			_storeLocation, // ignored
+			_storeLink, // ignored
+			stepAngle,
+			maxAmperage,
+			holdingTorque,
+			rotorInertia,
+			inductance,
+			resistance,
+			_weight, // ignored
+			body,
+			length,
+			_specsLink, // ignored
+			_comments // ignored
+		] = columns;
+
+		const brandStr = sanitizeString(brand);
+		const modelStr = sanitizeString(model);
+		const nemaSize = parseNemaSize(body);
+		const bodyLengthNum = parseNumberWithUnit(length);
+		const stepAngleNum = parseNumberWithUnit(stepAngle);
+		const ratedCurrentNum = parseNumberWithUnit(maxAmperage);
+		const torqueNum = parseNumberWithUnit(holdingTorque);
+		const inductanceNum = parseNumberWithUnit(inductance);
+		const resistanceNum = parseNumberWithUnit(resistance);
+		const rotorInertiaNum = parseNumberWithUnit(rotorInertia);
+
+		if (
+			!brandStr ||
+			!modelStr ||
+			!nemaSize ||
+			!bodyLengthNum ||
+			!stepAngleNum ||
+			!ratedCurrentNum ||
+			!torqueNum ||
+			!inductanceNum ||
+			!resistanceNum ||
+			!rotorInertiaNum
+		) {
+			return null;
 		}
 
-		const brandMap = steppersByBrand.get(brandStr)!;
-		if (brandMap.has(modelStr)) {
-			console.warn(`⚠️  Duplicate entry found: ${brandStr} ${modelStr} - Overwriting previous entry`);
+		return {
+			brand: brandStr,
+			model: modelStr,
+			nemaSize,
+			bodyLength: bodyLengthNum,
+			stepAngle: stepAngleNum,
+			ratedCurrent: ratedCurrentNum,
+			torque: torqueNum,
+			inductance: inductanceNum,
+			resistance: resistanceNum,
+			rotorInertia: rotorInertiaNum
+		};
+	};
+
+	// Parse both CSV files
+	const parseCsvFile = (content: string, format: CsvFormat): ParsedStepperData[] => {
+		const lines = content.split('\n').filter((line) => line.trim());
+		const dataLines = lines.slice(1).filter((line) => line.trim());
+
+		const parsedData: ParsedStepperData[] = [];
+
+		for (const line of dataLines) {
+			let parsed: ParsedStepperData | null = null;
+
+			if (format === CsvFormat.ORIGINAL) {
+				parsed = parseOriginalFormat(line);
+			} else if (format === CsvFormat.PERA) {
+				parsed = parsePerasFormat(line);
+			}
+
+			if (parsed) {
+				parsedData.push(parsed);
+			}
 		}
-		brandMap.set(modelStr, stepperDefinition);
+
+		return parsedData;
+	};
+
+	// Parse both files
+
+	const originalData = parseCsvFile(originalCsvContent, CsvFormat.ORIGINAL);
+	const perasData = parseCsvFile(perasCsvContent, CsvFormat.PERA);
+
+	const allData = [...originalData, ...perasData];
+
+	console.log(`📊 Original CSV: ${originalData.length} entries parsed`);
+	console.log(`📊 Peras CSV: ${perasData.length} entries parsed`);
+	console.log(`📊 Total entries from both files: ${allData.length}`);
+
+	// Helper function to check if two stepper data objects have the same specs
+	const specsAreEqual = (a: ParsedStepperData, b: ParsedStepperData): boolean => {
+		return (
+			a.nemaSize === b.nemaSize &&
+			a.bodyLength === b.bodyLength &&
+			a.stepAngle === b.stepAngle &&
+			a.ratedCurrent === b.ratedCurrent &&
+			a.torque === b.torque &&
+			a.inductance === b.inductance &&
+			a.resistance === b.resistance &&
+			a.rotorInertia === b.rotorInertia
+		);
+	};
+
+	const stepperToString = (stepper: ParsedStepperData): string =>
+		`${stepper.brand} ${stepper.model} (NEMA ${stepper.nemaSize}, ${stepper.bodyLength}mm, ${stepper.stepAngle}°, ${stepper.ratedCurrent}A, ${stepper.torque}N·cm, ${stepper.inductance}mH, ${stepper.resistance}Ω, ${stepper.rotorInertia}g·cm²)`;
+
+	// Convert parsed data to nested Map structure
+	const steppersByBrand = new Map<string, Map<string, ParsedStepperData>>();
+	let totalEntries = 0;
+
+	for (const data of allData) {
+		totalEntries++;
+
+		// Initialize brand map if it doesn't exist
+		if (!steppersByBrand.has(data.brand)) {
+			steppersByBrand.set(data.brand, new Map<string, ParsedStepperData>());
+		}
+
+		const rawBrandMap = steppersByBrand.get(data.brand)!;
+		const existingRawData = rawBrandMap.get(data.model);
+
+		if (existingRawData) {
+			// Check if the specs are actually the same
+			if (specsAreEqual(existingRawData, data)) {
+				console.log(
+					`📋 Duplicate entry found: ${data.brand} ${data.model} - Identical specs, keeping existing entry`
+				);
+			} else {
+				console.warn(`🚨 Duplicate entry found: ${data.brand} ${data.model} - DIFFERENT SPECS!`);
+				console.warn(stepperToString(existingRawData));
+				console.warn(stepperToString(data));
+				console.warn(`   Keeping the new entry (overwriting)`);
+			}
+		}
+
+		rawBrandMap.set(data.model, data);
 	}
 
 	// Generate the nested Map TypeScript content
 	const brandEntries: string[] = [];
 
-	for (const [brand, modelsMap] of steppersByBrand.entries()) {
+	for (const [brand, rawModelsMap] of steppersByBrand.entries()) {
 		const modelEntries: string[] = [];
 
-		for (const [model, definition] of modelsMap.entries()) {
-			modelEntries.push(`\t\t["${model}", ${definition}]`);
+		for (const [model, data] of rawModelsMap.entries()) {
+			const stepperDefinition = `{
+				brand: "${data.brand}",
+				model: "${data.model}",
+				nemaSize: ${data.nemaSize},
+				bodyLength: ${data.bodyLength} as Millimeter,
+				stepAngle: ${data.stepAngle} as Degree,
+				ratedCurrent: ${data.ratedCurrent} as Ampere,
+				torque: ${data.torque} as NewtonCentimeter,
+				inductance: ${data.inductance} as MilliHenry,
+				resistance: ${data.resistance} as Ohm,
+				rotorInertia: ${data.rotorInertia} as GramSquareCentimeter
+			}`;
+			modelEntries.push(`\t\t["${model}", ${stepperDefinition}]`);
 		}
 
 		const brandEntry = `\t["${brand}", new Map<string, StepperDefinition>([
@@ -143,20 +310,20 @@ ${modelEntries.join(',\n')}
 	}
 
 	const tsContent = `import type {
-	Ampere,
-	Degree,
-	GramSquareCentimeter,
-	MilliHenry,
-	Millimeter,
-	NewtonCentimeter,
-	Ohm,
-	StepperDefinition,
-} from "@/lib/stepper";
+		Ampere,
+		Degree,
+		GramSquareCentimeter,
+		MilliHenry,
+		Millimeter,
+		NewtonCentimeter,
+		Ohm,
+		StepperDefinition,
+	} from "@/lib/stepper";
 
-export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
-${brandEntries.join(',\n')}
-]);
-`;
+	export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
+		${brandEntries.join(',\n')}
+	]);
+	`;
 
 	// Write to stepper-db.ts
 	const outputPath = path.join(import.meta.dirname, '..', 'src', 'lib', 'stepper-db.ts');
@@ -181,7 +348,6 @@ ${brandEntries.join(',\n')}
 	console.log(`📊 Total entries processed: ${totalEntries}`);
 	console.log(`✅ Successfully converted: ${totalConverted}`);
 	console.log(`🏭 Unique brands: ${steppersByBrand.size}`);
-	console.log(`⚠️  Skipped due to missing data: ${skippedEntries}`);
 	console.log(`📄 Output written to: ${outputPath}`);
 }
 

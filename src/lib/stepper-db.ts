@@ -192,6 +192,141 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.8 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter
 				}
+			],
+			[
+				'42HS38',
+				{
+					brand: 'Hanpose',
+					model: '42HS38',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 1.5 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS8401S-MD',
+				{
+					brand: 'Hanpose',
+					model: '17HS8401S-MD',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.8 as Ampere,
+					torque: 52 as NewtonCentimeter,
+					inductance: 3.4 as MilliHenry,
+					resistance: 1.8 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS3401',
+				{
+					brand: 'Hanpose',
+					model: '17HS3401',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 28 as NewtonCentimeter,
+					inductance: 2.9 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 34 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS6401S',
+				{
+					brand: 'Hanpose',
+					model: '17HS6401S',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.8 as Ampere,
+					torque: 73 as NewtonCentimeter,
+					inductance: 5.4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS8402S-D',
+				{
+					brand: 'Hanpose',
+					model: '17HS8402S-D',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.8 as Ampere,
+					torque: 52 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 1.8 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			],
+			[
+				'42HS60-HCZ',
+				{
+					brand: 'Hanpose',
+					model: '42HS60-HCZ',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.8 as Ampere,
+					torque: 70 as NewtonCentimeter,
+					inductance: 5.4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS3401S-FS',
+				{
+					brand: 'Hanpose',
+					model: '17HS3401S-FS',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 28 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 2.4 as Ohm,
+					rotorInertia: 34 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS9401',
+				{
+					brand: 'Hanpose',
+					model: '17HS9401',
+					nemaSize: 17,
+					bodyLength: 80 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 92 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 1.5 as Ohm,
+					rotorInertia: 83 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS6401S-0.9',
+				{
+					brand: 'Hanpose',
+					model: '17HS6401S-0.9',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.8 as Ampere,
+					torque: 70 as NewtonCentimeter,
+					inductance: 5.4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter
+				}
 			]
 		])
 	],
@@ -253,8 +388,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					stepAngle: 1.8 as Degree,
 					ratedCurrent: 1 as Ampere,
 					torque: 18 as NewtonCentimeter,
-					inductance: 7 as MilliHenry,
-					resistance: 7.2 as Ohm,
+					inductance: 5 as MilliHenry,
+					resistance: 3.6 as Ohm,
 					rotorInertia: 21.4 as GramSquareCentimeter
 				}
 			],
@@ -297,10 +432,10 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					bodyLength: 40 as Millimeter,
 					stepAngle: 1.8 as Degree,
 					ratedCurrent: 1.68 as Ampere,
-					torque: 36 as NewtonCentimeter,
+					torque: 45 as NewtonCentimeter,
 					inductance: 3.6 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 53 as GramSquareCentimeter
 				}
 			],
 			[
@@ -542,6 +677,186 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.2 as Ohm,
 					rotorInertia: 85 as GramSquareCentimeter
 				}
+			],
+			[
+				'35STH52-1504AH',
+				{
+					brand: 'LDO',
+					model: '35STH52-1504AH',
+					nemaSize: 14,
+					bodyLength: 52 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 37 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 2.8 as Ohm,
+					rotorInertia: 52 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH40-2004MAH',
+				{
+					brand: 'LDO',
+					model: '42STH40-2004MAH',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 35 as NewtonCentimeter,
+					inductance: 1.1 as MilliHenry,
+					resistance: 2.8 as Ohm,
+					rotorInertia: 71 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2004AC',
+				{
+					brand: 'LDO',
+					model: '42STH48-2004AC',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 59 as NewtonCentimeter,
+					inductance: 3 as MilliHenry,
+					resistance: 1.4 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2504AH(S55)',
+				{
+					brand: 'LDO',
+					model: '42STH48-2504AH(S55)',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 55 as NewtonCentimeter,
+					inductance: 1.5 as MilliHenry,
+					resistance: 1.2 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2504AH(S46)',
+				{
+					brand: 'LDO',
+					model: '42STH48-2504AH(S46)',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 55 as NewtonCentimeter,
+					inductance: 1.5 as MilliHenry,
+					resistance: 1.2 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2804AC-R',
+				{
+					brand: 'LDO',
+					model: '42STH48-2804AC-R',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.7 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
+			],
+			[
+				'35STH52-2004AH(S35)',
+				{
+					brand: 'LDO',
+					model: '35STH52-2004AH(S35)',
+					nemaSize: 14,
+					bodyLength: 52 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 2.1 as MilliHenry,
+					resistance: 1.34 as Ohm,
+					rotorInertia: 40 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2804AH-R',
+				{
+					brand: 'LDO',
+					model: '42STH48-2804AH-R',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.7 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2504MAH',
+				{
+					brand: 'LDO',
+					model: '42STH48-2504MAH',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 1.5 as MilliHenry,
+					resistance: 1.2 as Ohm,
+					rotorInertia: 85 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2804AH (S55)',
+				{
+					brand: 'LDO',
+					model: '42STH48-2804AH (S55)',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.7 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2804AH',
+				{
+					brand: 'LDO',
+					model: '42STH48-2804AH',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.7 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
+			],
+			[
+				'42STH48-2804AH (S80)',
+				{
+					brand: 'LDO',
+					model: '42STH48-2804AH (S80)',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.7 as Ohm,
+					rotorInertia: 84 as GramSquareCentimeter
+				}
 			]
 		])
 	],
@@ -628,6 +943,36 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				{
 					brand: 'Moons',
 					model: 'MS17HD6P420I-05',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 67 as NewtonCentimeter,
+					inductance: 2.7 as MilliHenry,
+					resistance: 1.3 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter
+				}
+			],
+			[
+				'MS17HD6P4150-01',
+				{
+					brand: 'Moons',
+					model: 'MS17HD6P4150-01',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 62 as NewtonCentimeter,
+					inductance: 4.9 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 62 as GramSquareCentimeter
+				}
+			],
+			[
+				'MS17HD6P420I-04',
+				{
+					brand: 'Moons',
+					model: 'MS17HD6P420I-04',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
 					stepAngle: 1.8 as Degree,
@@ -977,6 +1322,81 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 2.4 as Ohm,
 					rotorInertia: 82 as GramSquareCentimeter
 				}
+			],
+			[
+				'17CS03A-150E',
+				{
+					brand: 'Cloudray',
+					model: '17CS03A-150E',
+					nemaSize: 17,
+					bodyLength: 47 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 30 as NewtonCentimeter,
+					inductance: 5.8 as MilliHenry,
+					resistance: 2.4 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter
+				}
+			],
+			[
+				'17CS03A-150',
+				{
+					brand: 'Cloudray',
+					model: '17CS03A-150',
+					nemaSize: 17,
+					bodyLength: 47 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 30 as NewtonCentimeter,
+					inductance: 5.8 as MilliHenry,
+					resistance: 2.4 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter
+				}
+			],
+			[
+				'17CS04A-170E',
+				{
+					brand: 'Cloudray',
+					model: '17CS04A-170E',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 5.1 as MilliHenry,
+					resistance: 2.6 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
+				}
+			],
+			[
+				'17CS04A-170',
+				{
+					brand: 'Cloudray',
+					model: '17CS04A-170',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 5.1 as MilliHenry,
+					resistance: 2.6 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
+				}
+			],
+			[
+				'17CS07A-180',
+				{
+					brand: 'Cloudray',
+					model: '17CS07A-180',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.8 as Ampere,
+					torque: 71 as NewtonCentimeter,
+					inductance: 96 as MilliHenry,
+					resistance: 1.94 as Ohm,
+					rotorInertia: 114 as GramSquareCentimeter
+				}
 			]
 		])
 	],
@@ -1067,6 +1487,21 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.6 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter
 				}
+			],
+			[
+				'42HS4017A4',
+				{
+					brand: 'G-Penny',
+					model: '42HS4017A4',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 2.3 as MilliHenry,
+					resistance: 1.5 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
 			]
 		])
 	],
@@ -1117,6 +1552,51 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.2 as Ohm,
 					rotorInertia: 34 as GramSquareCentimeter
 				}
+			],
+			[
+				'17HS4402',
+				{
+					brand: 'RATTM',
+					model: '17HS4402',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 5 as MilliHenry,
+					resistance: 2.5 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HM8401C',
+				{
+					brand: 'RATTM',
+					model: '17HM8401C',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 4 as MilliHenry,
+					resistance: 1.8 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS4401J',
+				{
+					brand: 'RATTM',
+					model: '17HS4401J',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 3.2 as MilliHenry,
+					resistance: 1.7 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
 			]
 		])
 	],
@@ -1166,6 +1646,301 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.4 as MilliHenry,
 					resistance: 1.4 as Ohm,
 					rotorInertia: 35 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
+		'Leadshine',
+		new Map<string, StepperDefinition>([
+			[
+				'42CM06',
+				{
+					brand: 'Leadshine',
+					model: '42CM06',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 60 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 0.9 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter
+				}
+			],
+			[
+				'42CM04-1A',
+				{
+					brand: 'Leadshine',
+					model: '42CM04-1A',
+					nemaSize: 17,
+					bodyLength: 39 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 7.9 as MilliHenry,
+					resistance: 4 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
+		'Lerdge',
+		new Map<string, StepperDefinition>([
+			[
+				'42BYGH40',
+				{
+					brand: 'Lerdge',
+					model: '42BYGH40',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 35 as NewtonCentimeter,
+					inductance: 3.6 as MilliHenry,
+					resistance: 3.5 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
+		'Usongshine',
+		new Map<string, StepperDefinition>([
+			[
+				'17HS4401',
+				{
+					brand: 'Usongshine',
+					model: '17HS4401',
+					nemaSize: 17,
+					bodyLength: 38 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 3.7 as MilliHenry,
+					resistance: 2.4 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
+		'Stepperonline',
+		new Map<string, StepperDefinition>([
+			[
+				'17HS15-1504S-X1',
+				{
+					brand: 'Stepperonline',
+					model: '17HS15-1504S-X1',
+					nemaSize: 17,
+					bodyLength: 39 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 4.4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HE15-1504S',
+				{
+					brand: 'Stepperonline',
+					model: '17HE15-1504S',
+					nemaSize: 17,
+					bodyLength: 38 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS24-2104S',
+				{
+					brand: 'Stepperonline',
+					model: '17HS24-2104S',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.1 as Ampere,
+					torque: 65 as NewtonCentimeter,
+					inductance: 3 as MilliHenry,
+					resistance: 1.6 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
+		'Motech Motors',
+		new Map<string, StepperDefinition>([
+			[
+				'1701HS140A',
+				{
+					brand: 'Motech Motors',
+					model: '1701HS140A',
+					nemaSize: 17,
+					bodyLength: 26 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.4 as Ampere,
+					torque: 15 as NewtonCentimeter,
+					inductance: 2 as MilliHenry,
+					resistance: 1.9 as Ohm,
+					rotorInertia: 20 as GramSquareCentimeter
+				}
+			],
+			[
+				'1702HS133A',
+				{
+					brand: 'Motech Motors',
+					model: '1702HS133A',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 32 as NewtonCentimeter,
+					inductance: 2.5 as MilliHenry,
+					resistance: 2.1 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter
+				}
+			],
+			[
+				'1703HS168A',
+				{
+					brand: 'Motech Motors',
+					model: '1703HS168A',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 44 as NewtonCentimeter,
+					inductance: 3.6 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'1403HS100A',
+				{
+					brand: 'Motech Motors',
+					model: '1403HS100A',
+					nemaSize: 14,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 18 as NewtonCentimeter,
+					inductance: 4 as MilliHenry,
+					resistance: 2.7 as Ohm,
+					rotorInertia: 14 as GramSquareCentimeter
+				}
+			],
+			[
+				'1704HS168A',
+				{
+					brand: 'Motech Motors',
+					model: '1704HS168A',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 55 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			],
+			[
+				'1702HSM133A',
+				{
+					brand: 'Motech Motors',
+					model: '1702HSM133A',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 25 as NewtonCentimeter,
+					inductance: 2.5 as MilliHenry,
+					resistance: 2.1 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter
+				}
+			],
+			[
+				'1703HSM168A',
+				{
+					brand: 'Motech Motors',
+					model: '1703HSM168A',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 35 as NewtonCentimeter,
+					inductance: 3.6 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'1705HS200A',
+				{
+					brand: 'Motech Motors',
+					model: '1705HS200A',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 82 as NewtonCentimeter,
+					inductance: 3.3 as MilliHenry,
+					resistance: 2 as Ohm,
+					rotorInertia: 102 as GramSquareCentimeter
+				}
+			],
+			[
+				'1704HSM168A',
+				{
+					brand: 'Motech Motors',
+					model: '1704HSM168A',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 44 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter
+				}
+			],
+			[
+				'1404HS100A',
+				{
+					brand: 'Motech Motors',
+					model: '1404HS100A',
+					nemaSize: 14,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 37 as NewtonCentimeter,
+					inductance: 2.3 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'1405HS100A',
+				{
+					brand: 'Motech Motors',
+					model: '1405HS100A',
+					nemaSize: 14,
+					bodyLength: 52 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 41 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 2.8 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
 				}
 			]
 		])
