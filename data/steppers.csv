@@ -1,6 +1,8 @@
-Brand	Model	NEMA	Body Length mm	Step Angle (deg)	Rated Current (A)	Torque (N-cm)	Inductance (mH)	Resistance (ohms)	Rotor Inertia (g-cm^2)
-KeliMotor	BJ42D41-14V19	17	60	1,8	2	65	2,8	1,1	128
-KeliMotor	BJ42D22-25V04	17	40	1,8	1,2	40	6	2,9	57
+Brand	Model	NEMA	Body Length mm	Step Angle (deg)	Rated Current (A)	Holding Torque (N-cm)	Inductance (mH)	Resistance (ohms)	Rotor Inertia (g-cm^2)
+KeliMotor / ELEGOO	BJ42D41-14V19	17	60	1,8	2	65	2,8	1,1	128
+KeliMotor / ELEGOO	BJ42D22-25V04	17	40	1,8	1,2	40	6	2,9	57
+KeliMotor / BambuLab	BJ42D22-23V47	17	40	1,8	1,0	37	6,9	2,8	57
+KeliMotor / BambuLab	BJ42D29-100V02	17	48	1,8	2,0	45	1,9	1,1	76
 ACT	17HS5425-06	17	48	1,8	2,5	60	1,75	1	68
 FYSETC	35HSH7402-24B-400A	14	51	1,8	1,5	42	5,5	2,8	48
 FYSETC	42HSC1404B-200N8	14	34,5	1,8	0,4	32	38	29	40
@@ -72,4 +74,3 @@ Leadshine / YunTaiKe	42CM06	17	47	1,8	2,5	60	1,6	0,9	72
 Leadshine / YunTaiKe	42CM02	17	33	1,8	1,5	20	1,4	1,4	35
 Wantai	42BYGHW811-06	17	48	1,8	2,5	60	1,75	1	68
 Wantai	42BYGHW609	17	40	1,8	1,7	40	2,8	2	54
-

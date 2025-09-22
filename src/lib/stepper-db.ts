@@ -11,12 +11,12 @@ import type {
 
 export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 	[
-		'KeliMotor',
+		'KeliMotor / ELEGOO',
 		new Map<string, StepperDefinition>([
 			[
 				'BJ42D41-14V19',
 				{
-					brand: 'KeliMotor',
+					brand: 'KeliMotor / ELEGOO',
 					model: 'BJ42D41-14V19',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -31,7 +31,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'BJ42D22-25V04',
 				{
-					brand: 'KeliMotor',
+					brand: 'KeliMotor / ELEGOO',
 					model: 'BJ42D22-25V04',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -41,6 +41,41 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 6 as MilliHenry,
 					resistance: 2.9 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter
+				}
+			]
+		])
+	],
+	[
+		'KeliMotor / BambuLab',
+		new Map<string, StepperDefinition>([
+			[
+				'BJ42D22-23V47',
+				{
+					brand: 'KeliMotor / BambuLab',
+					model: 'BJ42D22-23V47',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 37 as NewtonCentimeter,
+					inductance: 6.9 as MilliHenry,
+					resistance: 2.8 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
+				}
+			],
+			[
+				'BJ42D29-100V02',
+				{
+					brand: 'KeliMotor / BambuLab',
+					model: 'BJ42D29-100V02',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 1.9 as MilliHenry,
+					resistance: 1.1 as Ohm,
+					rotorInertia: 76 as GramSquareCentimeter
 				}
 			]
 		])
