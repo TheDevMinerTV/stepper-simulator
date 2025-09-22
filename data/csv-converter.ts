@@ -73,10 +73,9 @@ async function convertCsvToTypeScript() {
 	const parseOriginalFormat = (line: string): ParsedStepperData | null => {
 		const columns = line.split('\t');
 
-		if (columns.length < 11) return null;
+		if (columns.length < 10) return null;
 
 		const [
-			_id,
 			brand,
 			model,
 			nema,

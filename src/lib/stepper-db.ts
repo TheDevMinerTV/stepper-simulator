@@ -1026,12 +1026,12 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
-		'OMC',
+		'Stepperonline',
 		new Map<string, StepperDefinition>([
 			[
 				'14HS10-0404S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '14HS10-0404S',
 					nemaSize: 14,
 					bodyLength: 26 as Millimeter,
@@ -1046,7 +1046,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS13-0804S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '14HS13-0804S',
 					nemaSize: 14,
 					bodyLength: 34 as Millimeter,
@@ -1061,7 +1061,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS17-0504S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '14HS17-0504S',
 					nemaSize: 14,
 					bodyLength: 42 as Millimeter,
@@ -1076,7 +1076,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'14HS20-1504S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '14HS20-1504S',
 					nemaSize: 14,
 					bodyLength: 52 as Millimeter,
@@ -1091,7 +1091,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HM19-1684S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HM19-1684S',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -1106,7 +1106,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HM19-2004S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HM19-2004S',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -1121,7 +1121,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS08-1004S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HS08-1004S',
 					nemaSize: 17,
 					bodyLength: 20 as Millimeter,
@@ -1136,7 +1136,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS13-0404S1',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HS13-0404S1',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
@@ -1151,7 +1151,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS16-2004S1',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HS16-2004S1',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -1166,7 +1166,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS19-2004S1',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HS19-2004S1',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -1181,7 +1181,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'17HS24-2104S',
 				{
-					brand: 'OMC',
+					brand: 'Stepperonline',
 					model: '17HS24-2104S',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -1191,6 +1191,36 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3 as MilliHenry,
 					resistance: 1.6 as Ohm,
 					rotorInertia: 148 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HS15-1504S-X1',
+				{
+					brand: 'Stepperonline',
+					model: '17HS15-1504S-X1',
+					nemaSize: 17,
+					bodyLength: 39 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 4.4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter
+				}
+			],
+			[
+				'17HE15-1504S',
+				{
+					brand: 'Stepperonline',
+					model: '17HE15-1504S',
+					nemaSize: 17,
+					bodyLength: 38 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 4 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter
 				}
 			]
 		])
@@ -1721,56 +1751,6 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3.7 as MilliHenry,
 					resistance: 2.4 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter
-				}
-			]
-		])
-	],
-	[
-		'Stepperonline',
-		new Map<string, StepperDefinition>([
-			[
-				'17HS15-1504S-X1',
-				{
-					brand: 'Stepperonline',
-					model: '17HS15-1504S-X1',
-					nemaSize: 17,
-					bodyLength: 39 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 1.5 as Ampere,
-					torque: 45 as NewtonCentimeter,
-					inductance: 4.4 as MilliHenry,
-					resistance: 2.3 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
-				}
-			],
-			[
-				'17HE15-1504S',
-				{
-					brand: 'Stepperonline',
-					model: '17HE15-1504S',
-					nemaSize: 17,
-					bodyLength: 38 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 1.5 as Ampere,
-					torque: 42 as NewtonCentimeter,
-					inductance: 4 as MilliHenry,
-					resistance: 2.3 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
-				}
-			],
-			[
-				'17HS24-2104S',
-				{
-					brand: 'Stepperonline',
-					model: '17HS24-2104S',
-					nemaSize: 17,
-					bodyLength: 60 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 2.1 as Ampere,
-					torque: 65 as NewtonCentimeter,
-					inductance: 3 as MilliHenry,
-					resistance: 1.6 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
 				}
 			]
 		])
