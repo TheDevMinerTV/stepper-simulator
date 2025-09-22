@@ -1631,12 +1631,12 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
-		'YunTaiKe',
+		'Leadshine / YunTaiKe',
 		new Map<string, StepperDefinition>([
 			[
 				'42CM08',
 				{
-					brand: 'YunTaiKe',
+					brand: 'Leadshine / YunTaiKe',
 					model: '42CM08',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -1651,7 +1651,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42CM06',
 				{
-					brand: 'YunTaiKe',
+					brand: 'Leadshine / YunTaiKe',
 					model: '42CM06',
 					nemaSize: 17,
 					bodyLength: 47 as Millimeter,
@@ -1666,7 +1666,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 			[
 				'42CM02',
 				{
-					brand: 'YunTaiKe',
+					brand: 'Leadshine / YunTaiKe',
 					model: '42CM02',
 					nemaSize: 17,
 					bodyLength: 33 as Millimeter,
@@ -1677,31 +1677,11 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.4 as Ohm,
 					rotorInertia: 35 as GramSquareCentimeter
 				}
-			]
-		])
-	],
-	[
-		'Leadshine',
-		new Map<string, StepperDefinition>([
-			[
-				'42CM06',
-				{
-					brand: 'Leadshine',
-					model: '42CM06',
-					nemaSize: 17,
-					bodyLength: 48 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 2.5 as Ampere,
-					torque: 60 as NewtonCentimeter,
-					inductance: 1.6 as MilliHenry,
-					resistance: 0.9 as Ohm,
-					rotorInertia: 72 as GramSquareCentimeter
-				}
 			],
 			[
 				'42CM04-1A',
 				{
-					brand: 'Leadshine',
+					brand: 'Leadshine / YunTaiKe',
 					model: '42CM04-1A',
 					nemaSize: 17,
 					bodyLength: 39 as Millimeter,
