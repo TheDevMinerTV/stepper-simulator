@@ -34,7 +34,7 @@ export function StepperList() {
 
 				<Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
 
-				<section className="overflow-y-auto space-y-4 flex-1 min-h-[1px] px-2">
+				<section className="overflow-y-auto space-y-4 flex-1 min-h-[1px] p-2">
 					{Array.from(STEPPER_DB.entries()).map(([brand, steppers]) => (
 						<BrandSteppersList key={brand} brand={brand} search={trimmedSearch} steppers={steppers} />
 					))}
