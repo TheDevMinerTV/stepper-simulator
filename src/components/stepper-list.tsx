@@ -7,70 +7,135 @@ import { Switch } from '@/components/ui/switch.tsx';
 import { STEPPER_DB } from '@/lib/stepper-db.ts';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { cn } from '@/lib/utils.ts';
-import { steppersAtom } from '@/state/atoms.ts';
+import { currentCustomSteppersAtom, steppersAtom } from '@/state/atoms.ts';
 import Fuse from 'fuse.js';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { BookIcon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-const fuzzyStepperSearch = new Fuse(
-	Array.from(STEPPER_DB).flatMap(([_, steppers]) => Array.from(steppers.values())),
-	{ keys: ['brand', 'model', 'comments'] }
-);
+const createMergedDB = (customSteppers: StepperDefinition[]) => {
+	const mergedDB = new Map(STEPPER_DB);
 
-const exactSearch = (search: string) => {
-	const trimmed = search.trim();
-
-	return new Map(
-		Array.from(STEPPER_DB)
-			.map(([brand, steppers]) => {
-				if (trimmed === '') return [brand, steppers] as const;
-
-				const lowercaseSearch = trimmed.toLowerCase();
-
-				const filteredSteppers = new Map(
-					Array.from(steppers.entries()).filter(
-						([_, stepper]) =>
-							brand.toLowerCase().includes(lowercaseSearch) ||
-							stepper.model.toLowerCase().includes(lowercaseSearch)
-					)
-				);
-
-				return [brand, filteredSteppers] as const;
-			})
-			.filter(([_, steppers]) => steppers.size > 0)
+	// Pre-process custom steppers by brand to avoid multiple map operations
+	const customByBrand = customSteppers.reduce(
+		(acc, stepper) => {
+			if (!acc[stepper.brand]) {
+				acc[stepper.brand] = new Map<string, StepperDefinition>();
+			}
+			acc[stepper.brand].set(stepper.model, stepper);
+			return acc;
+		},
+		{} as Record<string, Map<string, StepperDefinition>>
 	);
+
+	// Merge custom steppers into the DB
+	Object.entries(customByBrand).forEach(([brand, steppers]) => {
+		const existingBrand = mergedDB.get(brand);
+		if (existingBrand) {
+			for (const [model, stepper] of steppers) {
+				existingBrand.set(model, stepper);
+			}
+		} else {
+			mergedDB.set(brand, steppers);
+		}
+	});
+
+	return mergedDB;
+};
+
+const initFuzzyStepperSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) =>
+	new Fuse(
+		Array.from(mergedDB.values()).flatMap((steppers) => Array.from(steppers.values())),
+		{
+			keys: ['brand', 'model', 'comments'],
+			threshold: 0.4,
+			shouldSort: true,
+			minMatchCharLength: 2
+		}
+	);
+
+const initExactSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) => {
+	// Pre-compute lowercase brand names for performance
+	const brandSearchMap = new Map(Array.from(mergedDB.keys()).map((brand) => [brand, brand.toLowerCase()]));
+
+	return (search: string) => {
+		if (search === '') return mergedDB;
+
+		const lowercaseSearch = search.toLowerCase();
+		const result = new Map<string, Map<string, StepperDefinition>>();
+
+		for (const [brand, steppers] of mergedDB) {
+			const matchingSteppers = new Map<string, StepperDefinition>();
+			const lowercaseBrand = brandSearchMap.get(brand)!;
+
+			if (lowercaseBrand.includes(lowercaseSearch)) {
+				// If brand matches, include all steppers
+				result.set(brand, new Map(steppers));
+				continue;
+			}
+
+			// Check individual steppers only if brand doesn't match
+			for (const [model, stepper] of steppers) {
+				if (model.toLowerCase().includes(lowercaseSearch)) {
+					matchingSteppers.set(model, stepper);
+				}
+			}
+
+			if (matchingSteppers.size > 0) {
+				result.set(brand, matchingSteppers);
+			}
+		}
+
+		return result;
+	};
 };
 
 export function StepperList() {
 	const [searchMode, setSearchMode] = useState<'exact' | 'fuzzy'>('exact');
 	const [search, setSearch] = useState('');
+	const customSteppers = useAtomValue(currentCustomSteppersAtom);
+
+	const {
+		mergedDB,
+		exact: exactStepperSearch,
+		fuzzy: fuzzyStepperSearch
+	} = useMemo(() => {
+		const mergedDB = createMergedDB(customSteppers);
+		return {
+			mergedDB,
+			exact: initExactSearch(mergedDB),
+			fuzzy: initFuzzyStepperSearch(mergedDB)
+		};
+	}, [customSteppers]);
 
 	const results = useMemo(
 		() =>
 			search === ''
-				? STEPPER_DB
+				? mergedDB
 				: searchMode === 'exact'
-					? exactSearch(search)
-					: fuzzyStepperSearch.search(search.trim()).reduce((acc, result) => {
-							let brandMap = acc.get(result.item.brand);
-							if (!brandMap) {
-								brandMap = new Map();
-								acc.set(result.item.brand, brandMap);
-							}
+					? exactStepperSearch(search)
+					: fuzzyStepperSearch
+							.search(search)
+							.reduce((acc: Map<string, Map<string, StepperDefinition>>, result) => {
+								let brandMap = acc.get(result.item.brand);
+								if (!brandMap) {
+									brandMap = new Map();
+									acc.set(result.item.brand, brandMap);
+								}
 
-							brandMap.set(result.item.model, result.item);
+								brandMap.set(result.item.model, result.item);
 
-							return acc;
-						}, new Map<string, Map<string, StepperDefinition>>()),
-		[search, searchMode]
+								return acc;
+							}, new Map<string, Map<string, StepperDefinition>>()),
+		[search, searchMode, mergedDB, exactStepperSearch, fuzzyStepperSearch]
 	);
 
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button type="button" size="icon">
+				<Button type="button" className="w-full">
 					<BookIcon className="w-5 h-5" />
+					<span>Select stepper motors</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent
@@ -85,7 +150,7 @@ export function StepperList() {
 				<DialogTitle>List of all stepper motors</DialogTitle>
 
 				<div className="flex gap-4">
-					<Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+					<Input value={search} onChange={(e) => setSearch(e.target.value.trim())} placeholder="Search..." />
 
 					<div className="flex flex-row gap-2 items-center justify-between">
 						<span>Exact</span>
