@@ -55,34 +55,33 @@ const initFuzzyStepperSearch = (mergedDB: Map<string, Map<string, StepperDefinit
 	);
 
 const initExactSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) => {
-	// Pre-compute lowercase brand names for performance
-	const brandSearchMap = new Map(Array.from(mergedDB.keys()).map((brand) => [brand, brand.toLowerCase()]));
-
 	return (search: string) => {
-		if (search === '') return mergedDB;
+		const trimmed = search.trim();
+		if (trimmed === '') return mergedDB;
 
-		const lowercaseSearch = search.toLowerCase();
+		const lowercaseSearch = trimmed.toLowerCase();
 		const result = new Map<string, Map<string, StepperDefinition>>();
 
 		for (const [brand, steppers] of mergedDB) {
-			const matchingSteppers = new Map<string, StepperDefinition>();
-			const lowercaseBrand = brandSearchMap.get(brand)!;
-
-			if (lowercaseBrand.includes(lowercaseSearch)) {
-				// If brand matches, include all steppers
+			// Check if brand matches
+			if (brand.toLowerCase().includes(lowercaseSearch)) {
 				result.set(brand, new Map(steppers));
 				continue;
 			}
 
-			// Check individual steppers only if brand doesn't match
+			// If brand doesn't match, check each stepper
+			const matches = new Map<string, StepperDefinition>();
 			for (const [model, stepper] of steppers) {
-				if (model.toLowerCase().includes(lowercaseSearch)) {
-					matchingSteppers.set(model, stepper);
+				if (
+					model.toLowerCase().includes(lowercaseSearch) ||
+					stepper.comments.some((comment) => comment.toLowerCase().includes(lowercaseSearch))
+				) {
+					matches.set(model, stepper);
 				}
 			}
 
-			if (matchingSteppers.size > 0) {
-				result.set(brand, matchingSteppers);
+			if (matches.size > 0) {
+				result.set(brand, matches);
 			}
 		}
 
