@@ -2,14 +2,20 @@ import { StepperSpecs } from '@/components/specs.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input.tsx';
 import { STEPPER_DB } from '@/lib/stepper-db.ts';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { cn } from '@/lib/utils.ts';
 import { steppersAtom } from '@/state/atoms.ts';
 import { useAtom } from 'jotai';
 import { BookIcon } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 export function StepperList() {
+	const [search, setSearch] = useState('');
+
+	const trimmedSearch = search.trim();
+
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
@@ -17,19 +23,54 @@ export function StepperList() {
 					<BookIcon className="w-5 h-5" />
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[1280px] max-h-[960px] min-h-[1px] h-full overflow-y-auto space-y-2">
-				{Array.from(STEPPER_DB.entries()).map(([brand, steppers]) => (
-					<section className="space-y-2">
-						<h2 className="text-xl font-bold">{brand}</h2>
-						<div className="flex flex-wrap gap-2" key={brand}>
-							{Array.from(steppers.entries()).map(([stepperId, stepper]) => (
-								<ToggleableStepperSpec key={stepperId} stepper={stepper} />
-							))}
-						</div>
-					</section>
-				))}
+			<DialogContent className="sm:max-w-[1280px] max-h-[960px] min-h-[1px] h-full gap-4 flex flex-col">
+				<Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+
+				<section className="overflow-y-auto space-y-4 flex-1 min-h-[1px] px-2">
+					{Array.from(STEPPER_DB.entries()).map(([brand, steppers]) => (
+						<BrandSteppersList key={brand} brand={brand} search={trimmedSearch} steppers={steppers} />
+					))}
+				</section>
 			</DialogContent>
 		</Dialog>
+	);
+}
+
+function BrandSteppersList({
+	brand,
+	steppers,
+	search
+}: {
+	brand: string;
+	steppers: Map<string, StepperDefinition>;
+	search: string;
+}) {
+	const filteredSteppers = useMemo(() => {
+		console.log('refiltering');
+
+		const filteredSteppers = Array.from(steppers.entries());
+
+		if (search === '') return filteredSteppers;
+
+		const lowercaseSearch = search.toLowerCase();
+
+		return filteredSteppers.filter(
+			([_, stepper]) =>
+				brand.toLowerCase().includes(lowercaseSearch) || stepper.model.toLowerCase().includes(lowercaseSearch)
+		);
+	}, [steppers, search, brand]);
+
+	if (filteredSteppers.length === 0) return null;
+
+	return (
+		<section key={brand} className="space-y-2">
+			<h2 className="text-xl font-bold">{brand}</h2>
+			<div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2">
+				{filteredSteppers.map(([stepperId, stepper]) => (
+					<ToggleableStepperSpec key={stepperId} stepper={stepper} />
+				))}
+			</div>
+		</section>
 	);
 }
 
@@ -41,7 +82,7 @@ function ToggleableStepperSpec({ stepper }: { stepper: StepperDefinition }) {
 	return (
 		<button
 			type="button"
-			className="w-full sm:w-[calc(50%-0.25rem)] xl:w-[calc(33.333%-0.5rem)] text-left"
+			className="text-left h-full cursor-pointer"
 			onClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -51,7 +92,7 @@ function ToggleableStepperSpec({ stepper }: { stepper: StepperDefinition }) {
 				);
 			}}
 		>
-			<Card className={cn(isEnabled && 'ring ring-white ring-offset-2')}>
+			<Card className={cn('h-full', isEnabled && 'bg-white/5 transition-all ring ring-white ring-offset-2')}>
 				<CardHeader>
 					<CardTitle>
 						{stepper.brand} {stepper.model}

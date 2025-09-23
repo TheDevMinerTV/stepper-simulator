@@ -19,18 +19,6 @@ import {
 
 export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 	const debug = useAtomValue(debugAtom);
-	const driveSettings = useAtomValue(driveSettingsAtom);
-	const gantrySettings = useAtomValue(gantrySettingsAtom);
-	const maxPower = useAtomValue(maxPowerAtom);
-
-	const maxCurrentAtSpecifiedPower = Math.sqrt(maxPower / 2 / stepper.resistance);
-	const driveCurrent = Math.min(
-		driveSettings.maxDriveCurrent,
-		driveSettings.maxDrivePercent * stepper.ratedCurrent,
-		maxCurrentAtSpecifiedPower
-	);
-	const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
-	const powerAtDriveCurrent = calculatePowerAtDriveCurrent(driveCurrent, stepper);
 
 	return (
 		<div className="flex flex-col gap-2">
@@ -77,29 +65,46 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 				</div>
 			)}
 
-			{debug && (
-				<>
-					<Separator />
-
-					<div className="flex items-center gap-2">
-						<span>max current at specified power</span>
-						<span>{maxCurrentAtSpecifiedPower.toFixed(2)} A</span>
-					</div>
-					<div className="flex items-center gap-2">
-						<span>drive current</span>
-						<span>{driveCurrent.toFixed(2)} A</span>
-					</div>
-					<div className="flex items-center gap-2">
-						<span>torque rotor</span>
-						<span>{torqueRotor.toFixed(2)} Ncm</span>
-					</div>
-					<div className="flex items-center gap-2">
-						<span>power at drive current</span>
-						<span>{powerAtDriveCurrent.toFixed(2)} W</span>
-					</div>
-				</>
-			)}
+			{debug && <DebugStepperSpecs stepper={stepper} />}
 		</div>
+	);
+}
+
+function DebugStepperSpecs({ stepper }: { stepper: StepperDefinition }) {
+	const driveSettings = useAtomValue(driveSettingsAtom);
+	const gantrySettings = useAtomValue(gantrySettingsAtom);
+	const maxPower = useAtomValue(maxPowerAtom);
+
+	const maxCurrentAtSpecifiedPower = Math.sqrt(maxPower / 2 / stepper.resistance);
+	const driveCurrent = Math.min(
+		driveSettings.maxDriveCurrent,
+		driveSettings.maxDrivePercent * stepper.ratedCurrent,
+		maxCurrentAtSpecifiedPower
+	);
+	const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
+	const powerAtDriveCurrent = calculatePowerAtDriveCurrent(driveCurrent, stepper);
+
+	return (
+		<>
+			<Separator />
+
+			<div className="flex items-center gap-2">
+				<span>max current at specified power</span>
+				<span>{maxCurrentAtSpecifiedPower.toFixed(2)} A</span>
+			</div>
+			<div className="flex items-center gap-2">
+				<span>drive current</span>
+				<span>{driveCurrent.toFixed(2)} A</span>
+			</div>
+			<div className="flex items-center gap-2">
+				<span>torque rotor</span>
+				<span>{torqueRotor.toFixed(2)} Ncm</span>
+			</div>
+			<div className="flex items-center gap-2">
+				<span>power at drive current</span>
+				<span>{powerAtDriveCurrent.toFixed(2)} W</span>
+			</div>
+		</>
 	);
 }
 
