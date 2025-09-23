@@ -46,6 +46,12 @@ export function AttributionCard({ className }: { className?: string }) {
 								a list of steppers in common VORON kits
 							</Link>
 						</li>
+						<li>
+							<Link href="https://voron3d.wiki">Voron3D Wiki</Link> for{' '}
+							<Link href="https://voron3d.wiki/electronics/stepper-motor/stepper-motor/#stepper-motor-database">
+								another stepper DB
+							</Link>{' '}
+						</li>
 					</ul>
 				</CardContent>
 			</Card>

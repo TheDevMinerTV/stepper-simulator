@@ -976,6 +976,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					rotorInertia: 84 as GramSquareCentimeter,
 					comments: ['80mm Shaft', '"Super Power" motor (HT)']
 				}
+			],
+			[
+				'LDO-42STH60-3004AHD(S37)',
+				{
+					brand: 'LDO',
+					model: 'LDO-42STH60-3004AHD(S37)',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 3 as Ampere,
+					torque: 120 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 100 as GramSquareCentimeter,
+					comments: []
+				}
 			]
 		])
 	],

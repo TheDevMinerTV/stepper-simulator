@@ -6,12 +6,6 @@ const prettierConfig = JSON.parse(
 	fs.readFileSync(path.join(path.dirname(import.meta.url.replace('file://', '')), '..', '.prettierrc'), 'utf-8')
 );
 
-const CsvFormat = {
-	ORIGINAL: 'original',
-	PERA: 'peras'
-} as const;
-type CsvFormat = (typeof CsvFormat)[keyof typeof CsvFormat];
-
 interface ParsedStepperData {
 	brand: string;
 	model: string;
@@ -23,16 +17,106 @@ interface ParsedStepperData {
 	inductance: number;
 	resistance: number;
 	rotorInertia: number;
-	comments: string[] | null;
+	comments: string[];
+	sources: string[];
 }
 
+const CsvFormatType = {
+	ORIGINAL: 'original',
+	PERA: 'peras',
+	Voron3DWiki: 'markdown'
+} as const;
+type CsvFormatType = (typeof CsvFormatType)[keyof typeof CsvFormatType];
+
+// Function to parse markdown table format
+const parseVoron3DWikiFormat = (line: string): ParsedStepperData | null => {
+	// Split by pipe and trim each column
+	const columns = line
+		.split('|')
+		.map((col) => col.trim())
+		.filter((col) => col);
+
+	if (columns.length < 10) return null;
+
+	const [
+		_fullName, // Contains both brand and model
+		brand,
+		model,
+		nema,
+		bodyLength,
+		stepAngle,
+		ratedCurrent,
+		torque,
+		inductance,
+		resistance,
+		rotorInertia
+	] = columns;
+
+	// Use the existing sanitize and parse functions from the outer scope
+	const brandStr = brand?.trim() || '';
+	const modelStr = model?.trim() || '';
+	const nemaSize = parseFloat(nema);
+	const bodyLengthNum = parseFloat(bodyLength);
+	const stepAngleNum = parseFloat(stepAngle);
+	const ratedCurrentNum = parseFloat(ratedCurrent);
+	// Just use N-mm as N-cm (their label is wrong)
+	const torqueNum = parseFloat(torque) ? parseFloat(torque) : undefined;
+	const inductanceNum = parseFloat(inductance);
+	const resistanceNum = parseFloat(resistance);
+	const rotorInertiaNum = parseFloat(rotorInertia);
+
+	if (
+		!brandStr ||
+		!modelStr ||
+		isNaN(nemaSize) ||
+		isNaN(bodyLengthNum) ||
+		isNaN(stepAngleNum) ||
+		isNaN(ratedCurrentNum) ||
+		!torqueNum ||
+		isNaN(inductanceNum) ||
+		isNaN(resistanceNum) ||
+		isNaN(rotorInertiaNum)
+	) {
+		console.log('not adding incomplete stepper from markdown', {
+			brandStr,
+			modelStr,
+			nemaSize,
+			bodyLengthNum,
+			stepAngleNum,
+			ratedCurrentNum,
+			torqueNum,
+			inductanceNum,
+			resistanceNum,
+			rotorInertiaNum
+		});
+		return null;
+	}
+
+	return {
+		brand: brandStr,
+		model: modelStr,
+		nemaSize,
+		bodyLength: bodyLengthNum,
+		stepAngle: stepAngleNum,
+		ratedCurrent: ratedCurrentNum,
+		torque: torqueNum,
+		inductance: inductanceNum,
+		resistance: resistanceNum,
+		rotorInertia: rotorInertiaNum,
+		comments: [],
+		sources: ['voron3dwiki']
+	};
+};
+
 async function convertCsvToTypeScript() {
-	// Read both CSV files
+	// Read input files
 	const originalCsvPath = path.join(import.meta.dirname, 'steppers.csv');
 	const perasCsvPath = path.join(import.meta.dirname, 'peras-steppers.csv');
+	const markdownPath = path.join(import.meta.dirname, 'voron3d-wiki.md');
 
 	const originalCsvContent = fs.readFileSync(originalCsvPath, 'utf-8');
 	const perasCsvContent = fs.readFileSync(perasCsvPath, 'utf-8');
+	const markdownContent = fs.readFileSync(markdownPath, 'utf-8');
 
 	// Function to convert European decimal format (comma) to US format (period)
 	const parseNumber = (value: string): number | undefined => {
@@ -139,7 +223,8 @@ async function convertCsvToTypeScript() {
 			inductance: inductanceNum,
 			resistance: resistanceNum,
 			rotorInertia: rotorInertiaNum,
-			comments: !comments ? [] : comments.split(';').map((x) => x.trim())
+			comments: !comments ? [] : comments.split(';').map((x) => x.trim()),
+			sources: ['original-csv']
 		};
 	};
 
@@ -219,24 +304,31 @@ async function convertCsvToTypeScript() {
 			inductance: inductanceNum,
 			resistance: resistanceNum,
 			rotorInertia: rotorInertiaNum,
-			comments: !comments ? [] : comments.split(';').map((x) => x.trim())
+			comments: !comments ? [] : comments.split(';').map((x) => x.trim()),
+			sources: ['pera-csv']
 		};
 	};
 
-	// Parse both CSV files
-	const parseCsvFile = (content: string, format: CsvFormat): ParsedStepperData[] => {
+	// Parse input files
+	const parseInputFile = (content: string, format: CsvFormatType): ParsedStepperData[] => {
 		const lines = content.split('\n').filter((line) => line.trim());
-		const dataLines = lines.slice(1).filter((line) => line.trim());
+		// For markdown, skip the header and separator lines
+		const dataLines =
+			format === CsvFormatType.Voron3DWiki
+				? lines.slice(2).filter((line) => line.trim() && !line.includes('---'))
+				: lines.slice(1).filter((line) => line.trim());
 
 		const parsedData: ParsedStepperData[] = [];
 
 		for (const line of dataLines) {
 			let parsed: ParsedStepperData | null = null;
 
-			if (format === CsvFormat.ORIGINAL) {
+			if (format === CsvFormatType.ORIGINAL) {
 				parsed = parseOriginalFormat(line);
-			} else if (format === CsvFormat.PERA) {
+			} else if (format === CsvFormatType.PERA) {
 				parsed = parsePerasFormat(line);
+			} else if (format === CsvFormatType.Voron3DWiki) {
+				parsed = parseVoron3DWikiFormat(line);
 			}
 
 			if (parsed) {
@@ -247,16 +339,17 @@ async function convertCsvToTypeScript() {
 		return parsedData;
 	};
 
-	// Parse both files
+	// Parse files
+	const originalData = parseInputFile(originalCsvContent, CsvFormatType.ORIGINAL);
+	const perasData = parseInputFile(perasCsvContent, CsvFormatType.PERA);
+	const voron3DWikiData = parseInputFile(markdownContent, CsvFormatType.Voron3DWiki);
 
-	const originalData = parseCsvFile(originalCsvContent, CsvFormat.ORIGINAL);
-	const perasData = parseCsvFile(perasCsvContent, CsvFormat.PERA);
-
-	const allData = [...originalData, ...perasData];
+	const allData = [...originalData, ...perasData, ...voron3DWikiData];
 
 	console.log(`📊 Original CSV: ${originalData.length} entries parsed`);
 	console.log(`📊 Peras CSV: ${perasData.length} entries parsed`);
-	console.log(`📊 Total entries from both files: ${allData.length}`);
+	console.log(`📊 Voron3D Wiki: ${voron3DWikiData.length} entries parsed`);
+	console.log(`📊 Total entries from all files: ${allData.length}`);
 
 	// Helper function to check if two stepper data objects have the same specs
 	const specsAreEqual = (a: ParsedStepperData, b: ParsedStepperData): boolean => {
@@ -273,7 +366,7 @@ async function convertCsvToTypeScript() {
 	};
 
 	const stepperToString = (stepper: ParsedStepperData): string =>
-		`${stepper.brand} ${stepper.model} (NEMA ${stepper.nemaSize}, ${stepper.bodyLength}mm, ${stepper.stepAngle}°, ${stepper.ratedCurrent}A, ${stepper.torque}N·cm, ${stepper.inductance}mH, ${stepper.resistance}Ω, ${stepper.rotorInertia}g·cm²)`;
+		`${stepper.brand} ${stepper.model} (NEMA ${stepper.nemaSize}, ${stepper.bodyLength}mm, ${stepper.stepAngle}°, ${stepper.ratedCurrent}A, ${stepper.torque}N·cm, ${stepper.inductance}mH, ${stepper.resistance}Ω, ${stepper.rotorInertia}g·cm²) from ${stepper.sources.join(', ')}`;
 
 	// Convert parsed data to nested Map structure
 	const steppersByBrand = new Map<string, Map<string, ParsedStepperData>>();
@@ -302,6 +395,8 @@ async function convertCsvToTypeScript() {
 				console.warn(stepperToString(data));
 				console.warn(`   Keeping the new entry (overwriting)`);
 			}
+
+			data.comments.push(...existingRawData.comments);
 		}
 
 		rawBrandMap.set(data.model, data);
