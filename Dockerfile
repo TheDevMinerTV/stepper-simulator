@@ -10,6 +10,9 @@ COPY .prettierrc .prettierrc
 
 COPY . .
 RUN pnpm data:update-stepper-db
+
+ARG VITE_BASE_URL=https://stepper-sim.devminer.xyz
+ENV VITE_BASE_URL=$VITE_BASE_URL
 RUN pnpm build
 
 ####
