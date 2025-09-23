@@ -23,6 +23,7 @@ interface ParsedStepperData {
 	inductance: number;
 	resistance: number;
 	rotorInertia: number;
+	comments: string[] | null;
 }
 
 async function convertCsvToTypeScript() {
@@ -85,7 +86,8 @@ async function convertCsvToTypeScript() {
 			torque,
 			inductance,
 			resistance,
-			rotorInertia
+			rotorInertia,
+			comments
 		] = columns;
 
 		const brandStr = sanitizeString(brand);
@@ -124,7 +126,8 @@ async function convertCsvToTypeScript() {
 			torque: torqueNum,
 			inductance: inductanceNum,
 			resistance: resistanceNum,
-			rotorInertia: rotorInertiaNum
+			rotorInertia: rotorInertiaNum,
+			comments: !comments ? [] : comments.split(';').map((x) => x.trim())
 		};
 	};
 
@@ -152,7 +155,7 @@ async function convertCsvToTypeScript() {
 			body,
 			length,
 			_specsLink, // ignored
-			_comments // ignored
+			comments
 		] = columns;
 
 		const brandStr = sanitizeString(brand);
@@ -191,7 +194,8 @@ async function convertCsvToTypeScript() {
 			torque: torqueNum,
 			inductance: inductanceNum,
 			resistance: resistanceNum,
-			rotorInertia: rotorInertiaNum
+			rotorInertia: rotorInertiaNum,
+			comments: !comments ? [] : comments.split(';').map((x) => x.trim())
 		};
 	};
 
@@ -287,8 +291,8 @@ async function convertCsvToTypeScript() {
 
 		for (const [model, data] of rawModelsMap.entries()) {
 			const stepperDefinition = `{
-				brand: "${data.brand}",
-				model: "${data.model}",
+				brand: ${JSON.stringify(data.brand)},
+				model: ${JSON.stringify(data.model)},
 				nemaSize: ${data.nemaSize},
 				bodyLength: ${data.bodyLength} as Millimeter,
 				stepAngle: ${data.stepAngle} as Degree,
@@ -296,7 +300,8 @@ async function convertCsvToTypeScript() {
 				torque: ${data.torque} as NewtonCentimeter,
 				inductance: ${data.inductance} as MilliHenry,
 				resistance: ${data.resistance} as Ohm,
-				rotorInertia: ${data.rotorInertia} as GramSquareCentimeter
+				rotorInertia: ${data.rotorInertia} as GramSquareCentimeter,
+				comments: ${JSON.stringify(data.comments)}
 			}`;
 			modelEntries.push(`\t\t["${model}", ${stepperDefinition}]`);
 		}

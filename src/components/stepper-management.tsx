@@ -1,3 +1,4 @@
+import { StepperList } from '@/components/stepper-list.tsx';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -6,9 +7,7 @@ import { Label } from '@/components/ui/label';
 import {
 	Select,
 	SelectContent,
-	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue
 } from '@/components/ui/select';
@@ -24,10 +23,9 @@ import type {
 	StepperDefinition
 } from '@/lib/stepper';
 import { NEMASize } from '@/lib/stepper';
-import { STEPPER_DB } from '@/lib/stepper-db';
-import { currentCustomSteppersAtom, currentDebugAtom, steppersAtom } from '@/state/atoms';
+import { currentCustomSteppersAtom, currentDebugAtom } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
-import { PlusIcon, SaveIcon, SettingsIcon, ShareIcon, TrashIcon } from 'lucide-react';
+import { SaveIcon, SettingsIcon, ShareIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export function StepperSelection() {
@@ -37,7 +35,7 @@ export function StepperSelection() {
 				<CardTitle>Stepper Selection</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-2">
-				<AddStepperWidget />
+				<StepperList />
 				<div className="flex items-center gap-2 mb-4">
 					<CustomStepperModal />
 					<ContributeSteppersButton />
@@ -45,85 +43,6 @@ export function StepperSelection() {
 				<DebugSettings />
 			</CardContent>
 		</Card>
-	);
-}
-
-export function AddStepperWidget() {
-	const [steppers, setSteppers] = useAtom(steppersAtom);
-	const customSteppers = useAtomValue(currentCustomSteppersAtom);
-
-	const [stepper, setStepper] = useState<StepperDefinition | null>(null);
-
-	const isValidSelection = stepper !== null && !steppers.includes(stepper);
-
-	const findStepper = (brand: string, model: string): StepperDefinition | null => {
-		const predefinedStepper = STEPPER_DB.get(brand)?.get(model);
-		if (predefinedStepper) {
-			return predefinedStepper;
-		}
-
-		const customStepper = customSteppers.find(
-			(s: StepperDefinition) => s.brand === brand && s.model === model
-		);
-		return customStepper || null;
-	};
-
-	return (
-		<form
-			onSubmit={(ev) => {
-				ev.preventDefault();
-				if (!isValidSelection) return;
-
-				setSteppers((previous: StepperDefinition[]) => [...previous, stepper]);
-			}}
-			className="flex flex-row gap-2"
-		>
-			<Select
-				name="stepper"
-				value={stepper ? `${stepper.brand}__${stepper.model}` : undefined}
-				onValueChange={(value: string) => {
-					const [brand, model] = value.split('__');
-					const foundStepper = findStepper(brand, model);
-					setStepper(foundStepper);
-				}}
-			>
-				<SelectTrigger className="w-full">
-					<SelectValue placeholder="Select a stepper" />
-				</SelectTrigger>
-				<SelectContent>
-					{customSteppers.length > 0 && (
-						<SelectGroup>
-							<SelectLabel>Custom Steppers</SelectLabel>
-							{customSteppers.map((stepper: StepperDefinition) => {
-								const key = `${stepper.brand}__${stepper.model}`;
-								return (
-									<SelectItem key={key} value={key} disabled={steppers.includes(stepper)}>
-										{stepper.brand} {stepper.model}
-									</SelectItem>
-								);
-							})}
-						</SelectGroup>
-					)}
-
-					{Array.from(STEPPER_DB.entries()).map(([brand, models]) => (
-						<SelectGroup key={brand}>
-							<SelectLabel>{brand}</SelectLabel>
-							{Array.from(models.entries()).map(([model, stepper]) => {
-								const key = `${brand}__${model}`;
-								return (
-									<SelectItem key={key} value={key} disabled={steppers.includes(stepper)}>
-										{model}
-									</SelectItem>
-								);
-							})}
-						</SelectGroup>
-					))}
-				</SelectContent>
-			</Select>
-			<Button type="submit" size="icon" disabled={!isValidSelection}>
-				<PlusIcon className="w-5 h-5" />
-			</Button>
-		</form>
 	);
 }
 
@@ -242,7 +161,8 @@ export function CustomStepperModal() {
 			torque: formData.torque as NewtonCentimeter,
 			inductance: formData.inductance as MilliHenry,
 			resistance: formData.resistance as Ohm,
-			rotorInertia: formData.rotorInertia as GramSquareCentimeter
+			rotorInertia: formData.rotorInertia as GramSquareCentimeter,
+			comments: []
 		};
 
 		setCustomSteppers((previous: StepperDefinition[]) => [...previous, customStepper]);
