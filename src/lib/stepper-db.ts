@@ -430,7 +430,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.6 as MilliHenry,
 					resistance: 2.1 as Ohm,
 					rotorInertia: 16 as GramSquareCentimeter,
-					comments: []
+					comments: ['LDO VORON0 kit extruder', 'LDO VORON2.4 kit extruder', 'LDO VORON Trident kit extruder']
 				}
 			],
 			[
@@ -494,7 +494,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3.6 as MilliHenry,
 					resistance: 1.65 as Ohm,
 					rotorInertia: 53 as GramSquareCentimeter,
-					comments: []
+					comments: ['LDO VORON Switchwire kit X/Y & Z']
 				}
 			],
 			[
@@ -754,6 +754,38 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'42STH25-1004CL200ET',
+				{
+					brand: 'LDO',
+					model: '42STH25-1004CL200ET',
+					nemaSize: 17,
+					bodyLength: 26 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 24 as NewtonCentimeter,
+					inductance: 7 as MilliHenry,
+					resistance: 5.5 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: ['LDO VORON0 kit Z']
+				}
+			],
+			[
+				'42STH40-1684CL300E',
+				{
+					brand: 'LDO',
+					model: '42STH40-1684CL300E',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 4.1 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: ['LDO VORON Trident kit Z']
+				}
+			],
+			[
 				'35STH52-1504AH',
 				{
 					brand: 'LDO',
@@ -766,7 +798,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3.8 as MilliHenry,
 					resistance: 2.8 as Ohm,
 					rotorInertia: 52 as GramSquareCentimeter,
-					comments: ['"Speedy Power" motor (HT)']
+					comments: ['"Speedy Power" motor (HT)', 'LDO VORON0 kit A/B']
 				}
 			],
 			[
@@ -782,7 +814,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.1 as MilliHenry,
 					resistance: 2.8 as Ohm,
 					rotorInertia: 71 as GramSquareCentimeter,
-					comments: ['(HT)']
+					comments: ['LDO VORON2.4 kit A/B', '(HT)']
 				}
 			],
 			[
@@ -798,7 +830,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter,
-					comments: []
+					comments: ['LDO VORON2.4 kit Z']
 				}
 			],
 			[
@@ -1047,6 +1079,54 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'CSE14HRA1L410A',
+				{
+					brand: 'Moons',
+					model: 'CSE14HRA1L410A',
+					nemaSize: 14,
+					bodyLength: 17 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 11 as NewtonCentimeter,
+					inductance: 2 as MilliHenry,
+					resistance: 2.1 as Ohm,
+					rotorInertia: 9 as GramSquareCentimeter,
+					comments: ['Formbot VORON2.4 kit extruder', 'Formbot VORON0 kit extruder']
+				}
+			],
+			[
+				'MS14HS5P4150-11',
+				{
+					brand: 'Moons',
+					model: 'MS14HS5P4150-11',
+					nemaSize: 14,
+					bodyLength: 55 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 3.6 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: ['Formbot VORON0 kit A/B']
+				}
+			],
+			[
+				'LE17AS-T0808-200-0-S-065',
+				{
+					brand: 'Moons',
+					model: 'LE17AS-T0808-200-0-S-065',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.65 as Ampere,
+					torque: 34 as NewtonCentimeter,
+					inductance: 15.2 as MilliHenry,
+					resistance: 8.7 as Ohm,
+					rotorInertia: 48 as GramSquareCentimeter,
+					comments: ['Formbot VORON0 kit Z']
+				}
+			],
+			[
 				'MS17HD6P4150-01',
 				{
 					brand: 'Moons',
@@ -1075,7 +1155,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 2.7 as MilliHenry,
 					resistance: 1.3 as Ohm,
 					rotorInertia: 82 as GramSquareCentimeter,
-					comments: []
+					comments: ['Formbot VORON2.4 kit A/B & Z']
 				}
 			]
 		])
@@ -1302,6 +1382,38 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'17HS19-1684S1',
+				{
+					brand: 'Stepperonline',
+					model: '17HS19-1684S1',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HE19-2004S',
+				{
+					brand: 'Stepperonline',
+					model: '17HE19-2004S',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 55 as NewtonCentimeter,
+					inductance: 2.4 as MilliHenry,
+					resistance: 1.3 as Ohm,
+					rotorInertia: 62 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'17HS15-1504S-X1',
 				{
 					brand: 'Stepperonline',
@@ -1313,6 +1425,54 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 4.4 as MilliHenry,
 					resistance: 2.3 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM13-0316S',
+				{
+					brand: 'Stepperonline',
+					model: '17HM13-0316S',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 0.3 as Ampere,
+					torque: 16 as NewtonCentimeter,
+					inductance: 36 as MilliHenry,
+					resistance: 38.5 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS16-2004S-C4',
+				{
+					brand: 'Stepperonline',
+					model: '17HS16-2004S-C4',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 45 as NewtonCentimeter,
+					inductance: 2.6 as MilliHenry,
+					resistance: 1.1 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM15-1004S',
+				{
+					brand: 'Stepperonline',
+					model: '17HM15-1004S',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 33 as NewtonCentimeter,
+					inductance: 12.5 as MilliHenry,
+					resistance: 4.5 as Ohm,
 					rotorInertia: 54 as GramSquareCentimeter,
 					comments: []
 				}
@@ -1330,6 +1490,38 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 4 as MilliHenry,
 					resistance: 2.3 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM08-1204S',
+				{
+					brand: 'Stepperonline',
+					model: '17HM08-1204S',
+					nemaSize: 17,
+					bodyLength: 22 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 11 as NewtonCentimeter,
+					inductance: 2.2 as MilliHenry,
+					resistance: 3 as Ohm,
+					rotorInertia: 14 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM15-0904S',
+				{
+					brand: 'Stepperonline',
+					model: '17HM15-0904S',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 0.9 as Ampere,
+					torque: 36 as NewtonCentimeter,
+					inductance: 12 as MilliHenry,
+					resistance: 6 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
 					comments: []
 				}
 			]
@@ -1830,6 +2022,95 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 4 as Ohm,
 					rotorInertia: 54 as GramSquareCentimeter,
 					comments: ['Leadshine part, re-sold by Cloudray']
+				}
+			]
+		])
+	],
+	[
+		'Siboor',
+		new Map<string, StepperDefinition>([
+			[
+				'14STH20-1004A',
+				{
+					brand: 'Siboor',
+					model: '14STH20-1004A',
+					nemaSize: 14,
+					bodyLength: 21 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.88 as Ampere,
+					torque: 12 as NewtonCentimeter,
+					inductance: 1.5 as MilliHenry,
+					resistance: 1.7 as Ohm,
+					rotorInertia: 16 as GramSquareCentimeter,
+					comments: [
+						'Siboor VORON0 kit extruder',
+						'Siboor VORON2.4 kit extruder',
+						'Siboor VORON Trident kit extruder'
+					]
+				}
+			],
+			[
+				'42STH48-2504',
+				{
+					brand: 'Siboor',
+					model: '42STH48-2504',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 60 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 0.9 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: ['Siboor VORON2.4 A/B & Z', 'Siboor VORON Trident A/B']
+				}
+			],
+			[
+				'35STH51-1204A',
+				{
+					brand: 'Siboor',
+					model: '35STH51-1204A',
+					nemaSize: 14,
+					bodyLength: 52 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 3.5 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 26 as GramSquareCentimeter,
+					comments: ['Siboor VORON0 kit A/B']
+				}
+			],
+			[
+				'42STH26-0804A-200',
+				{
+					brand: 'Siboor',
+					model: '42STH26-0804A-200',
+					nemaSize: 17,
+					bodyLength: 26 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 26 as NewtonCentimeter,
+					inductance: 6.6 as MilliHenry,
+					resistance: 5.5 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: ['Siboor VORON0 kit Z']
+				}
+			],
+			[
+				'42STH40-1684A-300',
+				{
+					brand: 'Siboor',
+					model: '42STH40-1684A-300',
+					nemaSize: 17,
+					bodyLength: 41 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.68 as Ampere,
+					torque: 36 as NewtonCentimeter,
+					inductance: 3.2 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: ['Siboor VORON Trident Z']
 				}
 			]
 		])

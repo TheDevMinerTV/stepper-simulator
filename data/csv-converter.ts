@@ -113,6 +113,18 @@ async function convertCsvToTypeScript() {
 			!resistanceNum ||
 			!rotorInertiaNum
 		) {
+			console.log('not adding incomplete stepper', {
+				brandStr,
+				modelStr,
+				nemaSize,
+				bodyLengthNum,
+				stepAngle,
+				ratedCurrentNum,
+				torqueNum,
+				inductanceNum,
+				resistanceNum,
+				rotorInertiaNum
+			});
 			return null;
 		}
 
@@ -181,6 +193,18 @@ async function convertCsvToTypeScript() {
 			!resistanceNum ||
 			!rotorInertiaNum
 		) {
+			console.log('not adding incomplete stepper', {
+				brandStr,
+				modelStr,
+				nemaSize,
+				bodyLengthNum,
+				stepAngle,
+				ratedCurrentNum,
+				torqueNum,
+				inductanceNum,
+				resistanceNum,
+				rotorInertiaNum
+			});
 			return null;
 		}
 

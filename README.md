@@ -20,7 +20,7 @@ You can add more stepper motors by adding a new row to the `data/steppers.csv` f
 
 - [eddytheengineer](https://www.youtube.com/@eddietheengineer) for the [initial Excel sheet](https://github.com/eddietheengineer/documentation/blob/master/stepper_motor/data/motor_torque_sim_v9_database.xlsm)
 - [MattThePrintingNerd](https://www.youtube.com/@MattThePrintingNerd) for the [updated sheet](https://github.com/MSzturc/the100/blob/main/Docs/motor_torque_sim_v9_database_updated.xlsm)
-- [ijo Pewa](https://bsky.app/profile/peraf191.bsky.social) for the [another stepper DB](https://docs.google.com/spreadsheets/d/1k9t3DWM2Y4Woi8LwcusVYmXaR-xXhaoPenG4Cc03Q_Q/edit?gid=2072803242#gid=2072803242)
+- [ijo Pewa](https://bsky.app/profile/peraf191.bsky.social) for the [another stepper DB](https://docs.google.com/spreadsheets/d/1k9t3DWM2Y4Woi8LwcusVYmXaR-xXhaoPenG4Cc03Q_Q/edit?gid=2072803242#gid=2072803242) annd [a list of steppers in common VORON kits](https://docs.google.com/spreadsheets/d/1yR01doP-VDGOTzo3UFn6p9B9MzXFYckLLVf_dpL7SM8/edit?gid=1112171596#gid=1112171596)
 
 ## License
 

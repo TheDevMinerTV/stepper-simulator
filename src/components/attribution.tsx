@@ -40,6 +40,10 @@ export function AttributionCard({ className }: { className?: string }) {
 							<Link href="https://bsky.app/profile/peraf191.bsky.social">ijo Pewa</Link> for{' '}
 							<Link href="https://docs.google.com/spreadsheets/d/1k9t3DWM2Y4Woi8LwcusVYmXaR-xXhaoPenG4Cc03Q_Q/edit?gid=2072803242#gid=2072803242">
 								another stepper DB
+							</Link>{' '}
+							and{' '}
+							<Link href="https://docs.google.com/spreadsheets/d/1yR01doP-VDGOTzo3UFn6p9B9MzXFYckLLVf_dpL7SM8/edit?gid=1112171596#gid=1112171596">
+								a list of steppers in common VORON kits
 							</Link>
 						</li>
 					</ul>
