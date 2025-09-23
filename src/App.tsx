@@ -3,7 +3,7 @@ import { Graph } from '@/components/graph';
 import { ImportWarning } from '@/components/import-warning';
 import { DriveSettings, GantrySettings } from '@/components/settings';
 import { ShareConfigButton } from '@/components/share-config';
-import { StepperSpecs } from '@/components/specs';
+import { StepperSpecsCard } from '@/components/specs';
 import { StepperSelection } from '@/components/stepper-management';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { clearUrlConfig, parseConfigFromUrl } from '@/lib/config-sharing';
@@ -43,7 +43,7 @@ export function App() {
 					</CardHeader>
 					<CardContent className="flex flex-wrap gap-2">
 						{steppers.map((stepper: StepperDefinition) => (
-							<StepperSpecs key={stepper.model} stepper={stepper} />
+							<StepperSpecsCard showRemoveButton key={stepper.model} stepper={stepper} />
 						))}
 					</CardContent>
 				</Card>

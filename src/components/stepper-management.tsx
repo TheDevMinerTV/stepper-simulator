@@ -1,3 +1,4 @@
+import { StepperList } from '@/components/stepper-list.tsx';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -62,9 +63,7 @@ export function AddStepperWidget() {
 			return predefinedStepper;
 		}
 
-		const customStepper = customSteppers.find(
-			(s: StepperDefinition) => s.brand === brand && s.model === model
-		);
+		const customStepper = customSteppers.find((s: StepperDefinition) => s.brand === brand && s.model === model);
 		return customStepper || null;
 	};
 
@@ -123,6 +122,7 @@ export function AddStepperWidget() {
 			<Button type="submit" size="icon" disabled={!isValidSelection}>
 				<PlusIcon className="w-5 h-5" />
 			</Button>
+			<StepperList />
 		</form>
 	);
 }
@@ -242,7 +242,8 @@ export function CustomStepperModal() {
 			torque: formData.torque as NewtonCentimeter,
 			inductance: formData.inductance as MilliHenry,
 			resistance: formData.resistance as Ohm,
-			rotorInertia: formData.rotorInertia as GramSquareCentimeter
+			rotorInertia: formData.rotorInertia as GramSquareCentimeter,
+			comments: []
 		};
 
 		setCustomSteppers((previous: StepperDefinition[]) => [...previous, customStepper]);
