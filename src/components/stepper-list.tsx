@@ -90,7 +90,7 @@ function ToggleableStepperSpec({ stepper }: { stepper: StepperDefinition }) {
 	return (
 		<button
 			type="button"
-			className="text-left h-full cursor-pointer"
+			className="text-left h-full cursor-pointer group focus:outline-none"
 			onClick={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -100,7 +100,12 @@ function ToggleableStepperSpec({ stepper }: { stepper: StepperDefinition }) {
 				);
 			}}
 		>
-			<Card className={cn('h-full', isEnabled && 'bg-white/5 transition-all ring ring-white ring-offset-2')}>
+			<Card
+				className={cn(
+					'h-full transition-all group-focus:ring group-focus:ring-white group-focus:ring-offset-2',
+					isEnabled && 'bg-white/5 ring ring-white ring-offset-2'
+				)}
+			>
 				<CardHeader>
 					<CardTitle>
 						{stepper.brand} {stepper.model}
