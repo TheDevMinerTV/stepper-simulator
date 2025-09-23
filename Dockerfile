@@ -7,9 +7,9 @@ RUN pnpm install
 
 COPY data ./data
 COPY .prettierrc .prettierrc
-RUN pnpm data:update-stepper-db
 
 COPY . .
+RUN pnpm data:update-stepper-db
 RUN pnpm build
 
 ####
