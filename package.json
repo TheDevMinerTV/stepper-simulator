@@ -9,7 +9,8 @@
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"data:update-stepper-db": "tsx data/csv-converter.ts"
+		"data:update-stepper-db": "tsx data/csv-converter.ts",
+		"data:dump-stepper-db-table": "tsx data/generate-table.ts"
 	},
 	"dependencies": {
 		"@radix-ui/react-dialog": "^1.1.15",
