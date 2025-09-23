@@ -68,7 +68,17 @@ export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySe
 	acceleration: 20000 as MillimetersPerSecondSquared,
 	toolheadAndYAxisMass: 500 as Grams
 });
-export const customSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
+const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
+export const customSteppersAtom = atom(
+	(get) => {
+		const steppers = get(rawCustomSteppersAtom);
+
+		return steppers.map(
+			(stepper) => ({ ...stepper, comments: stepper.comments ?? [] }) satisfies StepperDefinition
+		);
+	},
+	(_get, set, value) => set(rawCustomSteppersAtom, value)
+);
 
 const tempDriveSettingsAtom = atom<DriveSettings | null>(null);
 const tempGantrySettingsAtom = atom<GantrySettings | null>(null);
@@ -85,7 +95,8 @@ export const currentDriveSettingsAtom = atom(
 		const isImported = get(isImportedConfigAtom);
 		const temp = get(tempDriveSettingsAtom);
 		const prev = isImported && temp ? temp : get(driveSettingsAtom);
-		const nextValue = typeof update === 'function' ? (update as (prev: DriveSettings) => DriveSettings)(prev) : update;
+		const nextValue =
+			typeof update === 'function' ? (update as (prev: DriveSettings) => DriveSettings)(prev) : update;
 
 		if (isImported) {
 			set(tempDriveSettingsAtom, nextValue);
