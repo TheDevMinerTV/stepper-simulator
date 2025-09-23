@@ -55,11 +55,9 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 			{stepper.comments.length > 0 && (
 				<div className="flex">
 					<MessageSquareIcon />
-					<ul className="list-disc list-inside">
+					<ul className="list-disc list-outside pl-6">
 						{stepper.comments.map((comment) => (
-							<li className="pl-4" key={comment}>
-								{comment}
-							</li>
+							<li key={comment}>{comment}</li>
 						))}
 					</ul>
 				</div>
