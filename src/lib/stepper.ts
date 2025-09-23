@@ -44,5 +44,6 @@ export const StepperDefinition = z.object({
 	inductance: MilliHenry,
 	resistance: Ohm,
 	rotorInertia: GramSquareCentimeter,
+	comments: z.array(z.string())
 });
 export type StepperDefinition = z.infer<typeof StepperDefinition>;

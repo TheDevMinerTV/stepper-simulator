@@ -11,12 +11,12 @@ import type {
 
 export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 	[
-		'KeliMotor / ELEGOO',
+		'KeliMotor',
 		new Map<string, StepperDefinition>([
 			[
 				'BJ42D41-14V19',
 				{
-					brand: 'KeliMotor / ELEGOO',
+					brand: 'KeliMotor',
 					model: 'BJ42D41-14V19',
 					nemaSize: 17,
 					bodyLength: 60 as Millimeter,
@@ -25,13 +25,14 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 65 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.1 as Ohm,
-					rotorInertia: 128 as GramSquareCentimeter
+					rotorInertia: 128 as GramSquareCentimeter,
+					comments: ['ELEGOO Centauri A/B']
 				}
 			],
 			[
 				'BJ42D22-25V04',
 				{
-					brand: 'KeliMotor / ELEGOO',
+					brand: 'KeliMotor',
 					model: 'BJ42D22-25V04',
 					nemaSize: 17,
 					bodyLength: 40 as Millimeter,
@@ -40,33 +41,14 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 6 as MilliHenry,
 					resistance: 2.9 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
-				}
-			]
-		])
-	],
-	[
-		'KeliMotor / BambuLab',
-		new Map<string, StepperDefinition>([
-			[
-				'BJ42D22-23V47',
-				{
-					brand: 'KeliMotor / BambuLab',
-					model: 'BJ42D22-23V47',
-					nemaSize: 17,
-					bodyLength: 40 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 1 as Ampere,
-					torque: 37 as NewtonCentimeter,
-					inductance: 6.9 as MilliHenry,
-					resistance: 2.8 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: ['ELEGOO Centauri Z']
 				}
 			],
 			[
 				'BJ42D29-100V02',
 				{
-					brand: 'KeliMotor / BambuLab',
+					brand: 'KeliMotor',
 					model: 'BJ42D29-100V02',
 					nemaSize: 17,
 					bodyLength: 48 as Millimeter,
@@ -75,7 +57,24 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 1.9 as MilliHenry,
 					resistance: 1.1 as Ohm,
-					rotorInertia: 76 as GramSquareCentimeter
+					rotorInertia: 76 as GramSquareCentimeter,
+					comments: ['Bambulab X1/P1 A/B']
+				}
+			],
+			[
+				'BJ42D22-23V47',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-23V47',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 37 as NewtonCentimeter,
+					inductance: 6.9 as MilliHenry,
+					resistance: 2.8 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: ['Bambulab X1/P1 Z']
 				}
 			]
 		])
@@ -95,7 +94,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 60 as NewtonCentimeter,
 					inductance: 1.75 as MilliHenry,
 					resistance: 1 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -115,7 +115,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 5.5 as MilliHenry,
 					resistance: 2.8 as Ohm,
-					rotorInertia: 48 as GramSquareCentimeter
+					rotorInertia: 48 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -130,7 +131,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 32 as NewtonCentimeter,
 					inductance: 38 as MilliHenry,
 					resistance: 29 as Ohm,
-					rotorInertia: 40 as GramSquareCentimeter
+					rotorInertia: 40 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -145,7 +147,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 12 as NewtonCentimeter,
 					inductance: 10 as MilliHenry,
 					resistance: 13 as Ohm,
-					rotorInertia: 15 as GramSquareCentimeter
+					rotorInertia: 15 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -160,7 +163,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 50 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 1.8 as Ohm,
-					rotorInertia: 55 as GramSquareCentimeter
+					rotorInertia: 55 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -175,7 +179,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 59 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -190,7 +195,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 54 as NewtonCentimeter,
 					inductance: 3.1 as MilliHenry,
 					resistance: 1.37 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -210,7 +216,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 55 as NewtonCentimeter,
 					inductance: 1.4 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 120 as GramSquareCentimeter
+					rotorInertia: 120 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -225,7 +232,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 52 as NewtonCentimeter,
 					inductance: 3.2 as MilliHenry,
 					resistance: 1.8 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -240,7 +248,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.5 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -255,7 +264,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 52 as NewtonCentimeter,
 					inductance: 3.4 as MilliHenry,
 					resistance: 1.8 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: ['Has options to buy 1, 3 or 5']
 				}
 			],
 			[
@@ -270,7 +280,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 28 as NewtonCentimeter,
 					inductance: 2.9 as MilliHenry,
 					resistance: 2.2 as Ohm,
-					rotorInertia: 34 as GramSquareCentimeter
+					rotorInertia: 34 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -285,7 +296,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 73 as NewtonCentimeter,
 					inductance: 5.4 as MilliHenry,
 					resistance: 2.3 as Ohm,
-					rotorInertia: 72 as GramSquareCentimeter
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: ['Has options to buy 1, 3 or 5']
 				}
 			],
 			[
@@ -300,7 +312,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 52 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 1.8 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -315,7 +328,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 70 as NewtonCentimeter,
 					inductance: 5.4 as MilliHenry,
 					resistance: 2.3 as Ohm,
-					rotorInertia: 72 as GramSquareCentimeter
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -330,7 +344,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 28 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 2.4 as Ohm,
-					rotorInertia: 34 as GramSquareCentimeter
+					rotorInertia: 34 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -345,7 +360,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 92 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 1.5 as Ohm,
-					rotorInertia: 83 as GramSquareCentimeter
+					rotorInertia: 83 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -360,7 +376,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 70 as NewtonCentimeter,
 					inductance: 5.4 as MilliHenry,
 					resistance: 2.3 as Ohm,
-					rotorInertia: 72 as GramSquareCentimeter
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: ['Has options to buy 1, 3 or 5']
 				}
 			]
 		])
@@ -380,7 +397,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 37 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 2.8 as Ohm,
-					rotorInertia: 51.8 as GramSquareCentimeter
+					rotorInertia: 51.8 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -395,7 +413,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 49 as GramSquareCentimeter
+					rotorInertia: 49 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -410,7 +429,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 10 as NewtonCentimeter,
 					inductance: 1.6 as MilliHenry,
 					resistance: 2.1 as Ohm,
-					rotorInertia: 16 as GramSquareCentimeter
+					rotorInertia: 16 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -425,7 +445,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 18 as NewtonCentimeter,
 					inductance: 5 as MilliHenry,
 					resistance: 3.6 as Ohm,
-					rotorInertia: 21.4 as GramSquareCentimeter
+					rotorInertia: 21.4 as GramSquareCentimeter,
+					comments: ['(HT)']
 				}
 			],
 			[
@@ -440,7 +461,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 32 as NewtonCentimeter,
 					inductance: 3.2 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -455,7 +477,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 39 as NewtonCentimeter,
 					inductance: 11.5 as MilliHenry,
 					resistance: 4.1 as Ohm,
-					rotorInertia: 62 as GramSquareCentimeter
+					rotorInertia: 62 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -470,7 +493,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 3.6 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 53 as GramSquareCentimeter
+					rotorInertia: 53 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -485,7 +509,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 35 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.1 as Ohm,
-					rotorInertia: 71 as GramSquareCentimeter
+					rotorInertia: 71 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -500,7 +525,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 49 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -515,7 +541,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 53.9 as NewtonCentimeter,
 					inductance: 1.8 as MilliHenry,
 					resistance: 1.25 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -530,7 +557,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 39 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -545,7 +573,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 59 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.6 as Ohm,
-					rotorInertia: 85 as GramSquareCentimeter
+					rotorInertia: 85 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -560,7 +589,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 59 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -575,7 +605,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 2 as MilliHenry,
 					resistance: 1.45 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: ['(HT)']
 				}
 			],
 			[
@@ -590,7 +621,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 55 as NewtonCentimeter,
 					inductance: 1.5 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 84.5 as GramSquareCentimeter
+					rotorInertia: 84.5 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -605,7 +637,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 55 as NewtonCentimeter,
 					inductance: 1.5 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 84.5 as GramSquareCentimeter
+					rotorInertia: 84.5 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -620,7 +653,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 83 as NewtonCentimeter,
 					inductance: 3.3 as MilliHenry,
 					resistance: 2 as Ohm,
-					rotorInertia: 102 as GramSquareCentimeter
+					rotorInertia: 102 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -635,7 +669,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 59 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 120 as GramSquareCentimeter
+					rotorInertia: 120 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -650,7 +685,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 58.8 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 120 as GramSquareCentimeter
+					rotorInertia: 120 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -665,7 +701,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 60 as NewtonCentimeter,
 					inductance: 1.4 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 120 as GramSquareCentimeter
+					rotorInertia: 120 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -680,7 +717,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 120 as NewtonCentimeter,
 					inductance: 3.4 as MilliHenry,
 					resistance: 1.1 as Ohm,
-					rotorInertia: 305 as GramSquareCentimeter
+					rotorInertia: 305 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -695,7 +733,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84.5 as GramSquareCentimeter
+					rotorInertia: 84.5 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -710,7 +749,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 1.5 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 85 as GramSquareCentimeter
+					rotorInertia: 85 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -725,7 +765,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 37 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 2.8 as Ohm,
-					rotorInertia: 52 as GramSquareCentimeter
+					rotorInertia: 52 as GramSquareCentimeter,
+					comments: ['"Speedy Power" motor (HT)']
 				}
 			],
 			[
@@ -740,7 +781,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 35 as NewtonCentimeter,
 					inductance: 1.1 as MilliHenry,
 					resistance: 2.8 as Ohm,
-					rotorInertia: 71 as GramSquareCentimeter
+					rotorInertia: 71 as GramSquareCentimeter,
+					comments: ['(HT)']
 				}
 			],
 			[
@@ -755,7 +797,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 59 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -770,7 +813,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 55 as NewtonCentimeter,
 					inductance: 1.5 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: ['55mm Shaft', '"Speedy Power" motor (HT)']
 				}
 			],
 			[
@@ -785,7 +829,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 55 as NewtonCentimeter,
 					inductance: 1.5 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -800,7 +845,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: ['Round Shaft']
 				}
 			],
 			[
@@ -815,7 +861,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 2.1 as MilliHenry,
 					resistance: 1.34 as Ohm,
-					rotorInertia: 40 as GramSquareCentimeter
+					rotorInertia: 40 as GramSquareCentimeter,
+					comments: ['35mm Shaft']
 				}
 			],
 			[
@@ -830,7 +877,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: ['Round Shaft']
 				}
 			],
 			[
@@ -845,7 +893,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 1.5 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 85 as GramSquareCentimeter
+					rotorInertia: 85 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -860,7 +909,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: ['55mm Shaft', '"Super Power" motor (HT)']
 				}
 			],
 			[
@@ -875,7 +925,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -890,7 +941,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter
+					rotorInertia: 84 as GramSquareCentimeter,
+					comments: ['80mm Shaft', '"Super Power" motor (HT)']
 				}
 			]
 		])
@@ -910,7 +962,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 11 as NewtonCentimeter,
 					inductance: 1.8 as MilliHenry,
 					resistance: 1.55 as Ohm,
-					rotorInertia: 12 as GramSquareCentimeter
+					rotorInertia: 12 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -925,7 +978,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 18 as NewtonCentimeter,
 					inductance: 2.2 as MilliHenry,
 					resistance: 1.61 as Ohm,
-					rotorInertia: 20 as GramSquareCentimeter
+					rotorInertia: 20 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -940,7 +994,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 5.4 as MilliHenry,
 					resistance: 1.98 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -955,7 +1010,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 39 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.05 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -970,7 +1026,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 82 as NewtonCentimeter,
 					inductance: 14.6 as MilliHenry,
 					resistance: 5.6 as Ohm,
-					rotorInertia: 123 as GramSquareCentimeter
+					rotorInertia: 123 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -985,7 +1042,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 67 as NewtonCentimeter,
 					inductance: 2.7 as MilliHenry,
 					resistance: 1.3 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1000,7 +1058,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 62 as NewtonCentimeter,
 					inductance: 4.9 as MilliHenry,
 					resistance: 2.2 as Ohm,
-					rotorInertia: 62 as GramSquareCentimeter
+					rotorInertia: 62 as GramSquareCentimeter,
+					comments: ['Spares from a Lulzbot Mini 2']
 				}
 			],
 			[
@@ -1015,7 +1074,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 67 as NewtonCentimeter,
 					inductance: 2.7 as MilliHenry,
 					resistance: 1.3 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1035,7 +1095,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 43 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1055,7 +1116,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 44 as NewtonCentimeter,
 					inductance: 5 as MilliHenry,
 					resistance: 1.8 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1075,7 +1137,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 14 as NewtonCentimeter,
 					inductance: 30 as MilliHenry,
 					resistance: 30 as Ohm,
-					rotorInertia: 12 as GramSquareCentimeter
+					rotorInertia: 12 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1090,7 +1153,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 18 as NewtonCentimeter,
 					inductance: 10 as MilliHenry,
 					resistance: 6.8 as Ohm,
-					rotorInertia: 14 as GramSquareCentimeter
+					rotorInertia: 14 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1105,7 +1169,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 23 as NewtonCentimeter,
 					inductance: 26 as MilliHenry,
 					resistance: 15 as Ohm,
-					rotorInertia: 18 as GramSquareCentimeter
+					rotorInertia: 18 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1120,7 +1185,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 2.8 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1135,7 +1201,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 44 as NewtonCentimeter,
 					inductance: 4.1 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1150,7 +1217,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 46 as NewtonCentimeter,
 					inductance: 4 as MilliHenry,
 					resistance: 1.45 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1165,7 +1233,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 16 as NewtonCentimeter,
 					inductance: 3.7 as MilliHenry,
 					resistance: 4.5 as Ohm,
-					rotorInertia: 22 as GramSquareCentimeter
+					rotorInertia: 22 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1180,7 +1249,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 26 as NewtonCentimeter,
 					inductance: 37 as MilliHenry,
 					resistance: 30 as Ohm,
-					rotorInertia: 38 as GramSquareCentimeter
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1195,7 +1265,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 2.6 as MilliHenry,
 					resistance: 1.1 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1210,7 +1281,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 59 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1225,7 +1297,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 65 as NewtonCentimeter,
 					inductance: 3 as MilliHenry,
 					resistance: 1.6 as Ohm,
-					rotorInertia: 148 as GramSquareCentimeter
+					rotorInertia: 148 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1240,7 +1313,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 4.4 as MilliHenry,
 					resistance: 2.3 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1255,7 +1329,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 4 as MilliHenry,
 					resistance: 2.3 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1275,7 +1350,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 47 as NewtonCentimeter,
 					inductance: 1.8 as MilliHenry,
 					resistance: 1.25 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1290,7 +1366,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 5 as MilliHenry,
 					resistance: 3 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1305,7 +1382,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 60 as NewtonCentimeter,
 					inductance: 1.75 as MilliHenry,
 					resistance: 1 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1320,7 +1398,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 2 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1340,7 +1419,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 28 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 2.26 as Ohm,
-					rotorInertia: 41 as GramSquareCentimeter
+					rotorInertia: 41 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1355,7 +1435,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 20 as NewtonCentimeter,
 					inductance: 5.1 as MilliHenry,
 					resistance: 2.6 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1370,7 +1451,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 15 as NewtonCentimeter,
 					inductance: 1.89 as MilliHenry,
 					resistance: 1.28 as Ohm,
-					rotorInertia: 41 as GramSquareCentimeter
+					rotorInertia: 41 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1385,7 +1467,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 52 as NewtonCentimeter,
 					inductance: 5.8 as MilliHenry,
 					resistance: 2.4 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1400,7 +1483,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 30 as NewtonCentimeter,
 					inductance: 5.8 as MilliHenry,
 					resistance: 2.4 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1415,7 +1499,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 30 as NewtonCentimeter,
 					inductance: 5.8 as MilliHenry,
 					resistance: 2.4 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1430,7 +1515,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 5.1 as MilliHenry,
 					resistance: 2.6 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1445,7 +1531,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 5.1 as MilliHenry,
 					resistance: 2.6 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1460,7 +1547,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 71 as NewtonCentimeter,
 					inductance: 96 as MilliHenry,
 					resistance: 1.94 as Ohm,
-					rotorInertia: 114 as GramSquareCentimeter
+					rotorInertia: 114 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1480,7 +1568,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 8.9 as MilliHenry,
 					resistance: 3.9 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1495,7 +1584,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 2.3 as MilliHenry,
 					resistance: 1.5 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1515,7 +1605,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 56 as NewtonCentimeter,
 					inductance: 1.9 as MilliHenry,
 					resistance: 1.3 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1530,7 +1621,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 44 as NewtonCentimeter,
 					inductance: 2.3 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1550,7 +1642,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 50 as NewtonCentimeter,
 					inductance: 1.8 as MilliHenry,
 					resistance: 1.6 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1565,7 +1658,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 2.3 as MilliHenry,
 					resistance: 1.5 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1585,7 +1679,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 28 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 2.3 as Ohm,
-					rotorInertia: 34 as GramSquareCentimeter
+					rotorInertia: 34 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1600,7 +1695,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 46 as NewtonCentimeter,
 					inductance: 1.6 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1615,7 +1711,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 28 as NewtonCentimeter,
 					inductance: 1.8 as MilliHenry,
 					resistance: 1.2 as Ohm,
-					rotorInertia: 34 as GramSquareCentimeter
+					rotorInertia: 34 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1630,7 +1727,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 40 as NewtonCentimeter,
 					inductance: 5 as MilliHenry,
 					resistance: 2.5 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1645,7 +1743,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 4 as MilliHenry,
 					resistance: 1.8 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1660,7 +1759,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 3.2 as MilliHenry,
 					resistance: 1.7 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1680,7 +1780,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 80 as NewtonCentimeter,
 					inductance: 2.4 as MilliHenry,
 					resistance: 1 as Ohm,
-					rotorInertia: 110 as GramSquareCentimeter
+					rotorInertia: 110 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1695,7 +1796,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 60 as NewtonCentimeter,
 					inductance: 1.6 as MilliHenry,
 					resistance: 0.9 as Ohm,
-					rotorInertia: 72 as GramSquareCentimeter
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: ['Taobao item', 'Would need proxy, likely costly shipping unless part of a GB']
 				}
 			],
 			[
@@ -1710,7 +1812,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 20 as NewtonCentimeter,
 					inductance: 1.4 as MilliHenry,
 					resistance: 1.4 as Ohm,
-					rotorInertia: 35 as GramSquareCentimeter
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1725,7 +1828,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 45 as NewtonCentimeter,
 					inductance: 7.9 as MilliHenry,
 					resistance: 4 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: ['Leadshine part, re-sold by Cloudray']
 				}
 			]
 		])
@@ -1745,7 +1849,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 35 as NewtonCentimeter,
 					inductance: 3.6 as MilliHenry,
 					resistance: 3.5 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1765,7 +1870,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 3.7 as MilliHenry,
 					resistance: 2.4 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
@@ -1785,7 +1891,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 15 as NewtonCentimeter,
 					inductance: 2 as MilliHenry,
 					resistance: 1.9 as Ohm,
-					rotorInertia: 20 as GramSquareCentimeter
+					rotorInertia: 20 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1800,7 +1907,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 32 as NewtonCentimeter,
 					inductance: 2.5 as MilliHenry,
 					resistance: 2.1 as Ohm,
-					rotorInertia: 35 as GramSquareCentimeter
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1815,7 +1923,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 44 as NewtonCentimeter,
 					inductance: 3.6 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1830,7 +1939,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 18 as NewtonCentimeter,
 					inductance: 4 as MilliHenry,
 					resistance: 2.7 as Ohm,
-					rotorInertia: 14 as GramSquareCentimeter
+					rotorInertia: 14 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1845,7 +1955,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 55 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1860,7 +1971,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 25 as NewtonCentimeter,
 					inductance: 2.5 as MilliHenry,
 					resistance: 2.1 as Ohm,
-					rotorInertia: 35 as GramSquareCentimeter
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1875,7 +1987,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 35 as NewtonCentimeter,
 					inductance: 3.6 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1890,7 +2003,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 82 as NewtonCentimeter,
 					inductance: 3.3 as MilliHenry,
 					resistance: 2 as Ohm,
-					rotorInertia: 102 as GramSquareCentimeter
+					rotorInertia: 102 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1905,7 +2019,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 44 as NewtonCentimeter,
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 68 as GramSquareCentimeter
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1920,7 +2035,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 37 as NewtonCentimeter,
 					inductance: 2.3 as MilliHenry,
 					resistance: 1.65 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -1935,7 +2051,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 41 as NewtonCentimeter,
 					inductance: 3.8 as MilliHenry,
 					resistance: 2.8 as Ohm,
-					rotorInertia: 54 as GramSquareCentimeter
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
