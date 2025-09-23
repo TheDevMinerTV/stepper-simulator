@@ -1,20 +1,70 @@
 import { StepperSpecs } from '@/components/specs.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input.tsx';
+import { Switch } from '@/components/ui/switch.tsx';
 import { STEPPER_DB } from '@/lib/stepper-db.ts';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { cn } from '@/lib/utils.ts';
 import { steppersAtom } from '@/state/atoms.ts';
+import Fuse from 'fuse.js';
 import { useAtom } from 'jotai';
 import { BookIcon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
+const fuzzyStepperSearch = new Fuse(
+	Array.from(STEPPER_DB).flatMap(([_, steppers]) => Array.from(steppers.values())),
+	{ keys: ['brand', 'model', 'comments'] }
+);
+
+const exactSearch = (search: string) => {
+	const trimmed = search.trim();
+
+	return new Map(
+		Array.from(STEPPER_DB)
+			.map(([brand, steppers]) => {
+				if (trimmed === '') return [brand, steppers] as const;
+
+				const lowercaseSearch = trimmed.toLowerCase();
+
+				const filteredSteppers = new Map(
+					Array.from(steppers.entries()).filter(
+						([_, stepper]) =>
+							brand.toLowerCase().includes(lowercaseSearch) ||
+							stepper.model.toLowerCase().includes(lowercaseSearch)
+					)
+				);
+
+				return [brand, filteredSteppers] as const;
+			})
+			.filter(([_, steppers]) => steppers.size > 0)
+	);
+};
+
 export function StepperList() {
+	const [searchMode, setSearchMode] = useState<'exact' | 'fuzzy'>('exact');
 	const [search, setSearch] = useState('');
 
-	const trimmedSearch = search.trim();
+	const results = useMemo(
+		() =>
+			search === ''
+				? STEPPER_DB
+				: searchMode === 'exact'
+					? exactSearch(search)
+					: fuzzyStepperSearch.search(search.trim()).reduce((acc, result) => {
+							let brandMap = acc.get(result.item.brand);
+							if (!brandMap) {
+								brandMap = new Map();
+								acc.set(result.item.brand, brandMap);
+							}
+
+							brandMap.set(result.item.model, result.item);
+
+							return acc;
+						}, new Map<string, Map<string, StepperDefinition>>()),
+		[search, searchMode]
+	);
 
 	return (
 		<Dialog>
@@ -32,11 +82,23 @@ export function StepperList() {
 					<span className="sr-only">Close</span>
 				</DialogClose>
 
-				<Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+				<DialogTitle>List of all stepper motors</DialogTitle>
+
+				<div className="flex gap-4">
+					<Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+
+					<div className="flex flex-row gap-2 items-center justify-between">
+						<span>Exact</span>
+						<Switch
+							onCheckedChange={(v) => setSearchMode(v ? 'exact' : 'fuzzy')}
+							checked={searchMode === 'exact'}
+						/>
+					</div>
+				</div>
 
 				<section className="overflow-y-auto space-y-4 flex-1 min-h-[1px] p-2">
-					{Array.from(STEPPER_DB.entries()).map(([brand, steppers]) => (
-						<BrandSteppersList key={brand} brand={brand} search={trimmedSearch} steppers={steppers} />
+					{Array.from(results).map(([brand, steppers]) => (
+						<BrandSteppersList key={brand} brand={brand} steppers={steppers} />
 					))}
 				</section>
 			</DialogContent>
@@ -44,37 +106,14 @@ export function StepperList() {
 	);
 }
 
-function BrandSteppersList({
-	brand,
-	steppers,
-	search
-}: {
-	brand: string;
-	steppers: Map<string, StepperDefinition>;
-	search: string;
-}) {
-	const filteredSteppers = useMemo(() => {
-		console.log('refiltering');
-
-		const filteredSteppers = Array.from(steppers.entries());
-
-		if (search === '') return filteredSteppers;
-
-		const lowercaseSearch = search.toLowerCase();
-
-		return filteredSteppers.filter(
-			([_, stepper]) =>
-				brand.toLowerCase().includes(lowercaseSearch) || stepper.model.toLowerCase().includes(lowercaseSearch)
-		);
-	}, [steppers, search, brand]);
-
-	if (filteredSteppers.length === 0) return null;
+function BrandSteppersList({ brand, steppers }: { brand: string; steppers: Map<string, StepperDefinition> }) {
+	if (steppers.size === 0) return null;
 
 	return (
 		<section key={brand} className="space-y-2">
 			<h2 className="text-xl font-bold">{brand}</h2>
 			<div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-2">
-				{filteredSteppers.map(([stepperId, stepper]) => (
+				{Array.from(steppers).map(([stepperId, stepper]) => (
 					<ToggleableStepperSpec key={stepperId} stepper={stepper} />
 				))}
 			</div>
