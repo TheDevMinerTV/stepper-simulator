@@ -2082,10 +2082,10 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
-				'35STH51-1204A',
+				'35STH52-1204A',
 				{
 					brand: 'Siboor',
-					model: '35STH51-1204A',
+					model: '35STH52-1204A',
 					nemaSize: 14,
 					bodyLength: 52 as Millimeter,
 					stepAngle: 1.8 as Degree,
