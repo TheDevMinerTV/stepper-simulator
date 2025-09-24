@@ -43,8 +43,8 @@ const createMergedDB = (customSteppers: StepperDefinition[]) => {
 	return mergedDB;
 };
 
-const initFuzzyStepperSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) =>
-	new Fuse(
+const initFuzzyStepperSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) => {
+	const fuse = new Fuse(
 		Array.from(mergedDB.values()).flatMap((steppers) => Array.from(steppers.values())),
 		{
 			keys: ['brand', 'model', 'comments'],
@@ -53,6 +53,23 @@ const initFuzzyStepperSearch = (mergedDB: Map<string, Map<string, StepperDefinit
 			minMatchCharLength: 2
 		}
 	);
+
+	return (search: string) => {
+		const results = fuse.search(search);
+
+		return results.reduce((acc: Map<string, Map<string, StepperDefinition>>, result) => {
+			let brandMap = acc.get(result.item.brand);
+			if (!brandMap) {
+				brandMap = new Map();
+				acc.set(result.item.brand, brandMap);
+			}
+
+			brandMap.set(result.item.model, result.item);
+
+			return acc;
+		}, new Map<string, Map<string, StepperDefinition>>());
+	};
+};
 
 const initExactSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) => {
 	return (search: string) => {
@@ -107,27 +124,19 @@ export function StepperList() {
 		};
 	}, [customSteppers]);
 
-	const results = useMemo(
-		() =>
-			search === ''
-				? mergedDB
-				: searchMode === 'exact'
-					? exactStepperSearch(search)
-					: fuzzyStepperSearch
-							.search(search)
-							.reduce((acc: Map<string, Map<string, StepperDefinition>>, result) => {
-								let brandMap = acc.get(result.item.brand);
-								if (!brandMap) {
-									brandMap = new Map();
-									acc.set(result.item.brand, brandMap);
-								}
+	const results = useMemo(() => {
+		const trimmed = search.trim();
 
-								brandMap.set(result.item.model, result.item);
+		if (trimmed === '') return mergedDB;
 
-								return acc;
-							}, new Map<string, Map<string, StepperDefinition>>()),
-		[search, searchMode, mergedDB, exactStepperSearch, fuzzyStepperSearch]
-	);
+		if (searchMode === 'exact') {
+			return exactStepperSearch(trimmed);
+		} else if (searchMode === 'fuzzy') {
+			return fuzzyStepperSearch(trimmed);
+		}
+
+		throw new Error('Invalid search mode, should never happen');
+	}, [search, searchMode, mergedDB, exactStepperSearch, fuzzyStepperSearch]);
 
 	return (
 		<Dialog>
@@ -149,7 +158,7 @@ export function StepperList() {
 				<DialogTitle>List of all stepper motors</DialogTitle>
 
 				<div className="flex gap-4">
-					<Input value={search} onChange={(e) => setSearch(e.target.value.trim())} placeholder="Search..." />
+					<Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
 
 					<div className="flex flex-row gap-2 items-center justify-between">
 						<span>Exact</span>
