@@ -55,6 +55,9 @@ function atomWithLocalStorage<T>(key: string, initialValue: T) {
 	return derivedAtom;
 }
 
+export type SearchMode = 'exact' | 'fuzzy';
+export const searchModeAtom = atomWithLocalStorage<SearchMode>('searchMode', 'fuzzy');
+
 export const debugAtom = atomWithLocalStorage<boolean>('debug', false);
 export const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', {
 	inputVoltage: 24 as Volts,

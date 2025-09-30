@@ -7,7 +7,7 @@ import { Switch } from '@/components/ui/switch.tsx';
 import { STEPPER_DB } from '@/lib/stepper-db.ts';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { cn } from '@/lib/utils.ts';
-import { currentCustomSteppersAtom, steppersAtom } from '@/state/atoms.ts';
+import { currentCustomSteppersAtom, searchModeAtom, steppersAtom } from '@/state/atoms.ts';
 import Fuse from 'fuse.js';
 import { useAtom, useAtomValue } from 'jotai';
 import { BookIcon, XIcon } from 'lucide-react';
@@ -107,7 +107,7 @@ const initExactSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) 
 };
 
 export function StepperList() {
-	const [searchMode, setSearchMode] = useState<'exact' | 'fuzzy'>('exact');
+	const [searchMode, setSearchMode] = useAtom(searchModeAtom);
 	const [search, setSearch] = useState('');
 	const customSteppers = useAtomValue(currentCustomSteppersAtom);
 
