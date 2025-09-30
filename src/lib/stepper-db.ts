@@ -1398,6 +1398,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'17HS19-2504S-H-V1',
+				{
+					brand: 'Stepperonline',
+					model: '17HS19-2504S-H-V1',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 55 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 1.1 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'17HS19-1684S1',
 				{
 					brand: 'Stepperonline',
