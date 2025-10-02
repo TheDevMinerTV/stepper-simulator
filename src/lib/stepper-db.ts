@@ -1382,22 +1382,6 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
-				'17HS24-2104S',
-				{
-					brand: 'Stepperonline',
-					model: '17HS24-2104S',
-					nemaSize: 17,
-					bodyLength: 60 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 2.1 as Ampere,
-					torque: 65 as NewtonCentimeter,
-					inductance: 3 as MilliHenry,
-					resistance: 1.6 as Ohm,
-					rotorInertia: 148 as GramSquareCentimeter,
-					comments: []
-				}
-			],
-			[
 				'17HS19-2504S-H-V1',
 				{
 					brand: 'Stepperonline',
@@ -1410,6 +1394,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.6 as MilliHenry,
 					resistance: 1.1 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS24-2104S',
+				{
+					brand: 'Stepperonline',
+					model: '17HS24-2104S',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.1 as Ampere,
+					torque: 65 as NewtonCentimeter,
+					inductance: 3 as MilliHenry,
+					resistance: 1.6 as Ohm,
+					rotorInertia: 148 as GramSquareCentimeter,
 					comments: []
 				}
 			],
@@ -1623,6 +1623,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 2.8 as MilliHenry,
 					resistance: 2 as Ohm,
 					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'42BYGHM810',
+				{
+					brand: 'Wantai',
+					model: '42BYGHM810',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2.4 as Ampere,
+					torque: 48 as NewtonCentimeter,
+					inductance: 1.8 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
 					comments: []
 				}
 			]
