@@ -109,7 +109,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 2.6 as MilliHenry,
 					resistance: 1.4 as Ohm,
 					rotorInertia: 76 as GramSquareCentimeter,
-					comments: ['Preinstalled with GT1.5 pulley']
+					comments: ['QIDI Plus 4 A/B', 'Preinstalled with GT1.5 pulley']
 				}
 			]
 		])
