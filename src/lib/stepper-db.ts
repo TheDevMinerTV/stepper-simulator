@@ -26,7 +26,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.1 as Ohm,
 					rotorInertia: 128 as GramSquareCentimeter,
-					comments: ['ELEGOO Centauri A/B']
+					comments: ['Preinstalled with GT2 pulley', 'ELEGOO Centauri A/B']
 				}
 			],
 			[
@@ -42,7 +42,26 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 6 as MilliHenry,
 					resistance: 2.9 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
-					comments: ['ELEGOO Centauri Z']
+					comments: ['Preinstalled with GT2 pulley', 'ELEGOO Centauri Z']
+				}
+			],
+			[
+				'BJY36D12-04V28',
+				{
+					brand: 'KeliMotor',
+					model: 'BJY36D12-04V28',
+					nemaSize: 14,
+					bodyLength: 20.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 10 as NewtonCentimeter,
+					inductance: 1.2 as MilliHenry,
+					resistance: 2 as Ohm,
+					rotorInertia: 17 as GramSquareCentimeter,
+					comments: [
+						'Preinstalled Involute 10T gear (0.5mm modulus, 20deg pressure angle)',
+						'ELEGOO Centauri Extruder'
+					]
 				}
 			],
 			[
@@ -75,6 +94,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 2.8 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
 					comments: ['Bambulab X1/P1 Z']
+				}
+			],
+			[
+				'BJ42D29-28V17',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D29-28V17',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 41 as NewtonCentimeter,
+					inductance: 2.6 as MilliHenry,
+					resistance: 1.4 as Ohm,
+					rotorInertia: 76 as GramSquareCentimeter,
+					comments: ['Preinstalled with GT1.5 pulley']
 				}
 			]
 		])
