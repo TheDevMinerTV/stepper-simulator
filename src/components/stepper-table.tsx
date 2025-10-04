@@ -7,6 +7,7 @@ import {
 	getPaginationRowModel,
 	getSortedRowModel,
 	type PaginationState,
+	type RowSelectionState,
 	type SortingState,
 	useReactTable
 } from '@tanstack/react-table';
@@ -16,7 +17,9 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { StepperDefinition } from '@/lib/stepper.ts';
-import { useMemo, useState } from 'react';
+import { steppersAtom } from '@/state/atoms';
+import { useAtom } from 'jotai';
+import { useEffect, useMemo, useState } from 'react';
 
 export const columns: ColumnDef<StepperDefinition>[] = [
 	{
@@ -169,7 +172,8 @@ export function StepperTable({ steppers }: { steppers: Map<string, Map<string, S
 
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-	const [rowSelection, setRowSelection] = useState({});
+	const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+	const [selectedSteppers, setSelectedSteppers] = useAtom(steppersAtom);
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: data.length
@@ -184,15 +188,35 @@ export function StepperTable({ steppers }: { steppers: Map<string, Map<string, S
 		getPaginationRowModel: getPaginationRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
-		onRowSelectionChange: setRowSelection,
+		onRowSelectionChange: (updater) => {
+			const newSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
+			setRowSelection(newSelection);
+			const selectedRows = table.getRowModel().rows.filter((row) => newSelection[row.id]);
+			setSelectedSteppers(selectedRows.map((row) => row.original));
+		},
 		onPaginationChange: setPagination,
 		state: {
 			sorting,
 			columnFilters,
 			rowSelection,
 			pagination
-		}
+		},
+		enableRowSelection: true
 	});
+
+	useEffect(() => {
+		const newRowSelection: RowSelectionState = {};
+		table.getRowModel().rows.forEach((row) => {
+			if (
+				selectedSteppers.some(
+					(s) => s.brand === row.original.brand && s.model === row.original.model
+				)
+			) {
+				newRowSelection[row.id] = true;
+			}
+		});
+		setRowSelection(newRowSelection);
+	}, [selectedSteppers, table.getRowModel().rows]);
 
 	return (
 		<div className="overflow-auto rounded-md border min-h-px flex-1 w-full">
