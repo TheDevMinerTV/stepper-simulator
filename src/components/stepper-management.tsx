@@ -1,4 +1,4 @@
-import { StepperList } from '@/components/stepper-list.tsx';
+import { StepperSelectionCard } from '@/components/stepper-selection-card';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -35,7 +35,7 @@ export function StepperSelection() {
 				<CardTitle>Stepper Selection</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-2">
-				<StepperList />
+				<StepperSelectionCard />
 				<div className="flex items-center gap-2 mb-4">
 					<CustomStepperModal />
 					<ContributeSteppersButton />

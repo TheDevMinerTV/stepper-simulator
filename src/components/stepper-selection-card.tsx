@@ -1,4 +1,5 @@
 import { StepperSpecs } from '@/components/specs.tsx';
+import { StepperTable } from '@/components/stepper-table.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -7,10 +8,10 @@ import { Switch } from '@/components/ui/switch.tsx';
 import { STEPPER_DB } from '@/lib/stepper-db.ts';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { cn } from '@/lib/utils.ts';
-import { currentCustomSteppersAtom, searchModeAtom, steppersAtom } from '@/state/atoms.ts';
+import { currentCustomSteppersAtom, searchModeAtom, steppersAtom, viewModeAtom } from '@/state/atoms.ts';
 import Fuse from 'fuse.js';
 import { useAtom, useAtomValue } from 'jotai';
-import { BookIcon, XIcon } from 'lucide-react';
+import { BookIcon, IdCardIcon, Table2Icon, XIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 const createMergedDB = (customSteppers: StepperDefinition[]) => {
@@ -106,7 +107,8 @@ const initExactSearch = (mergedDB: Map<string, Map<string, StepperDefinition>>) 
 	};
 };
 
-export function StepperList() {
+export function StepperSelectionCard() {
+	const [viewMode, setViewMode] = useAtom(viewModeAtom);
 	const [searchMode, setSearchMode] = useAtom(searchModeAtom);
 	const [search, setSearch] = useState('');
 	const customSteppers = useAtomValue(currentCustomSteppersAtom);
@@ -167,15 +169,45 @@ export function StepperList() {
 							checked={searchMode === 'exact'}
 						/>
 					</div>
+
+					<div className="flex flex-row items-center justify-between">
+						<Button
+							type="button"
+							variant="secondary"
+							className={cn('rounded-r-none p-2 transition-colors', viewMode === 'cards' && 'bg-white/30 hover:bg-white/20')}
+							onClick={(e) => {
+								e.preventDefault();
+								setViewMode('cards');
+							}}
+						>
+							<IdCardIcon />
+						</Button>
+						<Button
+							type="button"
+							variant="secondary"
+							className={cn('rounded-l-none p-2 transition-colors', viewMode === 'table' && 'bg-white/30 hover:bg-white/20')}
+							onClick={(e) => {
+								e.preventDefault();
+								setViewMode('table');
+							}}
+						>
+							<Table2Icon />
+						</Button>
+					</div>
 				</div>
 
-				<section className="overflow-y-auto space-y-4 flex-1 min-h-[1px] p-2">
-					{Array.from(results).map(([brand, steppers]) => (
-						<BrandSteppersList key={brand} brand={brand} steppers={steppers} />
-					))}
-				</section>
+				{viewMode === 'cards' ? <Cards steppers={results} /> : <StepperTable steppers={results} />}
 			</DialogContent>
 		</Dialog>
+	);
+}
+function Cards({ steppers }: { steppers: Map<string, Map<string, StepperDefinition>> }) {
+	return (
+		<section className="overflow-y-auto space-y-4 flex-1 min-h-[1px] p-2">
+			{Array.from(steppers).map(([brand, steppers]) => (
+				<BrandSteppersList key={brand} brand={brand} steppers={steppers} />
+			))}
+		</section>
 	);
 }
 
