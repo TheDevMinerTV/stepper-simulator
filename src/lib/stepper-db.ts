@@ -2199,6 +2199,43 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
+		'Usongshine',
+		new Map<string, StepperDefinition>([
+			[
+				'17HS4401S-0.9°',
+				{
+					brand: 'Usongshine',
+					model: '17HS4401S-0.9°',
+					nemaSize: 17,
+					bodyLength: 38.3 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 28 as NewtonCentimeter,
+					inductance: 5.7 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS4401',
+				{
+					brand: 'Usongshine',
+					model: '17HS4401',
+					nemaSize: 17,
+					bodyLength: 38 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 42 as NewtonCentimeter,
+					inductance: 3.7 as MilliHenry,
+					resistance: 2.4 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
+				}
+			]
+		])
+	],
+	[
 		'Lerdge',
 		new Map<string, StepperDefinition>([
 			[
@@ -2213,27 +2250,6 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 35 as NewtonCentimeter,
 					inductance: 3.6 as MilliHenry,
 					resistance: 3.5 as Ohm,
-					rotorInertia: 57 as GramSquareCentimeter,
-					comments: []
-				}
-			]
-		])
-	],
-	[
-		'Usongshine',
-		new Map<string, StepperDefinition>([
-			[
-				'17HS4401',
-				{
-					brand: 'Usongshine',
-					model: '17HS4401',
-					nemaSize: 17,
-					bodyLength: 38 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 1.5 as Ampere,
-					torque: 42 as NewtonCentimeter,
-					inductance: 3.7 as MilliHenry,
-					resistance: 2.4 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
 					comments: []
 				}
