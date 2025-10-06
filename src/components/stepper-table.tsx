@@ -78,6 +78,18 @@ export const columns: ColumnDef<StepperDefinition>[] = [
 		cell: ({ row }) => <div>NEMA {row.getValue('nemaSize')}</div>
 	},
 	{
+		accessorKey: 'stepAngle',
+		header: ({ column }) => {
+			return (
+				<Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+					Step Angle
+					<ArrowUpDown />
+				</Button>
+			);
+		},
+		cell: ({ row }) => <div>{row.getValue('stepAngle')}°</div>
+	},
+	{
 		accessorKey: 'bodyLength',
 		header: ({ column }) => {
 			return (
@@ -207,11 +219,7 @@ export function StepperTable({ steppers }: { steppers: Map<string, Map<string, S
 	useEffect(() => {
 		const newRowSelection: RowSelectionState = {};
 		table.getRowModel().rows.forEach((row) => {
-			if (
-				selectedSteppers.some(
-					(s) => s.brand === row.original.brand && s.model === row.original.model
-				)
-			) {
+			if (selectedSteppers.some((s) => s.brand === row.original.brand && s.model === row.original.model)) {
 				newRowSelection[row.id] = true;
 			}
 		});
