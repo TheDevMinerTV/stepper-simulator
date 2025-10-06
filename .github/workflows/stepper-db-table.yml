@@ -1,0 +1,28 @@
+name: Generate Stepper Table
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Generate stepper table
+        run: bun data/generate-table.ts > stepper-table.md
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: stepper-table
+          path: stepper-table.md
