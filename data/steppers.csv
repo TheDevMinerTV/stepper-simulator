@@ -54,7 +54,7 @@ Stepperonline	17HS16-2004S1	17	40	1,8	2	45	2,6	1,1	54
 Stepperonline	17HS19-2004S1	17	48	1,8	2	59	3	1,4	82
 Stepperonline	17HS19-2504S-H-V1	17	48	1,8	2,5	55	1,6	1,1	68
 Stepperonline	17HS24-2104S	17	60	1,8	2,1	65	3	1,6	148
-Stepperonline	17HE24-2104S	17	60	1,8	2,1	60	3,1	1,7	148
+Stepperonline	17HE24-2104S	17	60	1,8	2,1	60	3,1	1,7		Incomplete datasheet, missing rotor inertia
 Stepperonline	3-23HE22-2804S	23	56	1,8	2,8	126	2,5	0,9	300
 Wantai	42BYGHW811	17	48	1,8	2,5	47	1,8	1,25	68
 LDO	42STH48-2804AC	17	48	1,8	2,8	42	0,6	0,7	84,5
@@ -91,3 +91,4 @@ Siboor	35STH52-1204A	14	52	1,8	1,2	40	3,5	2,3	26	Siboor VORON0 kit A/B
 Siboor	42STH26-0804A-200	17	26	1,8	1,0	26	6,6	5,50	38	Siboor VORON0 kit Z
 Siboor	42STH40-1684A-300	17	41	1,8	1,68	36	3,2	1,65	54	Siboor VORON Trident Z
 Usongshine	17HS4401S-0.9°	17	38,3	0,9	1,3	28	5,7	2,2	57
+
