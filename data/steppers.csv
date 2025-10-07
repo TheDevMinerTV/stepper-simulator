@@ -1,4 +1,4 @@
-Brand	Model		NEMA	Body Length (mm)	Step Angle (deg)	Rated Current (A)	Holding Torque (N-cm)	Inductance (mH)	Resistance (ohms)	Rotor Inertia (g-cm^2)	Comments (semicolon separated)
+Brand	Model	NEMA	Body Length (mm)	Step Angle (deg)	Rated Current (A)	Holding Torque (N-cm)	Inductance (mH)	Resistance (ohms)	Rotor Inertia (g-cm^2)	Comments (semicolon separated)
 KeliMotor	BJ42D41-14V19	17	60	1,8	2	65	2,8	1,1	128	Preinstalled with GT2 pulley; ELEGOO Centauri A/B
 KeliMotor	BJ42D22-25V04	17	40	1,8	1,2	40	6	2,9	57	Preinstalled with GT2 pulley; ELEGOO Centauri Z
 KeliMotor	BJY36D12-04V28	14	20,5	1,8	1,2	10	1,2	2,0	17	Preinstalled Involute 10T gear (0.5mm modulus, 20deg pressure angle); ELEGOO Centauri Extruder
@@ -90,3 +90,4 @@ Siboor	35STH52-1204A	14	52	1,8	1,2	40	3,5	2,3	26	Siboor VORON0 kit A/B
 Siboor	42STH26-0804A-200	17	26	1,8	1,0	26	6,6	5,50	38	Siboor VORON0 kit Z
 Siboor	42STH40-1684A-300	17	41	1,8	1,68	36	3,2	1,65	54	Siboor VORON Trident Z
 Usongshine	17HS4401S-0.9°	17	38,3	0,9	1,3	28	5,7	2,2	57
+
