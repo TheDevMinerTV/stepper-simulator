@@ -2,7 +2,7 @@ import z from 'zod/v4';
 
 export const NEMASize = {
 	NEMA8: 8,
-	NEMA13: 13,
+	NEMA11: 11,
 	NEMA14: 14,
 	NEMA17: 17,
 	NEMA23: 23,
