@@ -6,6 +6,7 @@ export const NEMASize = {
 	NEMA14: 14,
 	NEMA17: 17,
 	NEMA23: 23,
+	NEMA24: 24,
 	NEMA34: 34
 } as const;
 export type NEMASize = (typeof NEMASize)[keyof typeof NEMASize];
