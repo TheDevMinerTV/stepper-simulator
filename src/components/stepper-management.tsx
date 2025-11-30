@@ -4,13 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import type {
 	Ampere,
@@ -53,9 +47,12 @@ function convertSteppersToCSV(steppers: StepperDefinition[]): string {
 		return num.toString().replace('.', ',');
 	};
 
+	const formatComments = (comments: string[]): string => {
+		return comments.join(';');
+	};
+
 	const csvRows = steppers.map((stepper) => {
 		return [
-			`${stepper.brand}__${stepper.model}`,
 			stepper.brand,
 			stepper.model,
 			stepper.nemaSize.toString(),
@@ -65,7 +62,8 @@ function convertSteppersToCSV(steppers: StepperDefinition[]): string {
 			formatNumber(stepper.torque),
 			formatNumber(stepper.inductance),
 			formatNumber(stepper.resistance),
-			formatNumber(stepper.rotorInertia)
+			formatNumber(stepper.rotorInertia),
+			formatComments(stepper.comments)
 		].join('\t');
 	});
 
