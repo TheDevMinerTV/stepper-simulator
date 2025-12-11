@@ -27,7 +27,7 @@
 		"clsx": "^2.1.1",
 		"fuse.js": "^7.1.0",
 		"jotai": "^2.13.1",
-		"lucide-react": "^0.555.0",
+		"lucide-react": "^0.560.0",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"recharts": "^2.15.4",
