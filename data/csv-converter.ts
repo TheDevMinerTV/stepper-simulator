@@ -223,7 +223,7 @@ async function convertCsvToTypeScript() {
 			inductance: inductanceNum,
 			resistance: resistanceNum,
 			rotorInertia: rotorInertiaNum,
-			comments: !comments ? [] : comments.split(';').map((x) => x.trim()),
+			comments: (!comments || !comments.trim()) ? [] : comments.split(';').map((x) => x.trim()),
 			sources: ['original-csv']
 		};
 	};
