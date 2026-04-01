@@ -16,6 +16,8 @@ import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'rec
 
 const STEP_SIZE = 20;
 const DEFAULT_MAX_VELOCITY = 2000;
+const pitchMm = 2; // GT2 belt, 2mm pitch
+
 
 function generateKey(stepper: StepperDefinition) {
 	return `${stepper.brand} ${stepper.model}`;
@@ -33,6 +35,7 @@ export function Graph() {
 			{ length: Math.floor((maxVelocity + STEP_SIZE) / STEP_SIZE) },
 			(_, i) => i * STEP_SIZE
 		);
+		const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * pitchMm;
 
 		return velocityPoints.map((velocity, i) => {
 			const dataPoint: Record<string, number> = { velocity };
@@ -42,7 +45,7 @@ export function Graph() {
 				const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
 				const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
 
-				const index = i * 0.5;
+				const rps = velocity / pulleyCircumferenceMm;
 				const rawTorque = calculateSingleCoilTorque(
 					stepper.stepAngle,
 					stepper.ratedCurrent,
@@ -51,7 +54,7 @@ export function Graph() {
 					stepper.resistance,
 					driveSettings.inputVoltage,
 					driveCurrent,
-					index
+					rps
 				);
 
 				const torque = Math.max(rawTorque - torqueRotor, 0);
