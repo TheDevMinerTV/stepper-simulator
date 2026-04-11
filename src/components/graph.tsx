@@ -35,7 +35,7 @@ export function Graph() {
 		);
 		const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
 
-		return velocityPoints.map((velocity, i) => {
+		return velocityPoints.map((velocity) => {
 			const dataPoint: Record<string, number> = { velocity };
 
 			for (const stepper of steppers) {
