@@ -21,7 +21,7 @@ export const calculateDriveCurrent = (
 	);
 
 export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: StepperDefinition) =>
-	(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * 2)) *
+	(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * gantrySettings.toothPitch)) *
 	2 *
 	PI *
 	(stepper.rotorInertia / (1000 * 100 ** 2)) *
@@ -32,7 +32,7 @@ export const calculatePowerAtDriveCurrent = (driveCurrent: number, stepper: Step
 
 export const calculateRequiredTorque = (gantrySettings: GantrySettings) =>
 	((((gantrySettings.acceleration / 1000) * gantrySettings.toolheadAndYAxisMass) / 1000) *
-		((gantrySettings.pulleyTeeth * 2) / calculateGearRatio(gantrySettings))) /
+		((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings))) /
 	(2 * Math.PI * 10);
 
 export function calculateSingleCoilTorque(

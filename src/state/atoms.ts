@@ -18,6 +18,7 @@ export type DriveSettings = {
 };
 export type GantrySettings = {
 	pulleyTeeth: number;
+	toothPitch: number;
 	gearA: number;
 	gearB: number;
 	acceleration: MillimetersPerSecondSquared;
@@ -39,7 +40,11 @@ function atomWithLocalStorage<T>(key: string, initialValue: T) {
 	const getInitialValue = () => {
 		const item = localStorage.getItem(key);
 		if (item !== null) {
-			return JSON.parse(item) as T;
+			const parsed = JSON.parse(item) as T;
+			if (typeof initialValue === 'object' && initialValue !== null && !Array.isArray(initialValue)) {
+				return { ...initialValue, ...parsed };
+			}
+			return parsed;
 		}
 		return initialValue;
 	};
@@ -69,6 +74,7 @@ export const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSetti
 });
 export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', {
 	pulleyTeeth: 20,
+	toothPitch: 2,
 	gearA: 1,
 	gearB: 1,
 	acceleration: 20000 as MillimetersPerSecondSquared,
