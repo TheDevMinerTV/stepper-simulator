@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { calculateGearRatio, calculateRequiredTorque } from '@/lib/formulas';
 import type {
@@ -136,6 +137,26 @@ export function GantrySettings() {
 					<span>Teeth</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
+					<Select
+						value={String(gantrySettings.toothPitch)}
+						onValueChange={(value) =>
+							setGantrySettings({
+								...gantrySettings,
+								toothPitch: Number(value)
+							})
+						}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Tooth Pitch" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="1.5">GT1.5 (1.5mm)</SelectItem>
+							<SelectItem value="2">GT2 (2mm)</SelectItem>
+							<SelectItem value="3">GT3 (3mm)</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
 					<div className="size-5">
 						<CogIcon className="w-5 h-5" />
 					</div>
@@ -206,8 +227,8 @@ export function GantrySettings() {
 
 						<div className="flex flex-col w-full max-w-sm gap-2">
 							<span>
-								{((gantrySettings.pulleyTeeth * 2) / (2 * Math.PI)).toFixed(2)} mm effective pulley
-								diameter
+								{((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / (2 * Math.PI)).toFixed(2)} mm effective pulley
+								radius
 							</span>
 							<span>{calculateRequiredTorque(gantrySettings).toFixed(2)} Ncm required</span>
 							<span>Gear Ratio: {gearRatio.toFixed(2)}</span>

@@ -2,11 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Input } from '@/components/ui/input';
 import {
-    calculateDriveCurrent,
-    calculateMaxCurrentAtSpecifiedPower,
-    calculateRequiredTorque,
-    calculateSingleCoilTorque,
-    calculateTorqueRotor
+	calculateDriveCurrent,
+	calculateMaxCurrentAtSpecifiedPower,
+	calculateRequiredTorque,
+	calculateSingleCoilTorque,
+	calculateTorqueRotor
 } from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
 import { driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
@@ -16,8 +16,6 @@ import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'rec
 
 const STEP_SIZE = 20;
 const DEFAULT_MAX_VELOCITY = 2000;
-const pitchMm = 2; // GT2 belt, 2mm pitch
-
 
 function generateKey(stepper: StepperDefinition) {
 	return `${stepper.brand} ${stepper.model}`;
@@ -35,7 +33,7 @@ export function Graph() {
 			{ length: Math.floor((maxVelocity + STEP_SIZE) / STEP_SIZE) },
 			(_, i) => i * STEP_SIZE
 		);
-		const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * pitchMm;
+		const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
 
 		return velocityPoints.map((velocity, i) => {
 			const dataPoint: Record<string, number> = { velocity };

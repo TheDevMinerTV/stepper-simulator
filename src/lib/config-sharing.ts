@@ -17,6 +17,7 @@ const ShareableConfigurationSchema = z.object({
 	}),
 	gantrySettings: z.object({
 		pulleyTeeth: z.number(),
+		toothPitch: z.number().default(2),
 		gearA: z.number(),
 		gearB: z.number(),
 		acceleration: MillimetersPerSecondSquared,
