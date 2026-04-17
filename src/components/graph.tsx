@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Input } from '@/components/ui/input';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
 	calculateDriveCurrent,
 	calculateMaxCurrentAtSpecifiedPower,
@@ -26,14 +27,19 @@ export function Graph() {
 	const gantrySettings = useAtomValue(gantrySettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
 	const [maxVelocity, setMaxVelocity] = useState(DEFAULT_MAX_VELOCITY);
+	const [unit, setUnit] = useState<'mm/s' | 'rpm'>('mm/s');
 
 	const steppers = useAtomValue(steppersAtom);
+	const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
+	const mmsToRpm = (mms: number) => (mms * 60) / pulleyCircumferenceMm;
+	const rpmToMms = (rpm: number) => (rpm * pulleyCircumferenceMm) / 60;
+	const displayedMax = unit === 'rpm' ? mmsToRpm(maxVelocity) : maxVelocity;
+
 	const chartData = useMemo(() => {
 		const velocityPoints = Array.from(
 			{ length: Math.floor((maxVelocity + STEP_SIZE) / STEP_SIZE) },
 			(_, i) => i * STEP_SIZE
 		);
-		const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
 
 		return velocityPoints.map((velocity) => {
 			const dataPoint: Record<string, number> = { velocity };
@@ -98,15 +104,29 @@ export function Graph() {
 					<CardTitle>Torque Graph</CardTitle>
 				</div>
 				<div className="flex items-center gap-2">
+					<ToggleGroup
+						type="single"
+						variant="outline"
+						size="sm"
+						value={unit}
+						onValueChange={(value) => {
+							if (value === 'mm/s' || value === 'rpm') setUnit(value);
+						}}
+					>
+						<ToggleGroupItem value="mm/s">mm/s</ToggleGroupItem>
+						<ToggleGroupItem value="rpm">RPM</ToggleGroupItem>
+					</ToggleGroup>
 					<Input
 						type="number"
-						value={maxVelocity}
+						value={Number.isFinite(displayedMax) ? Math.round(displayedMax) : 0}
 						className="w-24"
 						onChange={(e) => {
-							setMaxVelocity(e.target.valueAsNumber);
+							const v = e.target.valueAsNumber;
+							if (Number.isNaN(v)) return;
+							setMaxVelocity(unit === 'rpm' ? rpmToMms(v) : v);
 						}}
 					/>
-					<span>mm/s</span>
+					<span>{unit}</span>
 				</div>
 			</CardHeader>
 			<CardContent className="pt-0">
@@ -125,7 +145,9 @@ export function Graph() {
 									axisLine={false}
 									tickMargin={8}
 									minTickGap={20}
-									tickFormatter={(value) => `${value} mm/s`}
+									tickFormatter={(value) =>
+										unit === 'rpm' ? `${Math.round(mmsToRpm(value))} RPM` : `${value} mm/s`
+									}
 								/>
 								<YAxis
 									tickLine={false}
