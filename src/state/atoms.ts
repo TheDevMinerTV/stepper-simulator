@@ -1,3 +1,4 @@
+import type { MotorModel } from '@/lib/formulas';
 import type {
 	Ampere,
 	Grams,
@@ -15,6 +16,7 @@ export type DriveSettings = {
 	inputVoltage: Volts;
 	maxDriveCurrent: Ampere;
 	maxDrivePercent: Percent;
+	motorModel: MotorModel;
 };
 export type GantrySettings = {
 	pulleyTeeth: number;
@@ -70,7 +72,8 @@ export const debugAtom = atomWithLocalStorage<boolean>('debug', false);
 export const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', {
 	inputVoltage: 24 as Volts,
 	maxDriveCurrent: 1 as Ampere,
-	maxDrivePercent: 100 as Percent
+	maxDrivePercent: 100 as Percent,
+	motorModel: 'classic'
 });
 export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', {
 	pulleyTeeth: 20,

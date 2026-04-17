@@ -2,7 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { calculateGearRatio, calculateRequiredTorque } from '@/lib/formulas';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
 import type {
 	Ampere,
 	Grams,
@@ -20,6 +21,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import {
 	ArrowRightFromLineIcon,
 	CogIcon,
+	CpuIcon,
 	PercentIcon,
 	PlugIcon,
 	WeightIcon,
@@ -94,6 +96,33 @@ export function DriveSettings() {
 						}
 					/>
 					<span>%</span>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<CpuIcon className="w-5 h-5" />
+					</div>
+					<ToggleGroup
+						type="single"
+						variant="outline"
+						size="sm"
+						className="flex-1"
+						value={driveSettings.motorModel}
+						onValueChange={(value) => {
+							if (value === 'classic' || value === 'fieldWeakening') {
+								setDriveSettings({
+									...driveSettings,
+									motorModel: value satisfies MotorModel
+								});
+							}
+						}}
+					>
+						<ToggleGroupItem value="classic" className="flex-1">
+							Classic
+						</ToggleGroupItem>
+						<ToggleGroupItem value="fieldWeakening" className="flex-1">
+							Field Weakening
+						</ToggleGroupItem>
+					</ToggleGroup>
 				</div>
 
 				{debug && (

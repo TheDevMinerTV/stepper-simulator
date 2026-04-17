@@ -1,7 +1,12 @@
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { Separator } from '@/components/ui/separator';
-import { calculatePowerAtDriveCurrent, calculateTorqueRotor } from '@/lib/formulas';
+import {
+	calculateDriveCurrent,
+	calculateMaxCurrentAtSpecifiedPower,
+	calculatePowerAtDriveCurrent,
+	calculateTorqueRotor
+} from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
 import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -73,12 +78,8 @@ function DebugStepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 	const gantrySettings = useAtomValue(gantrySettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
 
-	const maxCurrentAtSpecifiedPower = Math.sqrt(maxPower / 2 / stepper.resistance);
-	const driveCurrent = Math.min(
-		driveSettings.maxDriveCurrent,
-		driveSettings.maxDrivePercent * stepper.ratedCurrent,
-		maxCurrentAtSpecifiedPower
-	);
+	const maxCurrentAtSpecifiedPower = calculateMaxCurrentAtSpecifiedPower(maxPower, stepper);
+	const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
 	const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
 	const powerAtDriveCurrent = calculatePowerAtDriveCurrent(driveCurrent, stepper);
 

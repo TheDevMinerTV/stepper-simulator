@@ -51,6 +51,7 @@ export function Graph() {
 
 				const rps = velocity / pulleyCircumferenceMm;
 				const rawTorque = calculateSingleCoilTorque(
+					driveSettings.motorModel,
 					stepper.stepAngle,
 					stepper.ratedCurrent,
 					stepper.torque,
