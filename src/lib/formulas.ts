@@ -135,14 +135,18 @@ export function calculateSingleCoilTorqueSpreadCycle(
 	return Kt * Math.min(iQ, iMax) * 100;
 }
 
-// Models a 2-phase hybrid stepper driven by a full hardware FOC servo
-// controller (e.g. TMC4671): closed-loop id/iq regulation, encoder feedback,
-// 25–100kHz PI loops. Treated as a non-salient PMSM with current-circle
-// (|i| ≤ I_drive) and voltage-circle (|v| ≤ V_bus) constraints in the dq
-// frame. Each coil is driven by its own H-bridge, so peak phase voltage = V_bus
-// (no SVPWM scaling; SVPWM's √3 boost applies to 3-phase drives, not to
-// independent per-coil H-bridges). Above base speed the d-axis carries
-// demagnetizing current with no lead-angle estimation error.
+// Upper-bound torque curve for a 2-phase hybrid stepper on a TMC4671
+// FOC servo. FOC2 mode bypasses Clarke/iClarke, driving each coil from a
+// dedicated full H-bridge. Peak U_x = V_bus with no SVPWM sqrt(3) boost,
+// since SVPWM applies only to 3-phase drives.
+// Treated as a non-salient PMSM with a current circle (|i_dq| <= I_drive) and
+// a voltage circle (|u_dq| <= V_bus) matching the iPark default circular
+// limiter.
+// Above base speed, assumes optimal i_d (MTPV), the analytic max-torque
+// solution of the two constraints. The TMC4671 itself does not schedule i_d.
+// It regulates to a PID_FLUX_TARGET parameter, so this curve is the
+// ceiling a well-tuned external MTPV scheduler could reach. Fixed
+// flux-target tunings fall below it off the design speed.
 export function calculateSingleCoilTorqueFieldWeakening(
 	stepAngle: number,
 	ratedCurrent: number,
