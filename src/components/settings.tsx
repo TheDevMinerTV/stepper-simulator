@@ -4,29 +4,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
-import type {
-	Ampere,
-	Grams,
-	MillimetersPerSecondSquared,
-	Percent,
-	Volts
-} from '@/lib/stepper';
-import {
-	currentDebugAtom,
-	currentDriveSettingsAtom,
-	currentGantrySettingsAtom,
-	maxPowerAtom
-} from '@/state/atoms';
+import type { Ampere, Grams, MillimetersPerSecondSquared, Percent, Volts } from '@/lib/stepper';
+import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
-import {
-	ArrowRightFromLineIcon,
-	CogIcon,
-	CpuIcon,
-	PercentIcon,
-	PlugIcon,
-	WeightIcon,
-	ZapIcon
-} from 'lucide-react';
+import { ArrowRightFromLineIcon, CogIcon, CpuIcon, PercentIcon, PlugIcon, WeightIcon, ZapIcon } from 'lucide-react';
 
 export function DriveSettings() {
 	const [driveSettings, setDriveSettings] = useAtom(currentDriveSettingsAtom);
@@ -109,11 +90,7 @@ export function DriveSettings() {
 						className="flex-1 flex-col"
 						value={driveSettings.motorModel}
 						onValueChange={(value) => {
-							if (
-								value === 'classic' ||
-								value === 'spreadCycle' ||
-								value === 'fieldWeakening'
-							) {
+							if (value === 'classic' || value === 'spreadCycle' || value === 'fieldWeakening') {
 								setDriveSettings({
 									...driveSettings,
 									motorModel: value satisfies MotorModel
@@ -270,8 +247,8 @@ export function GantrySettings() {
 
 						<div className="flex flex-col w-full max-w-sm gap-2">
 							<span>
-								{((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / (2 * Math.PI)).toFixed(2)} mm effective pulley
-								radius
+								{((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / (2 * Math.PI)).toFixed(2)}{' '}
+								mm effective pulley radius
 							</span>
 							<span>{calculateRequiredTorque(gantrySettings).toFixed(2)} Ncm required</span>
 							<span>Gear Ratio: {gearRatio.toFixed(2)}</span>
