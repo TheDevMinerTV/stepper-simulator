@@ -111,6 +111,54 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					rotorInertia: 76 as GramSquareCentimeter,
 					comments: ['QIDI Plus 4 A/B', 'Preinstalled with GT1.5 pulley']
 				}
+			],
+			[
+				'BJY36D15-01V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJY36D15-01V01',
+					nemaSize: 14,
+					bodyLength: 20.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 22 as NewtonCentimeter,
+					inductance: 5 as MilliHenry,
+					resistance: 4.3 as Ohm,
+					rotorInertia: 31 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'BJ42D15-26V12',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-26V12',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 28 as NewtonCentimeter,
+					inductance: 8.8 as MilliHenry,
+					resistance: 6 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: ['Ender 3 S1 (and more, probably)']
+				}
+			],
+			[
+				'BJ42D09-20V02',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D09-20V02',
+					nemaSize: 17,
+					bodyLength: 26 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 15 as NewtonCentimeter,
+					inductance: 3 as MilliHenry,
+					resistance: 1.75 as Ohm,
+					rotorInertia: 30 as GramSquareCentimeter,
+					comments: ['Creality Sprite Extruder']
+				}
 			]
 		])
 	],
@@ -130,6 +178,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.75 as MilliHenry,
 					resistance: 1 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS6416D6L22P5.5-12',
+				{
+					brand: 'ACT',
+					model: '17HS6416D6L22P5.5-12',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.6 as Ampere,
+					torque: 70 as NewtonCentimeter,
+					inductance: 6 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 102 as GramSquareCentimeter,
 					comments: []
 				}
 			]
@@ -453,6 +517,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'36STH17-0354AH(G8T)',
+				{
+					brand: 'LDO',
+					model: '36STH17-0354AH(G8T)',
+					nemaSize: 14,
+					bodyLength: 17.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.35 as Ampere,
+					torque: 6 as NewtonCentimeter,
+					inductance: 6 as MilliHenry,
+					resistance: 10.8 as Ohm,
+					rotorInertia: 13.7 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'36STH20-1004AHG(XH)',
 				{
 					brand: 'LDO',
@@ -757,6 +837,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'57STH56-2804A',
+				{
+					brand: 'LDO',
+					model: '57STH56-2804A',
+					nemaSize: 23,
+					bodyLength: 56 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 123.6 as NewtonCentimeter,
+					inductance: 3 as MilliHenry,
+					resistance: 1.1 as Ohm,
+					rotorInertia: 300 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'42STH48-2804AC',
 				{
 					brand: 'LDO',
@@ -944,7 +1040,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter,
+					rotorInertia: 84.5 as GramSquareCentimeter,
 					comments: ['Round Shaft']
 				}
 			],
@@ -976,7 +1072,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter,
+					rotorInertia: 84.5 as GramSquareCentimeter,
 					comments: ['55mm Shaft', '"Super Power" motor (HT)']
 				}
 			],
@@ -992,7 +1088,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter,
+					rotorInertia: 84.5 as GramSquareCentimeter,
 					comments: []
 				}
 			],
@@ -1008,7 +1104,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter,
+					rotorInertia: 84.5 as GramSquareCentimeter,
 					comments: ['80mm Shaft', '"Super Power" motor (HT)']
 				}
 			],
@@ -1063,6 +1159,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.61 as Ohm,
 					rotorInertia: 20 as GramSquareCentimeter,
 					comments: []
+				}
+			],
+			[
+				'MS14HS5P4150-11',
+				{
+					brand: 'Moons',
+					model: 'MS14HS5P4150-11',
+					nemaSize: 14,
+					bodyLength: 55 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 3.6 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: ['Formbot VORON0 kit A/B']
 				}
 			],
 			[
@@ -1130,6 +1242,38 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'MS17HD6P420I-04',
+				{
+					brand: 'Moons',
+					model: 'MS17HD6P420I-04',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 67 as NewtonCentimeter,
+					inductance: 2.7 as MilliHenry,
+					resistance: 1.3 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: ['Formbot VORON2.4 kit A/B & Z']
+				}
+			],
+			[
+				'PSE14HRA2L4100',
+				{
+					brand: 'Moons',
+					model: 'PSE14HRA2L4100',
+					nemaSize: 14,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 23 as NewtonCentimeter,
+					inductance: 3.3 as MilliHenry,
+					resistance: 3.3 as Ohm,
+					rotorInertia: 11 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'CSE14HRA1L410A',
 				{
 					brand: 'Moons',
@@ -1143,22 +1287,6 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 2.1 as Ohm,
 					rotorInertia: 9 as GramSquareCentimeter,
 					comments: ['Formbot VORON2.4 kit extruder', 'Formbot VORON0 kit extruder']
-				}
-			],
-			[
-				'MS14HS5P4150-11',
-				{
-					brand: 'Moons',
-					model: 'MS14HS5P4150-11',
-					nemaSize: 14,
-					bodyLength: 55 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 1.5 as Ampere,
-					torque: 40 as NewtonCentimeter,
-					inductance: 3.6 as MilliHenry,
-					resistance: 2.2 as Ohm,
-					rotorInertia: 35 as GramSquareCentimeter,
-					comments: ['Formbot VORON0 kit A/B']
 				}
 			],
 			[
@@ -1191,22 +1319,6 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 2.2 as Ohm,
 					rotorInertia: 62 as GramSquareCentimeter,
 					comments: ['Spares from a Lulzbot Mini 2']
-				}
-			],
-			[
-				'MS17HD6P420I-04',
-				{
-					brand: 'Moons',
-					model: 'MS17HD6P420I-04',
-					nemaSize: 17,
-					bodyLength: 48 as Millimeter,
-					stepAngle: 1.8 as Degree,
-					ratedCurrent: 2 as Ampere,
-					torque: 67 as NewtonCentimeter,
-					inductance: 2.7 as MilliHenry,
-					resistance: 1.3 as Ohm,
-					rotorInertia: 82 as GramSquareCentimeter,
-					comments: ['Formbot VORON2.4 kit A/B & Z']
 				}
 			]
 		])
@@ -1429,7 +1541,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.6 as MilliHenry,
 					resistance: 1.1 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter,
-					comments: []
+					comments: ['55mm round shaft']
 				}
 			],
 			[
@@ -1445,6 +1557,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3 as MilliHenry,
 					resistance: 1.6 as Ohm,
 					rotorInertia: 148 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'3-23HE22-2804S',
+				{
+					brand: 'Stepperonline',
+					model: '3-23HE22-2804S',
+					nemaSize: 23,
+					bodyLength: 56 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.8 as Ampere,
+					torque: 126 as NewtonCentimeter,
+					inductance: 2.5 as MilliHenry,
+					resistance: 0.9 as Ohm,
+					rotorInertia: 300 as GramSquareCentimeter,
 					comments: []
 				}
 			],
@@ -2218,6 +2346,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'17HS4023',
+				{
+					brand: 'Usongshine',
+					model: '17HS4023',
+					nemaSize: 17,
+					bodyLength: 23 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 20 as NewtonCentimeter,
+					inductance: 4.1 as MilliHenry,
+					resistance: 4.1 as Ohm,
+					rotorInertia: 30.8 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'17HS4401',
 				{
 					brand: 'Usongshine',
@@ -2231,6 +2375,48 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 2.4 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
 					comments: []
+				}
+			]
+		])
+	],
+	[
+		'Shengyang Motor',
+		new Map<string, StepperDefinition>([
+			[
+				'42BYGH3025-3M-25D',
+				{
+					brand: 'Shengyang Motor',
+					model: '42BYGH3025-3M-25D',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 56 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.4 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: ['Sovol Zero A/B']
+				}
+			]
+		])
+	],
+	[
+		'JUST MOTION CONTROL',
+		new Map<string, StepperDefinition>([
+			[
+				'28J1832-407-8-1510-01',
+				{
+					brand: 'JUST MOTION CONTROL',
+					model: '28J1832-407-8-1510-01',
+					nemaSize: 11,
+					bodyLength: 32 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.75 as Ampere,
+					torque: 6 as NewtonCentimeter,
+					inductance: 4.6 as MilliHenry,
+					resistance: 4.7 as Ohm,
+					rotorInertia: 18 as GramSquareCentimeter,
+					comments: ['5mm ID 8mm OD dualsided hollow shaft']
 				}
 			]
 		])
