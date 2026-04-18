@@ -25,7 +25,8 @@ export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: St
 	2 *
 	PI *
 	(stepper.rotorInertia / (1000 * 100 ** 2)) *
-	100;
+	100 *
+	calculateGearRatio(gantrySettings);
 
 export const calculatePowerAtDriveCurrent = (driveCurrent: number, stepper: StepperDefinition) =>
 	driveCurrent ** 2 * stepper.resistance * 2;
