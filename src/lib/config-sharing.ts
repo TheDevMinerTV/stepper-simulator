@@ -14,7 +14,7 @@ const ShareableConfigurationSchema = z.object({
 		inputVoltage: Volts,
 		maxDriveCurrent: Ampere,
 		maxDrivePercent: Percent,
-		motorModel: z.enum(['classic', 'fieldWeakening']).default('fieldWeakening')
+		motorModel: z.enum(['classic', 'spreadCycle', 'fieldWeakening']).default('classic')
 	}),
 	gantrySettings: z.object({
 		pulleyTeeth: z.number(),

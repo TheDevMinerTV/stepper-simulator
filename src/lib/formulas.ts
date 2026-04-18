@@ -35,7 +35,7 @@ export const calculateRequiredTorque = (gantrySettings: GantrySettings) =>
 		((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings))) /
 	(2 * Math.PI * 10);
 
-export type MotorModel = 'classic' | 'fieldWeakening';
+export type MotorModel = 'classic' | 'spreadCycle' | 'fieldWeakening';
 
 export function calculateSingleCoilTorque(
 	model: MotorModel,
@@ -48,27 +48,22 @@ export function calculateSingleCoilTorque(
 	driveCurrent: number,
 	rotationsPerSecond: number
 ) {
-	return model === 'classic'
-		? calculateSingleCoilTorqueClassic(
-				stepAngle,
-				ratedCurrent,
-				torque,
-				inductance,
-				resistance,
-				inputVoltage,
-				driveCurrent,
-				rotationsPerSecond
-			)
-		: calculateSingleCoilTorqueFieldWeakening(
-				stepAngle,
-				ratedCurrent,
-				torque,
-				inductance,
-				resistance,
-				inputVoltage,
-				driveCurrent,
-				rotationsPerSecond
-			);
+	const impl =
+		model === 'classic'
+			? calculateSingleCoilTorqueClassic
+			: model === 'spreadCycle'
+				? calculateSingleCoilTorqueSpreadCycle
+				: calculateSingleCoilTorqueFieldWeakening;
+	return impl(
+		stepAngle,
+		ratedCurrent,
+		torque,
+		inductance,
+		resistance,
+		inputVoltage,
+		driveCurrent,
+		rotationsPerSecond
+	);
 }
 
 // Naive model: treats back-EMF as a simple voltage subtracted from the bus and
@@ -97,11 +92,56 @@ export function calculateSingleCoilTorqueClassic(
 	return t1Coil * 100;
 }
 
-// Models a 2-phase hybrid stepper as a non-salient PMSM with current-circle
-// (|i| ≤ I_drive) and voltage-circle (|v| ≤ V_bus) constraints in the dq frame.
-// Assumes a modern driver that commutates with a tunable lead angle (TMC2209/5160
-// StealthChop/PWM_AUTO etc.), so the d-axis can carry field-weakening current
-// above base speed.
+// Current-regulated chopper model. Phasor-accurate voltage constraint, but the
+// driver has no mechanism to command d-axis current (no phase advance / no
+// field weakening). Matches SpreadCycle behavior on TMC2xxx-class chips:
+// torque is full until the voltage circle can no longer contain
+// (i_d=0, i_q=I_drive); past that point torque falls off smoothly as the
+// achievable i_q collapses, hitting zero near V_bus = V_bemf_peak.
+export function calculateSingleCoilTorqueSpreadCycle(
+	stepAngle: number,
+	ratedCurrent: number,
+	torque: number,
+	inductance: number,
+	resistance: number,
+	inputVoltage: number,
+	driveCurrent: number,
+	rotationsPerSecond: number
+) {
+	const polePairs = 360 / (4 * stepAngle);
+	const Kt = torque / (100 * SQRT2) / ratedCurrent;
+	const psi = Kt / polePairs;
+	const L = inductance / 1000;
+	const R = resistance;
+	const omegaElec = 2 * PI * polePairs * rotationsPerSecond;
+	const vMax = inputVoltage;
+	const iMax = driveCurrent;
+
+	const vSqAtIMax = (omegaElec * L * iMax) ** 2 + (R * iMax + omegaElec * psi) ** 2;
+	if (vSqAtIMax <= vMax * vMax) {
+		return Kt * iMax * 100;
+	}
+
+	// Voltage-limited on i_d = 0 line. Solve |V|² = V_max² for max i_q:
+	//   (ω²L² + R²)·i_q² + 2·R·ω·ψ·i_q + (ω²·ψ² − V_max²) = 0
+	const a = omegaElec * omegaElec * L * L + R * R;
+	const halfB = R * omegaElec * psi;
+	const cTerm = omegaElec * omegaElec * psi * psi - vMax * vMax;
+	const disc = halfB * halfB - a * cTerm;
+	if (disc < 0) return 0;
+	const iQ = (-halfB + Math.sqrt(disc)) / a;
+	if (iQ <= 0) return 0;
+	return Kt * Math.min(iQ, iMax) * 100;
+}
+
+// Models a 2-phase hybrid stepper driven by a full hardware FOC servo
+// controller (e.g. TMC4671): closed-loop id/iq regulation, encoder feedback,
+// 25–100kHz PI loops. Treated as a non-salient PMSM with current-circle
+// (|i| ≤ I_drive) and voltage-circle (|v| ≤ V_bus) constraints in the dq
+// frame. Each coil is driven by its own H-bridge, so peak phase voltage = V_bus
+// (no SVPWM scaling; SVPWM's √3 boost applies to 3-phase drives, not to
+// independent per-coil H-bridges). Above base speed the d-axis carries
+// demagnetizing current with no lead-angle estimation error.
 export function calculateSingleCoilTorqueFieldWeakening(
 	stepAngle: number,
 	ratedCurrent: number,

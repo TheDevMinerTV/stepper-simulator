@@ -97,18 +97,23 @@ export function DriveSettings() {
 					/>
 					<span>%</span>
 				</div>
-				<div className="flex w-full max-w-sm items-center gap-2">
-					<div className="size-5">
+				<div className="flex w-full max-w-sm items-start gap-2">
+					<div className="size-5 pt-1.5">
 						<CpuIcon className="w-5 h-5" />
 					</div>
 					<ToggleGroup
 						type="single"
 						variant="outline"
 						size="sm"
-						className="flex-1"
+						spacing={1}
+						className="flex-1 flex-col"
 						value={driveSettings.motorModel}
 						onValueChange={(value) => {
-							if (value === 'classic' || value === 'fieldWeakening') {
+							if (
+								value === 'classic' ||
+								value === 'spreadCycle' ||
+								value === 'fieldWeakening'
+							) {
 								setDriveSettings({
 									...driveSettings,
 									motorModel: value satisfies MotorModel
@@ -116,11 +121,14 @@ export function DriveSettings() {
 							}
 						}}
 					>
-						<ToggleGroupItem value="classic" className="flex-1">
-							Classic
+						<ToggleGroupItem value="classic" className="w-full">
+							Classic (naive)
 						</ToggleGroupItem>
-						<ToggleGroupItem value="fieldWeakening" className="flex-1">
-							Field Weakening
+						<ToggleGroupItem value="spreadCycle" className="w-full">
+							SpreadCycle / StealthChop
+						</ToggleGroupItem>
+						<ToggleGroupItem value="fieldWeakening" className="w-full">
+							TMC4671 (FOC)
 						</ToggleGroupItem>
 					</ToggleGroup>
 				</div>
