@@ -1008,7 +1008,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 42 as NewtonCentimeter,
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.7 as Ohm,
-					rotorInertia: 84 as GramSquareCentimeter,
+					rotorInertia: 84.5 as GramSquareCentimeter,
 					comments: ['Round Shaft']
 				}
 			],
