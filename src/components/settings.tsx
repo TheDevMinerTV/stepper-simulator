@@ -124,11 +124,17 @@ export function DriveSettings() {
 						<ToggleGroupItem value="classic" className="w-full">
 							Classic (naive)
 						</ToggleGroupItem>
-						<ToggleGroupItem value="spreadCycle" className="w-full">
+						<ToggleGroupItem value="spreadCycle" className="w-full gap-1.5">
 							SpreadCycle / StealthChop
+							<span className="text-[10px] uppercase tracking-wide text-muted-foreground border border-muted-foreground/40 rounded px-1 py-px leading-none">
+								alpha
+							</span>
 						</ToggleGroupItem>
-						<ToggleGroupItem value="fieldWeakening" className="w-full">
+						<ToggleGroupItem value="fieldWeakening" className="w-full gap-1.5">
 							TMC4671 (FOC)
+							<span className="text-[10px] uppercase tracking-wide text-muted-foreground border border-muted-foreground/40 rounded px-1 py-px leading-none">
+								alpha
+							</span>
 						</ToggleGroupItem>
 					</ToggleGroup>
 				</div>
