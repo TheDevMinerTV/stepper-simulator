@@ -31,10 +31,15 @@ export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: St
 export const calculatePowerAtDriveCurrent = (driveCurrent: number, stepper: StepperDefinition) =>
 	driveCurrent ** 2 * stepper.resistance * 2;
 
-export const calculateRequiredTorque = (gantrySettings: GantrySettings) =>
-	((((gantrySettings.acceleration / 1000) * gantrySettings.toolheadAndYAxisMass) / 1000) *
-		((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings))) /
-	(2 * Math.PI * 10);
+export const calculateRequiredTorque = (gantrySettings: GantrySettings) => {
+	if (gantrySettings.manualRequiredTorque !== null) return gantrySettings.manualRequiredTorque;
+
+	return (
+		((((gantrySettings.acceleration / 1000) * gantrySettings.toolheadAndYAxisMass) / 1000) *
+			((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings))) /
+		(2 * Math.PI * 10)
+	);
+};
 
 export type MotorModel = 'classic' | 'spreadCycle' | 'fieldWeakening';
 
@@ -184,4 +189,3 @@ export function calculateSingleCoilTorqueFieldWeakening(
 	if (iQSq <= 0) return 0;
 	return Kt * Math.sqrt(iQSq) * 100;
 }
-

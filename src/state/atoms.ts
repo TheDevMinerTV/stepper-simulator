@@ -3,6 +3,7 @@ import type {
 	Ampere,
 	Grams,
 	MillimetersPerSecondSquared,
+	NewtonCentimeter,
 	Percent,
 	StepperDefinition,
 	Volts,
@@ -25,6 +26,7 @@ export type GantrySettings = {
 	gearB: number;
 	acceleration: MillimetersPerSecondSquared;
 	toolheadAndYAxisMass: Grams;
+	manualRequiredTorque: NewtonCentimeter | null;
 };
 
 export type ShareableConfiguration = {
@@ -81,7 +83,8 @@ export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySe
 	gearA: 1,
 	gearB: 1,
 	acceleration: 20000 as MillimetersPerSecondSquared,
-	toolheadAndYAxisMass: 500 as Grams
+	toolheadAndYAxisMass: 500 as Grams,
+	manualRequiredTorque: null
 });
 const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
 export const customSteppersAtom = atom(

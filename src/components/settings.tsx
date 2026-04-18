@@ -4,10 +4,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
-import type { Ampere, Grams, MillimetersPerSecondSquared, Percent, Volts } from '@/lib/stepper';
+import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
 import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
-import { ArrowRightFromLineIcon, CogIcon, CpuIcon, PercentIcon, PlugIcon, WeightIcon, ZapIcon } from 'lucide-react';
+import {
+	ArrowRightFromLineIcon,
+	CogIcon,
+	CpuIcon,
+	GaugeIcon,
+	PercentIcon,
+	PlugIcon,
+	WeightIcon,
+	ZapIcon
+} from 'lucide-react';
 
 export function DriveSettings() {
 	const [driveSettings, setDriveSettings] = useAtom(currentDriveSettingsAtom);
@@ -239,6 +248,25 @@ export function GantrySettings() {
 						}
 					/>
 					<span>g</span>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<GaugeIcon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Required Torque (auto)"
+						min={0}
+						value={gantrySettings.manualRequiredTorque ?? ''}
+						onChange={(e) => {
+							const v = e.target.valueAsNumber;
+							setGantrySettings({
+								...gantrySettings,
+								manualRequiredTorque: Number.isFinite(v) ? (v as NewtonCentimeter) : null
+							});
+						}}
+					/>
+					<span>Ncm</span>
 				</div>
 
 				{debug && (

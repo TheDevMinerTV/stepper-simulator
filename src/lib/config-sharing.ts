@@ -4,6 +4,7 @@ import {
 	Ampere,
 	Grams,
 	MillimetersPerSecondSquared,
+	NewtonCentimeter,
 	Percent,
 	StepperDefinition,
 	Volts
@@ -22,7 +23,8 @@ const ShareableConfigurationSchema = z.object({
 		gearA: z.number(),
 		gearB: z.number(),
 		acceleration: MillimetersPerSecondSquared,
-		toolheadAndYAxisMass: Grams
+		toolheadAndYAxisMass: Grams,
+		manualRequiredTorque: NewtonCentimeter.nullable().default(null)
 	}),
 	customSteppers: z.array(StepperDefinition),
 	debug: z.boolean(),
@@ -60,4 +62,4 @@ export function clearUrlConfig() {
 	const url = new URL(window.location.href);
 	url.searchParams.delete('config');
 	window.history.replaceState({}, '', url.toString());
-} 
+}
