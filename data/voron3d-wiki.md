@@ -69,4 +69,4 @@
 | Leadshine / YunTaiKe-42CM02                 | Leadshine / YunTaiKe   | 42CM02                     | 17   | 33             | 1.8              | 1.5               | 20            | 1.4             | 1.4               | 35                     |
 | Wantai-42BYGHW811-06            | Wantai     | 42BYGHW811-06              | 17   | 48             | 1.8              | 2.5               | 60            | 1.75            | 1                 | 68                     |
 | Wantai-42BYGHW609               | Wantai     | 42BYGHW609                 | 17   | 40             | 1.8              | 1.7               | 40            | 2.8             | 2                 | 54                     |
-| Kraken LDO-42STH60-3004AHD(S37) | LDO        | LDO-42STH60-3004AHD(S37)   | 17   | 60             | 1.8              | 3                 | 120           | 1.6             | 1                 | 100                    |
+| Kraken LDO-42STH60-3004AHD(S37) | LDO        | LDO-42STH60-3004AHD(S37)   | 17   | 60             | 1.8              | 3                 | 80           | 1.6             | 1                 | 100                    |
