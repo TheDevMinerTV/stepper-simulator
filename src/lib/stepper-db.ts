@@ -166,6 +166,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		'ACT',
 		new Map<string, StepperDefinition>([
 			[
+				'17HS5425',
+				{
+					brand: 'ACT',
+					model: '17HS5425',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 48 as NewtonCentimeter,
+					inductance: 1.9 as MilliHenry,
+					resistance: 1.2 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: ['Seem to be clones/rebadges of Wantai 42BYGHW811']
+				}
+			],
+			[
 				'17HS5425-06',
 				{
 					brand: 'ACT',
@@ -194,6 +210,281 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 6 as MilliHenry,
 					resistance: 2.2 as Ohm,
 					rotorInertia: 102 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM3404',
+				{
+					brand: 'ACT',
+					model: '17HM3404',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 0.4 as Ampere,
+					torque: 20 as NewtonCentimeter,
+					inductance: 18.5 as MilliHenry,
+					resistance: 7.8 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM3412',
+				{
+					brand: 'ACT',
+					model: '17HM3412',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 23 as NewtonCentimeter,
+					inductance: 5.2 as MilliHenry,
+					resistance: 2.7 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM4417',
+				{
+					brand: 'ACT',
+					model: '17HM4417',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 38 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 1.4 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM5417',
+				{
+					brand: 'ACT',
+					model: '17HM5417',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 4 as MilliHenry,
+					resistance: 1.8 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HM5424',
+				{
+					brand: 'ACT',
+					model: '17HM5424',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2.4 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 1.8 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: [
+						'Possible clone/rebadge of Wantai 42BYGHM810 (matches current, inductance, resistance, inertia',
+						'holding torque differs 40 vs 48 N-cm)'
+					]
+				}
+			],
+			[
+				'17HS3404',
+				{
+					brand: 'ACT',
+					model: '17HS3404',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.4 as Ampere,
+					torque: 32 as NewtonCentimeter,
+					inductance: 38 as MilliHenry,
+					resistance: 30 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS3410-02',
+				{
+					brand: 'ACT',
+					model: '17HS3410-02',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 30 as NewtonCentimeter,
+					inductance: 7.1 as MilliHenry,
+					resistance: 5 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS3413',
+				{
+					brand: 'ACT',
+					model: '17HS3413',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 30 as NewtonCentimeter,
+					inductance: 4 as MilliHenry,
+					resistance: 2.45 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS4404',
+				{
+					brand: 'ACT',
+					model: '17HS4404',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.4 as Ampere,
+					torque: 22 as NewtonCentimeter,
+					inductance: 21 as MilliHenry,
+					resistance: 12.5 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS4410-04',
+				{
+					brand: 'ACT',
+					model: '17HS4410-04',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 50 as NewtonCentimeter,
+					inductance: 8.4 as MilliHenry,
+					resistance: 4.2 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS4415-04',
+				{
+					brand: 'ACT',
+					model: '17HS4415-04',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 50 as NewtonCentimeter,
+					inductance: 4.9 as MilliHenry,
+					resistance: 2.55 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS4412',
+				{
+					brand: 'ACT',
+					model: '17HS4412',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 1.5 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS4417',
+				{
+					brand: 'ACT',
+					model: '17HS4417',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 54 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 1.5 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS5413',
+				{
+					brand: 'ACT',
+					model: '17HS5413',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.3 as Ampere,
+					torque: 52 as NewtonCentimeter,
+					inductance: 5.5 as MilliHenry,
+					resistance: 3.2 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS6415-D',
+				{
+					brand: 'ACT',
+					model: '17HS6415-D',
+					nemaSize: 17,
+					bodyLength: 57 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 70 as NewtonCentimeter,
+					inductance: 6.5 as MilliHenry,
+					resistance: 2.5 as Ohm,
+					rotorInertia: 102 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS6409',
+				{
+					brand: 'ACT',
+					model: '17HS6409',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.86 as Ampere,
+					torque: 70 as NewtonCentimeter,
+					inductance: 11.45 as MilliHenry,
+					resistance: 4.94 as Ohm,
+					rotorInertia: 95 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'17HS6423-C',
+				{
+					brand: 'ACT',
+					model: '17HS6423-C',
+					nemaSize: 17,
+					bodyLength: 64 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.3 as Ampere,
+					torque: 70 as NewtonCentimeter,
+					inductance: 2.57 as MilliHenry,
+					resistance: 1.38 as Ohm,
+					rotorInertia: 110 as GramSquareCentimeter,
 					comments: []
 				}
 			]
@@ -1117,7 +1408,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					bodyLength: 60 as Millimeter,
 					stepAngle: 1.8 as Degree,
 					ratedCurrent: 3 as Ampere,
-					torque: 120 as NewtonCentimeter,
+					torque: 80 as NewtonCentimeter,
 					inductance: 1.6 as MilliHenry,
 					resistance: 1 as Ohm,
 					rotorInertia: 100 as GramSquareCentimeter,
