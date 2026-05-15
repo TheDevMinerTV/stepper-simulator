@@ -2713,6 +2713,27 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
+		'Honeybadger',
+		new Map<string, StepperDefinition>([
+			[
+				'Classified',
+				{
+					brand: 'Honeybadger',
+					model: 'Classified',
+					nemaSize: 17,
+					bodyLength: 60 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.85 as Ampere,
+					torque: 88.3 as NewtonCentimeter,
+					inductance: 2.3 as MilliHenry,
+					resistance: 1.1 as Ohm,
+					rotorInertia: 102 as GramSquareCentimeter,
+					comments: ['Integrated thermistor', '8mm shaft', 'Insulation Class F (155c)']
+				}
+			]
+		])
+	],
+	[
 		'Lerdge',
 		new Map<string, StepperDefinition>([
 			[
