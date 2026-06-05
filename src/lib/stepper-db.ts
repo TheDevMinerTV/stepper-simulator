@@ -26,7 +26,11 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 2.8 as MilliHenry,
 					resistance: 1.1 as Ohm,
 					rotorInertia: 128 as GramSquareCentimeter,
-					comments: ['Preinstalled with GT2 pulley', 'ELEGOO Centauri A/B']
+					comments: [
+						'Preinstalled with GT2 pulley',
+						'ELEGOO Centauri A/B',
+						'https://s3.devminer.xyz/archive/BJ42D41-14V19%20drawing.pdf'
+					]
 				}
 			],
 			[
@@ -42,7 +46,11 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 6 as MilliHenry,
 					resistance: 2.9 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
-					comments: ['Preinstalled with GT2 pulley', 'ELEGOO Centauri Z']
+					comments: [
+						'Preinstalled with GT2 pulley',
+						'ELEGOO Centauri Z',
+						'https://s3.devminer.xyz/archive/BJ42D22-25V04%20drawing.pdf'
+					]
 				}
 			],
 			[
@@ -60,7 +68,8 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					rotorInertia: 17 as GramSquareCentimeter,
 					comments: [
 						'Preinstalled Involute 10T gear (0.5mm modulus, 20deg pressure angle)',
-						'ELEGOO Centauri Extruder'
+						'ELEGOO Centauri Extruder',
+						'https://s3.devminer.xyz/archive/BJY36D12-04V28%20drawing.pdf'
 					]
 				}
 			],
@@ -77,7 +86,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.9 as MilliHenry,
 					resistance: 1.1 as Ohm,
 					rotorInertia: 76 as GramSquareCentimeter,
-					comments: ['Bambulab X1/P1 A/B']
+					comments: ['Bambulab X1/P1 A/B', 'https://s3.devminer.xyz/archive/BJ42D29-100V02%20drawing.pdf']
 				}
 			],
 			[
@@ -93,7 +102,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 6.9 as MilliHenry,
 					resistance: 2.8 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
-					comments: ['Bambulab X1/P1 Z']
+					comments: ['Bambulab X1/P1 Z', 'https://s3.devminer.xyz/archive/BJ42D22-24V47%20drawing.pdf']
 				}
 			],
 			[
@@ -158,6 +167,26 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.75 as Ohm,
 					rotorInertia: 30 as GramSquareCentimeter,
 					comments: ['Creality Sprite Extruder']
+				}
+			],
+			[
+				'BJ42D29-76V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D29-76V01',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 56 as NewtonCentimeter,
+					inductance: 0.7 as MilliHenry,
+					resistance: 0.4 as Ohm,
+					rotorInertia: 76 as GramSquareCentimeter,
+					comments: [
+						'FLSun T1 Pro A/B/C',
+						'Preinstalled with GT2 30T pulley',
+						'https://s3.devminer.xyz/archive/BJ42D29-76V01%20Drawing.pdf'
+					]
 				}
 			]
 		])
