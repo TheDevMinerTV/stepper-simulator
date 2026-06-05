@@ -1,13 +1,14 @@
 Brand	Model	NEMA	Body Length (mm)	Step Angle (deg)	Rated Current (A)	Holding Torque (N-cm)	Inductance (mH)	Resistance (ohms)	Rotor Inertia (g-cm^2)	Comments (semicolon separated)
-KeliMotor	BJ42D41-14V19	17	60	1,8	2	65	2,8	1,1	128	Preinstalled with GT2 pulley; ELEGOO Centauri A/B
-KeliMotor	BJ42D22-25V04	17	40	1,8	1,2	40	6	2,9	57	Preinstalled with GT2 pulley; ELEGOO Centauri Z
-KeliMotor	BJY36D12-04V28	14	20,5	1,8	1,2	10	1,2	2,0	17	Preinstalled Involute 10T gear (0.5mm modulus, 20deg pressure angle); ELEGOO Centauri Extruder
-KeliMotor	BJ42D29-100V02	17	48	1,8	2,0	45	1,9	1,1	76	Bambulab X1/P1 A/B
-KeliMotor	BJ42D22-23V47	17	40	1,8	1,0	37	6,9	2,8	57	Bambulab X1/P1 Z
+KeliMotor	BJ42D41-14V19	17	60	1,8	2	65	2,8	1,1	128	Preinstalled with GT2 pulley; ELEGOO Centauri A/B; https://s3.devminer.xyz/archive/BJ42D41-14V19%20drawing.pdf
+KeliMotor	BJ42D22-25V04	17	40	1,8	1,2	40	6	2,9	57	Preinstalled with GT2 pulley; ELEGOO Centauri Z; https://s3.devminer.xyz/archive/BJ42D22-25V04%20drawing.pdf
+KeliMotor	BJY36D12-04V28	14	20,5	1,8	1,2	10	1,2	2,0	17	Preinstalled Involute 10T gear (0.5mm modulus, 20deg pressure angle); ELEGOO Centauri Extruder; https://s3.devminer.xyz/archive/BJY36D12-04V28%20drawing.pdf
+KeliMotor	BJ42D29-100V02	17	48	1,8	2,0	45	1,9	1,1	76	Bambulab X1/P1 A/B; https://s3.devminer.xyz/archive/BJ42D29-100V02%20drawing.pdf
+KeliMotor	BJ42D22-23V47	17	40	1,8	1,0	37	6,9	2,8	57	Bambulab X1/P1 Z; https://s3.devminer.xyz/archive/BJ42D22-24V47%20drawing.pdf
 KeliMotor	BJ42D29-28V17	17	48	1,8	1,5	41	2,6	1,4	76	QIDI Plus 4 A/B; Preinstalled with GT1.5 pulley
 KeliMotor	BJY36D15-01V01	14	20,5	1,8	1	22	5	4,3	31	
 KeliMotor	BJ42D15-26V12	17	34	1,8	0,84	28	8,8	6	38	Ender 3 S1 (and more, probably)
 KeliMotor	BJ42D09-20V02	17	26	1,8	0,84	15	3	1,75	30	Creality Sprite Extruder
+KeliMotor	BJ42D29-76V01	17	48	1,8	4	56	0,7	0,4	76	https://s3.devminer.xyz/archive/BJ42D29-76V01%20Drawing.pdf
 ACT	17HS5425	17	48	1,8	2,5	48	1,9	1,2	68	Seem to be clones/rebadges of Wantai 42BYGHW811
 ACT	17HS5425-06	17	48	1,8	2,5	60	1,75	1	68  Seem to be clones/rebadges of Wantai 42BYGHW811-06
 ACT	17HS6416D6L22P5.5-12	17	60	1,8	1,6	70	6	2,2	102
