@@ -23,7 +23,7 @@ const ShareableConfigurationSchema = z.object({
 		gearA: z.number(),
 		gearB: z.number(),
 		acceleration: MillimetersPerSecondSquared,
-		toolheadAndYAxisMass: Grams,
+		toolheadAndYAxisMass: Grams.nullish().transform((v) => v ?? (500 as Grams)),
 		manualRequiredTorque: NewtonCentimeter.nullable().default(null)
 	}),
 	customSteppers: z.array(StepperDefinition),
