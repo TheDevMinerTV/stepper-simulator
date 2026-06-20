@@ -4,15 +4,20 @@ A simple website that allows you to simulate how different stepper motors perfor
 
 ## Contribute
 
-1.  Fork the repository
-2.  Clone the repository
-3.  Install the dependencies
+0. Install Node.js v24, install corepack (`npm i -g corepack@latest`, `corepack enable`)
+1. Fork the repository
+2. Clone the repository
+3. Install the dependencies
 
+    ```sh
     pnpm install
+    ```
 
-4.  Run the development server
+4. Run the development server
 
+    ```sh
     pnpm dev
+    ```
 
 You can add more stepper motors by adding a new row to the `data/steppers.csv` file and then running `pnpm data:update-stepper-db`.
 
