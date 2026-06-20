@@ -85,7 +85,7 @@ Array.from(STEPPER_DB.entries())
 				values.forEach((value, index) => {
 					if (index === values.length - 1) {
 						// For comments column, preserve newlines
-						markdownTable += value.replace('\\n', '\n') + ' | ';
+						markdownTable += String(value).replace('\\n', '\n') + ' | ';
 					} else {
 						markdownTable += pad(value, columnWidths[index]) + ' | ';
 					}
