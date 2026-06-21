@@ -11,6 +11,7 @@ import {
 	calculateEffectiveHobbedGearDiameter,
 	calculateEffectiveSpeedDeratingPercent,
 	calculateGearRatio,
+	calculateMotorCountMultiplier,
 	calculateRequiredExtruderTorque,
 	calculateRequiredTorque,
 	type MotorModel
@@ -361,6 +362,7 @@ export function ExtruderSettings() {
 	const debug = useAtomValue(currentDebugAtom);
 	const gearRatio = calculateGearRatio(extruderSettings);
 	const effectiveDiameter = calculateEffectiveHobbedGearDiameter(extruderSettings);
+	const motorCountMultiplier = calculateMotorCountMultiplier(extruderSettings);
 
 	return (
 		<Card className="w-full">
@@ -572,6 +574,7 @@ export function ExtruderSettings() {
 							<span>{effectiveDiameter.toFixed(2)} mm effective hobbed gear diameter</span>
 							<span>{calculateRequiredExtruderTorque(extruderSettings).toFixed(2)} Ncm required</span>
 							<span>Gear Ratio: {gearRatio.toFixed(2)}</span>
+							{motorCountMultiplier > 1 && <span>Motor Count: {motorCountMultiplier} (dual motor)</span>}
 							{extruderSettings.speedDeratingEnabled && (
 								<span>
 									Effective speed derating:{' '}

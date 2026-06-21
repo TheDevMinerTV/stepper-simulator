@@ -97,17 +97,28 @@ export const calculateDeratedMotorRotationsPerSecond = (extruderSettings: Extrud
 	return motorRps / remainingFraction;
 };
 
+// Some hobbed gears (e.g. Boombox) are driven by two motors directly coupled
+// to the same gear rather than one, so the combined output torque is shared
+// across motors rather than supplied by a single one.
+export const calculateMotorCountMultiplier = (extruderSettings: ExtruderSettings) =>
+	extruderSettings.hobbedGearPreset === 'boombox' ? 2 : 1;
+
 export const calculateRequiredExtruderTorque = (extruderSettings: ExtruderSettings) => {
 	if (extruderSettings.manualRequiredForce === null) return 0;
 
 	const forceNewtons = extruderSettings.manualRequiredForce * STANDARD_GRAVITY;
 	const radiusCm = calculateEffectiveHobbedGearDiameter(extruderSettings) / 2 / 10;
 
-	return (forceNewtons * radiusCm) / calculateGearRatio(extruderSettings);
+	return (
+		(forceNewtons * radiusCm) /
+		calculateGearRatio(extruderSettings) /
+		calculateMotorCountMultiplier(extruderSettings)
+	);
 };
 
 export const calculateForceFromMotorTorque = (extruderSettings: ExtruderSettings, motorTorque: number) => {
-	const outputTorque = motorTorque * calculateGearRatio(extruderSettings);
+	const outputTorque =
+		motorTorque * calculateGearRatio(extruderSettings) * calculateMotorCountMultiplier(extruderSettings);
 	const radiusCm = calculateEffectiveHobbedGearDiameter(extruderSettings) / 2 / 10;
 	const forceNewtons = outputTorque / radiusCm;
 

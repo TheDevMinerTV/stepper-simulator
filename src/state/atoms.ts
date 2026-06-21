@@ -33,7 +33,7 @@ export type GantrySettings = {
 
 export type DriveMode = 'gantry' | 'extruder';
 
-export type HobbedGearPreset = 'bmg' | 'x1cc' | 'orbiter' | 'k1' | 'g2' | 'lgx' | 'tbg' | 'custom';
+export type HobbedGearPreset = 'bmg' | 'x1cc' | 'orbiter' | 'k1' | 'g2' | 'lgx' | 'tbg' | 'boombox' | 'custom';
 
 export const HOBBED_GEAR_PRESETS: Record<Exclude<HobbedGearPreset, 'custom'>, { label: string; diameter: Millimeter }> = {
 	bmg: { label: 'BMG (8mm)', diameter: 8 as Millimeter },
@@ -42,7 +42,8 @@ export const HOBBED_GEAR_PRESETS: Record<Exclude<HobbedGearPreset, 'custom'>, { 
 	k1: { label: 'K1 (14.5mm)', diameter: 14.5 as Millimeter },
 	g2: { label: 'G2 (16mm)', diameter: 16 as Millimeter },
 	lgx: { label: 'LGX (18mm)', diameter: 18 as Millimeter },
-	tbg: { label: 'TBG (20mm)', diameter: 20 as Millimeter }
+	tbg: { label: 'TBG (20mm)', diameter: 20 as Millimeter },
+	boombox: { label: 'Boombox (8mm, dual motor)', diameter: 8 as Millimeter }
 };
 
 export type GearRatioPreset =
@@ -86,7 +87,8 @@ export const HOBBED_GEAR_TO_GEAR_RATIO_PRESET: Record<
 	k1: 'k1',
 	g2: 'g2',
 	lgx: 'lgxLite',
-	tbg: 'tbg'
+	tbg: 'tbg',
+	boombox: 'ungeared'
 };
 
 export type ExtruderSettings = {
