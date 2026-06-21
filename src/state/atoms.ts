@@ -168,7 +168,7 @@ export const extruderSettingsAtom = atomWithLocalStorage<ExtruderSettings>('extr
 	gearRatioPreset: 'bmg',
 	gearA: GEAR_RATIO_PRESETS.bmg.ratio,
 	gearB: 1,
-	manualRequiredForce: null,
+	manualRequiredForce: 5 as Kilogram,
 	speedDeratingEnabled: true,
 	speedDeratingFactor: 90 as Percent
 });
