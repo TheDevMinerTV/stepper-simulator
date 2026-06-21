@@ -1,9 +1,12 @@
 import { ARCHIVED_STEPPER_DB, STEPPER_ALIASES, STEPPER_DB } from '@/lib/stepper-db';
 import {
 	DEFAULT_DEBUG,
+	DEFAULT_DRIVE_MODE,
 	DEFAULT_DRIVE_SETTINGS,
+	DEFAULT_EXTRUDER_SETTINGS,
 	DEFAULT_GANTRY_SETTINGS,
 	type DriveSettings,
+	type ExtruderSettings,
 	type GantrySettings,
 	type ShareableConfiguration
 } from '@/lib/configuration';
@@ -13,6 +16,7 @@ import {
 	Degree,
 	GramSquareCentimeter,
 	Grams,
+	Kilogram,
 	MilliHenry,
 	Millimeter,
 	MillimetersPerSecondSquared,
@@ -32,6 +36,22 @@ import {
 export const SHARE_FORMAT_VERSION = 1;
 
 const MotorModel = z.enum(['classic', 'spreadCycle', 'fieldWeakening']);
+const DriveModeEnum = z.enum(['gantry', 'extruder']);
+const HobbedGearPresetEnum = z.enum(['bmg', 'x1cc', 'orbiter', 'k1', 'g2', 'lgx', 'tbg', 'custom']);
+const GearRatioPresetEnum = z.enum([
+	'ungeared',
+	'titan',
+	'bmg',
+	'x1p1',
+	'cc',
+	'k1',
+	'lgx',
+	'orbiter',
+	'g2',
+	'lgxLite',
+	'tbg',
+	'custom'
+]);
 
 const LegacyShareableConfigurationSchema = z.object({
 	driveSettings: z.object({
@@ -40,6 +60,7 @@ const LegacyShareableConfigurationSchema = z.object({
 		maxDrivePercent: Percent,
 		motorModel: MotorModel.default('classic')
 	}),
+	driveMode: z.enum(['gantry', 'extruder']).default('gantry'),
 	gantrySettings: z.object({
 		pulleyTeeth: z.number(),
 		toothPitch: z.number().default(2),
@@ -49,6 +70,29 @@ const LegacyShareableConfigurationSchema = z.object({
 		toolheadAndYAxisMass: Grams.nullish().transform((v) => v ?? (500 as Grams)),
 		manualRequiredTorque: NewtonCentimeter.nullable().default(null)
 	}),
+	extruderSettings: z
+		.object({
+			hobbedGearPreset: z.enum(['bmg', 'x1cc', 'orbiter', 'k1', 'g2', 'lgx', 'tbg', 'custom']).default('bmg'),
+			hobbedGearNominalDiameter: Millimeter,
+			gearRatioPreset: z
+				.enum(['ungeared', 'titan', 'bmg', 'x1p1', 'cc', 'k1', 'lgx', 'orbiter', 'g2', 'lgxLite', 'tbg', 'custom'])
+				.default('bmg'),
+			gearA: z.number(),
+			gearB: z.number(),
+			manualRequiredForce: Kilogram.nullable().default(null),
+			speedDeratingEnabled: z.boolean().default(true),
+			speedDeratingFactor: Percent.default(90 as Percent)
+		})
+		.default({
+			hobbedGearPreset: 'bmg',
+			hobbedGearNominalDiameter: 8 as Millimeter,
+			gearRatioPreset: 'bmg',
+			gearA: 5,
+			gearB: 1,
+			manualRequiredForce: null,
+			speedDeratingEnabled: true,
+			speedDeratingFactor: 90 as Percent
+		}),
 	customSteppers: z.array(StepperDefinition),
 	debug: z.boolean(),
 	selectedSteppers: z.array(StepperDefinition)
@@ -96,6 +140,19 @@ const SharedConfigSchema = z.object({
 			a: MillimetersPerSecondSquared.optional(), // acceleration
 			m: Grams.optional(), // toolheadAndYAxisMass
 			t: NewtonCentimeter.optional() // manualRequiredTorque
+		})
+		.optional(),
+	dm: DriveModeEnum.optional(), // driveMode
+	e: z
+		.object({
+			hp: HobbedGearPresetEnum.optional(), // hobbedGearPreset
+			hd: Millimeter.optional(), // hobbedGearNominalDiameter
+			rp: GearRatioPresetEnum.optional(), // gearRatioPreset
+			ga: z.number().optional(), // gearA
+			gb: z.number().optional(), // gearB
+			f: Kilogram.optional(), // manualRequiredForce
+			se: z.boolean().optional(), // speedDeratingEnabled
+			sf: Percent.optional() // speedDeratingFactor
 		})
 		.optional(),
 	c: z.array(StepperTuple).optional(), // customSteppers
@@ -241,6 +298,37 @@ function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
 	};
 }
 
+function packExtruderSettings(settings: ExtruderSettings): SharedConfig['e'] {
+	const packed: NonNullable<SharedConfig['e']> = {};
+
+	if (settings.hobbedGearPreset !== DEFAULT_EXTRUDER_SETTINGS.hobbedGearPreset) packed.hp = settings.hobbedGearPreset;
+	if (settings.hobbedGearNominalDiameter !== DEFAULT_EXTRUDER_SETTINGS.hobbedGearNominalDiameter)
+		packed.hd = settings.hobbedGearNominalDiameter;
+	if (settings.gearRatioPreset !== DEFAULT_EXTRUDER_SETTINGS.gearRatioPreset) packed.rp = settings.gearRatioPreset;
+	if (settings.gearA !== DEFAULT_EXTRUDER_SETTINGS.gearA) packed.ga = settings.gearA;
+	if (settings.gearB !== DEFAULT_EXTRUDER_SETTINGS.gearB) packed.gb = settings.gearB;
+	if (settings.manualRequiredForce !== null) packed.f = settings.manualRequiredForce;
+	if (settings.speedDeratingEnabled !== DEFAULT_EXTRUDER_SETTINGS.speedDeratingEnabled)
+		packed.se = settings.speedDeratingEnabled;
+	if (settings.speedDeratingFactor !== DEFAULT_EXTRUDER_SETTINGS.speedDeratingFactor)
+		packed.sf = settings.speedDeratingFactor;
+
+	return Object.keys(packed).length > 0 ? packed : undefined;
+}
+
+function unpackExtruderSettings(packed: SharedConfig['e']): ExtruderSettings {
+	return {
+		hobbedGearPreset: packed?.hp ?? DEFAULT_EXTRUDER_SETTINGS.hobbedGearPreset,
+		hobbedGearNominalDiameter: packed?.hd ?? DEFAULT_EXTRUDER_SETTINGS.hobbedGearNominalDiameter,
+		gearRatioPreset: packed?.rp ?? DEFAULT_EXTRUDER_SETTINGS.gearRatioPreset,
+		gearA: packed?.ga ?? DEFAULT_EXTRUDER_SETTINGS.gearA,
+		gearB: packed?.gb ?? DEFAULT_EXTRUDER_SETTINGS.gearB,
+		manualRequiredForce: packed?.f ?? null,
+		speedDeratingEnabled: packed?.se ?? DEFAULT_EXTRUDER_SETTINGS.speedDeratingEnabled,
+		speedDeratingFactor: packed?.sf ?? DEFAULT_EXTRUDER_SETTINGS.speedDeratingFactor
+	};
+}
+
 function bytesToBase64Url(bytes: Uint8Array): string {
 	let binary = '';
 	for (const byte of bytes) {
@@ -278,6 +366,11 @@ export function encodeConfig(config: ShareableConfiguration): string {
 
 	const gantry = packGantrySettings(config.gantrySettings);
 	if (gantry) payload.g = gantry;
+
+	if (config.driveMode !== DEFAULT_DRIVE_MODE) payload.dm = config.driveMode;
+
+	const extruder = packExtruderSettings(config.extruderSettings);
+	if (extruder) payload.e = extruder;
 
 	if (config.debug !== DEFAULT_DEBUG) payload.b = config.debug;
 
@@ -323,7 +416,9 @@ function decodeSharedConfig(payload: SharedConfig): ImportedConfiguration {
 	return {
 		config: {
 			driveSettings: unpackDriveSettings(payload.d),
+			driveMode: payload.dm ?? DEFAULT_DRIVE_MODE,
 			gantrySettings: unpackGantrySettings(payload.g),
+			extruderSettings: unpackExtruderSettings(payload.e),
 			customSteppers,
 			debug: payload.b ?? DEFAULT_DEBUG,
 			selectedSteppers

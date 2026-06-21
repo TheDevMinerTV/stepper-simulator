@@ -1,9 +1,18 @@
 import {
 	DEFAULT_DEBUG,
+	DEFAULT_DRIVE_MODE,
 	DEFAULT_DRIVE_SETTINGS,
+	DEFAULT_EXTRUDER_SETTINGS,
 	DEFAULT_GANTRY_SETTINGS,
+	GEAR_RATIO_PRESETS,
+	HOBBED_GEAR_PRESETS,
+	HOBBED_GEAR_TO_GEAR_RATIO_PRESET,
+	type DriveMode,
 	type DriveSettings,
+	type ExtruderSettings,
 	type GantrySettings,
+	type GearRatioPreset,
+	type HobbedGearPreset,
 	type ShareableConfiguration
 } from '@/lib/configuration';
 import { calculateMaxPower } from '@/lib/formulas';
@@ -16,10 +25,19 @@ type SetStateAction<T> = T | ((prev: T) => T);
 // without pulling in this module's `localStorage` access. Re-exported for the app's convenience
 export {
 	DEFAULT_DEBUG,
+	DEFAULT_DRIVE_MODE,
 	DEFAULT_DRIVE_SETTINGS,
+	DEFAULT_EXTRUDER_SETTINGS,
 	DEFAULT_GANTRY_SETTINGS,
+	GEAR_RATIO_PRESETS,
+	HOBBED_GEAR_PRESETS,
+	HOBBED_GEAR_TO_GEAR_RATIO_PRESET,
+	type DriveMode,
 	type DriveSettings,
+	type ExtruderSettings,
 	type GantrySettings,
+	type GearRatioPreset,
+	type HobbedGearPreset,
 	type ShareableConfiguration
 };
 
@@ -63,6 +81,8 @@ export const viewModeAtom = atomWithLocalStorage<ViewMode>('viewMode', 'cards');
 const debugAtom = atomWithLocalStorage<boolean>('debug', DEFAULT_DEBUG);
 const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', DEFAULT_DRIVE_SETTINGS);
 const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', DEFAULT_GANTRY_SETTINGS);
+const driveModeAtom = atomWithLocalStorage<DriveMode>('driveMode', DEFAULT_DRIVE_MODE);
+const extruderSettingsAtom = atomWithLocalStorage<ExtruderSettings>('extruderSettings', DEFAULT_EXTRUDER_SETTINGS);
 const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
 const customSteppersAtom = atom(
 	(get) => {
@@ -76,7 +96,9 @@ const customSteppersAtom = atom(
 );
 
 const tempDriveSettingsAtom = atom<DriveSettings | null>(null);
+const tempDriveModeAtom = atom<DriveMode | null>(null);
 const tempGantrySettingsAtom = atom<GantrySettings | null>(null);
+const tempExtruderSettingsAtom = atom<ExtruderSettings | null>(null);
 const tempCustomSteppersAtom = atom<StepperDefinition[] | null>(null);
 const tempDebugAtom = atom<boolean | null>(null);
 
@@ -118,6 +140,47 @@ export const currentGantrySettingsAtom = atom(
 			set(tempGantrySettingsAtom, nextValue);
 		} else {
 			set(gantrySettingsAtom, nextValue);
+		}
+	}
+);
+
+export const currentDriveModeAtom = atom(
+	(get) => {
+		const isImported = get(isImportedConfigAtom);
+		const temp = get(tempDriveModeAtom);
+		return isImported && temp ? temp : get(driveModeAtom);
+	},
+	(get, set, update: SetStateAction<DriveMode>) => {
+		const isImported = get(isImportedConfigAtom);
+		const temp = get(tempDriveModeAtom);
+		const prev = isImported && temp ? temp : get(driveModeAtom);
+		const nextValue = typeof update === 'function' ? (update as (prev: DriveMode) => DriveMode)(prev) : update;
+
+		if (isImported) {
+			set(tempDriveModeAtom, nextValue);
+		} else {
+			set(driveModeAtom, nextValue);
+		}
+	}
+);
+
+export const currentExtruderSettingsAtom = atom(
+	(get) => {
+		const isImported = get(isImportedConfigAtom);
+		const temp = get(tempExtruderSettingsAtom);
+		return isImported && temp ? temp : get(extruderSettingsAtom);
+	},
+	(get, set, update: SetStateAction<ExtruderSettings>) => {
+		const isImported = get(isImportedConfigAtom);
+		const temp = get(tempExtruderSettingsAtom);
+		const prev = isImported && temp ? temp : get(extruderSettingsAtom);
+		const nextValue =
+			typeof update === 'function' ? (update as (prev: ExtruderSettings) => ExtruderSettings)(prev) : update;
+
+		if (isImported) {
+			set(tempExtruderSettingsAtom, nextValue);
+		} else {
+			set(extruderSettingsAtom, nextValue);
 		}
 	}
 );
@@ -171,7 +234,9 @@ export const steppersAtom = atom<StepperDefinition[]>([]);
 
 export const getCurrentConfigurationAtom = atom<ShareableConfiguration>((get) => ({
 	driveSettings: get(currentDriveSettingsAtom),
+	driveMode: get(currentDriveModeAtom),
 	gantrySettings: get(currentGantrySettingsAtom),
+	extruderSettings: get(currentExtruderSettingsAtom),
 	customSteppers: get(currentCustomSteppersAtom),
 	debug: get(currentDebugAtom),
 	selectedSteppers: get(steppersAtom)
@@ -179,7 +244,9 @@ export const getCurrentConfigurationAtom = atom<ShareableConfiguration>((get) =>
 
 export const loadImportedConfigurationAtom = atom(null, (_get, set, config: ShareableConfiguration) => {
 	set(tempDriveSettingsAtom, config.driveSettings);
+	set(tempDriveModeAtom, config.driveMode);
 	set(tempGantrySettingsAtom, config.gantrySettings);
+	set(tempExtruderSettingsAtom, config.extruderSettings);
 	set(tempCustomSteppersAtom, config.customSteppers);
 	set(tempDebugAtom, config.debug);
 	set(steppersAtom, config.selectedSteppers);
@@ -190,17 +257,23 @@ export const loadImportedConfigurationAtom = atom(null, (_get, set, config: Shar
 
 export const saveImportedConfigurationAtom = atom(null, (get, set) => {
 	const driveSettings = get(tempDriveSettingsAtom);
+	const driveMode = get(tempDriveModeAtom);
 	const gantrySettings = get(tempGantrySettingsAtom);
+	const extruderSettings = get(tempExtruderSettingsAtom);
 	const customSteppers = get(tempCustomSteppersAtom);
 	const debug = get(tempDebugAtom);
 
 	if (driveSettings) set(driveSettingsAtom, driveSettings);
+	if (driveMode) set(driveModeAtom, driveMode);
 	if (gantrySettings) set(gantrySettingsAtom, gantrySettings);
+	if (extruderSettings) set(extruderSettingsAtom, extruderSettings);
 	if (customSteppers) set(customSteppersAtom, customSteppers);
 	if (debug !== null) set(debugAtom, debug);
 
 	set(tempDriveSettingsAtom, null);
+	set(tempDriveModeAtom, null);
 	set(tempGantrySettingsAtom, null);
+	set(tempExtruderSettingsAtom, null);
 	set(tempCustomSteppersAtom, null);
 	set(tempDebugAtom, null);
 
