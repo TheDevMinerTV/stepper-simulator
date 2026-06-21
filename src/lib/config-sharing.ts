@@ -37,7 +37,7 @@ export const SHARE_FORMAT_VERSION = 1;
 
 const MotorModel = z.enum(['classic', 'spreadCycle', 'fieldWeakening']);
 const DriveModeEnum = z.enum(['gantry', 'extruder']);
-const HobbedGearPresetEnum = z.enum(['bmg', 'x1cc', 'orbiter', 'k1', 'g2', 'lgx', 'tbg', 'custom']);
+const HobbedGearPresetEnum = z.enum(['bmg', 'x1cc', 'orbiter', 'k1', 'g2', 'lgx', 'tbg', 'boombox', 'custom']);
 const GearRatioPresetEnum = z.enum([
 	'ungeared',
 	'titan',
@@ -72,7 +72,9 @@ const LegacyShareableConfigurationSchema = z.object({
 	}),
 	extruderSettings: z
 		.object({
-			hobbedGearPreset: z.enum(['bmg', 'x1cc', 'orbiter', 'k1', 'g2', 'lgx', 'tbg', 'custom']).default('bmg'),
+			hobbedGearPreset: z
+				.enum(['bmg', 'x1cc', 'orbiter', 'k1', 'g2', 'lgx', 'tbg', 'boombox', 'custom'])
+				.default('bmg'),
 			hobbedGearNominalDiameter: Millimeter,
 			gearRatioPreset: z
 				.enum(['ungeared', 'titan', 'bmg', 'x1p1', 'cc', 'k1', 'lgx', 'orbiter', 'g2', 'lgxLite', 'tbg', 'custom'])
