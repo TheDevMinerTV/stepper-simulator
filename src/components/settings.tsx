@@ -73,7 +73,12 @@ export function DriveModeSelector() {
 					</div>
 					<div className="flex items-center gap-2">
 						<RadioGroupItem value="extruder" id="drive-mode-extruder" />
-						<Label htmlFor="drive-mode-extruder">Extruder</Label>
+						<Label htmlFor="drive-mode-extruder" className="gap-1.5">
+							Extruder
+							<span className="text-[10px] uppercase tracking-wide text-muted-foreground border border-muted-foreground/40 rounded px-1 py-px leading-none">
+								alpha
+							</span>
+						</Label>
 					</div>
 				</RadioGroup>
 			</CardContent>
