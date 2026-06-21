@@ -34,6 +34,54 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'BJ42D41-Y2V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D41-Y2V01',
+					nemaSize: 17,
+					bodyLength: 59 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 80 as NewtonCentimeter,
+					inductance: 6.9 as MilliHenry,
+					resistance: 3 as Ohm,
+					rotorInertia: 110 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'BJ42D41-Y3V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D41-Y3V01',
+					nemaSize: 17,
+					bodyLength: 59 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 72 as NewtonCentimeter,
+					inductance: 3.7 as MilliHenry,
+					resistance: 1.8 as Ohm,
+					rotorInertia: 110 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'BJ42D41-Y4V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D41-Y4V01',
+					nemaSize: 17,
+					bodyLength: 59 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 80 as NewtonCentimeter,
+					inductance: 2.4 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 110 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'BJ42D22-25V04',
 				{
 					brand: 'KeliMotor',
@@ -54,6 +102,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'BJ42D22-23V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-23V01',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 37 as NewtonCentimeter,
+					inductance: 6.9 as MilliHenry,
+					resistance: 2.8 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: ['https://s3.devminer.xyz/archive/KeliMotor_BJ42D22-23V01.png']
+				}
+			],
+			[
 				'BJY36D12-04V28',
 				{
 					brand: 'KeliMotor',
@@ -70,6 +134,42 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 						'Preinstalled Involute 10T gear (0.5mm modulus, 20deg pressure angle)',
 						'ELEGOO Centauri Extruder',
 						'https://s3.devminer.xyz/archive/BJY36D12-04V28%20drawing.pdf'
+					]
+				}
+			],
+			[
+				'BJY36D12-04V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJY36D12-04V01',
+					nemaSize: 14,
+					bodyLength: 20.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 11 as NewtonCentimeter,
+					inductance: 1.3 as MilliHenry,
+					resistance: 2 as Ohm,
+					rotorInertia: 17 as GramSquareCentimeter,
+					comments: ['Bambulab X1/P1 extruder', '9T helical gear']
+				}
+			],
+			[
+				'BJY36d13-01V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJY36d13-01V01',
+					nemaSize: 14,
+					bodyLength: 20 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 19 as NewtonCentimeter,
+					inductance: 3.4 as MilliHenry,
+					resistance: 3.2 as Ohm,
+					rotorInertia: 11 as GramSquareCentimeter,
+					comments: [
+						'12T pinion gear',
+						'Creality K1 series extruder',
+						'https://s3.devminer.xyz/archive/Creativity_BJY36d13-01V01.webp'
 					]
 				}
 			],
@@ -138,10 +238,10 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
-				'BJ42D15-26V12',
+				'BJ42D15-26V02',
 				{
 					brand: 'KeliMotor',
-					model: 'BJ42D15-26V12',
+					model: 'BJ42D15-26V02',
 					nemaSize: 17,
 					bodyLength: 34 as Millimeter,
 					stepAngle: 1.8 as Degree,
@@ -150,7 +250,77 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 8.8 as MilliHenry,
 					resistance: 6 as Ohm,
 					rotorInertia: 38 as GramSquareCentimeter,
+					comments: ['https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V02%20drawing.pdf']
+				}
+			],
+			[
+				'BJ42D15-26V09',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-26V09',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 38 as NewtonCentimeter,
+					inductance: 8.8 as MilliHenry,
+					resistance: 6 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: [
+						'Apparently identical to BJ42D16-26V09',
+						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V09.png'
+					]
+				}
+			],
+			[
+				'BJ42D15-26V10',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-26V10',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 28 as NewtonCentimeter,
+					inductance: 8.8 as MilliHenry,
+					resistance: 6 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: [
+						'Preinstalled with GT2 pulley',
+						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V10.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D15-26V12',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-26V12',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 38 as NewtonCentimeter,
+					inductance: 8.8 as MilliHenry,
+					resistance: 6 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
 					comments: ['Ender 3 S1 (and more, probably)']
+				}
+			],
+			[
+				'BJ42D16-26V09',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D16-26V09',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 38 as NewtonCentimeter,
+					inductance: 8.8 as MilliHenry,
+					resistance: 6 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: ['Apparently identical to BJ42D15-26V09']
 				}
 			],
 			[
@@ -192,6 +362,52 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
+		'Creativity',
+		new Map<string, StepperDefinition>([
+			[
+				'BJ42D29-100V02',
+				{
+					brand: 'Creativity',
+					model: 'BJ42D29-100V02',
+					nemaSize: 14,
+					bodyLength: 20 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 12 as NewtonCentimeter,
+					inductance: 1 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 16 as GramSquareCentimeter,
+					comments: [
+						'Bambulab X1/P1 extruder replacement',
+						'9T helical gear',
+						'most motors with four screws in the front plate appear to be this model'
+					]
+				}
+			]
+		])
+	],
+	[
+		'Twotrees',
+		new Map<string, StepperDefinition>([
+			[
+				'36STH20-1004HG',
+				{
+					brand: 'Twotrees',
+					model: '36STH20-1004HG',
+					nemaSize: 14,
+					bodyLength: 22 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 10 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 2.1 as Ohm,
+					rotorInertia: 16 as GramSquareCentimeter,
+					comments: ['Sketchy motor sold for VORONS with similar P/N to LDO 36STH20-1004(A/HG)']
+				}
+			]
+		])
+	],
+	[
 		'ACT',
 		new Map<string, StepperDefinition>([
 			[
@@ -223,7 +439,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 1.75 as MilliHenry,
 					resistance: 1 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter,
-					comments: []
+					comments: ['Seem to be clones/rebadges of Wantai 42BYGHW811-06']
 				}
 			],
 			[
@@ -516,6 +732,61 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					rotorInertia: 110 as GramSquareCentimeter,
 					comments: []
 				}
+			],
+			[
+				'36HS20HM-1884A',
+				{
+					brand: 'ACT',
+					model: '36HS20HM-1884A',
+					nemaSize: 14,
+					bodyLength: 19 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.88 as Ampere,
+					torque: 13 as NewtonCentimeter,
+					inductance: 1.05 as MilliHenry,
+					resistance: 1.85 as Ohm,
+					rotorInertia: 6 as GramSquareCentimeter,
+					comments: [
+						'often sold in VORON extruder kits',
+						'may be identified as 36HS2418CL16, or 36HS2418CL6',
+						'https://s3.devminer.xyz/archive/Maccurat_36HS20HM-1884A.avif'
+					]
+				}
+			],
+			[
+				'36BYG1204-A-6QHT',
+				{
+					brand: 'ACT',
+					model: '36BYG1204-A-6QHT',
+					nemaSize: 14,
+					bodyLength: 22 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.5 as Ampere,
+					torque: 12 as NewtonCentimeter,
+					inductance: 1 as MilliHenry,
+					resistance: 1.3 as Ohm,
+					rotorInertia: 15 as GramSquareCentimeter,
+					comments: [
+						'often sold in VORON extruder kits',
+						'https://s3.devminer.xyz/archive/ACT_36BYG1204-A-6QHT.webp'
+					]
+				}
+			],
+			[
+				'36BYG1103-3M-8QH',
+				{
+					brand: 'ACT',
+					model: '36BYG1103-3M-8QH',
+					nemaSize: 14,
+					bodyLength: 20 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 11 as NewtonCentimeter,
+					inductance: 1 as MilliHenry,
+					resistance: 1.3 as Ohm,
+					rotorInertia: 17 as GramSquareCentimeter,
+					comments: []
+				}
 			]
 		])
 	],
@@ -568,6 +839,26 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 13 as Ohm,
 					rotorInertia: 15 as GramSquareCentimeter,
 					comments: []
+				}
+			],
+			[
+				'G36HSY4405-6DB-1000A',
+				{
+					brand: 'FYSETC',
+					model: 'G36HSY4405-6DB-1000A',
+					nemaSize: 14,
+					bodyLength: 20.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 11 as NewtonCentimeter,
+					inductance: 1.7 as MilliHenry,
+					resistance: 2.4 as Ohm,
+					rotorInertia: 15 as GramSquareCentimeter,
+					comments: [
+						'Appears to ship with IdeaFormer space V2 extruder, likely others',
+						'not labelled as FYSETC but likely is',
+						'https://s3.devminer.xyz/archive/FYSETC_G36HSY4405-6DB-1000A.webp'
+					]
 				}
 			],
 			[
@@ -976,6 +1267,54 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					torque: 53.9 as NewtonCentimeter,
 					inductance: 1.8 as MilliHenry,
 					resistance: 1.25 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'42STH47-1206',
+				{
+					brand: 'LDO',
+					model: '42STH47-1206',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 31.1 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 3.3 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'42STH47-0806',
+				{
+					brand: 'LDO',
+					model: '42STH47-0806',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.8 as Ampere,
+					torque: 31.1 as NewtonCentimeter,
+					inductance: 6.3 as MilliHenry,
+					resistance: 7.5 as Ohm,
+					rotorInertia: 68 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
+				'42STH47-0406',
+				{
+					brand: 'LDO',
+					model: '42STH47-0406',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.4 as Ampere,
+					torque: 31.1 as NewtonCentimeter,
+					inductance: 25 as MilliHenry,
+					resistance: 30 as Ohm,
 					rotorInertia: 68 as GramSquareCentimeter,
 					comments: []
 				}
@@ -1498,6 +1837,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
+				'MS17HDBP4100',
+				{
+					brand: 'Moons',
+					model: 'MS17HDBP4100',
+					nemaSize: 17,
+					bodyLength: 63 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 82 as NewtonCentimeter,
+					inductance: 14.6 as MilliHenry,
+					resistance: 5.6 as Ohm,
+					rotorInertia: 123 as GramSquareCentimeter,
+					comments: []
+				}
+			],
+			[
 				'MS17HA2P4150',
 				{
 					brand: 'Moons',
@@ -1530,18 +1885,18 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 				}
 			],
 			[
-				'MS17HDBP4100',
+				'MS17HD6P4200',
 				{
 					brand: 'Moons',
-					model: 'MS17HDBP4100',
+					model: 'MS17HD6P4200',
 					nemaSize: 17,
-					bodyLength: 63 as Millimeter,
+					bodyLength: 48.3 as Millimeter,
 					stepAngle: 1.8 as Degree,
-					ratedCurrent: 1 as Ampere,
-					torque: 82 as NewtonCentimeter,
-					inductance: 14.6 as MilliHenry,
-					resistance: 5.6 as Ohm,
-					rotorInertia: 123 as GramSquareCentimeter,
+					ratedCurrent: 2 as Ampere,
+					torque: 63 as NewtonCentimeter,
+					inductance: 1.3 as MilliHenry,
+					resistance: 2.9 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter,
 					comments: []
 				}
 			],
@@ -1575,6 +1930,22 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.3 as Ohm,
 					rotorInertia: 82 as GramSquareCentimeter,
 					comments: ['Formbot VORON2.4 kit A/B & Z']
+				}
+			],
+			[
+				'MS17HDBP4200',
+				{
+					brand: 'Moons',
+					model: 'MS17HDBP4200',
+					nemaSize: 17,
+					bodyLength: 62.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 83 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 1.49 as Ohm,
+					rotorInertia: 123 as GramSquareCentimeter,
+					comments: []
 				}
 			],
 			[
@@ -2758,6 +3129,48 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.1 as Ohm,
 					rotorInertia: 102 as GramSquareCentimeter,
 					comments: ['Integrated thermistor', '8mm shaft', 'Insulation Class F (155c)']
+				}
+			]
+		])
+	],
+	[
+		'Longrunner/Zyltech',
+		new Map<string, StepperDefinition>([
+			[
+				'17HD48002H-22B',
+				{
+					brand: 'Longrunner/Zyltech',
+					model: '17HD48002H-22B',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.7 as Ampere,
+					torque: 50 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 1.8 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
+				}
+			]
+		])
+	],
+	[
+		'Vexta',
+		new Map<string, StepperDefinition>([
+			[
+				'PK244-01A',
+				{
+					brand: 'Vexta',
+					model: 'PK244-01A',
+					nemaSize: 17,
+					bodyLength: 41 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 33 as NewtonCentimeter,
+					inductance: 12.8 as MilliHenry,
+					resistance: 6.6 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: []
 				}
 			]
 		])
