@@ -91,7 +91,7 @@ const LegacyShareableConfigurationSchema = z.object({
 			gearRatioPreset: 'bmg',
 			gearA: 5,
 			gearB: 1,
-			manualRequiredForce: null,
+			manualRequiredForce: 5 as Kilogram,
 			speedDeratingEnabled: true,
 			speedDeratingFactor: 90 as Percent
 		}),
