@@ -505,7 +505,7 @@ export function ExtruderSettings() {
 					</div>
 					<Input
 						type="number"
-						placeholder="Required Grip Force"
+						placeholder="Required Extrusion Force"
 						min={0}
 						step={0.1}
 						value={extruderSettings.manualRequiredForce ?? ''}

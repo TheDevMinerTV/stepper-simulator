@@ -217,7 +217,7 @@ export function Graph() {
 		<Card className="pt-0">
 			<CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
 				<div className="grid flex-1 gap-1 min-w-fit">
-					<CardTitle>{isExtruderMode ? 'Grip Force Graph' : 'Torque Graph'}</CardTitle>
+					<CardTitle>{isExtruderMode ? 'Extrusion Force Graph' : 'Torque Graph'}</CardTitle>
 				</div>
 				<div className="flex items-center gap-2 flex-wrap justify-end">
 					{isExtruderMode ? (
@@ -399,7 +399,7 @@ export function Graph() {
 								})}
 								<ReferenceLine
 									y={isExtruderMode ? requiredForce : requiredTorque}
-									label={isExtruderMode ? 'Required Grip Force' : 'Required Torque'}
+									label={isExtruderMode ? 'Required Extrusion Force' : 'Required Torque'}
 									stroke="red"
 									strokeDasharray="6 6"
 								/>
