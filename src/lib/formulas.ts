@@ -1,10 +1,14 @@
 import type { StepperDefinition, Watts } from '@/lib/stepper';
-import type { DriveSettings, GantrySettings } from '@/state/atoms';
+import type { DriveSettings, ExtruderSettings, GantrySettings } from '@/state/atoms';
 
 const PI = Math.PI;
 const SQRT2 = Math.SQRT2;
+const STANDARD_GRAVITY = 9.80665;
+const FILAMENT_DIAMETER_MM = 1.75;
+const HOBBED_GEAR_DIAMETER_OFFSET_MM = 0.6;
 
-export const calculateGearRatio = (gantrySettings: GantrySettings) => gantrySettings.gearA / gantrySettings.gearB;
+export const calculateGearRatio = (gearSettings: { gearA: number; gearB: number }) =>
+	gearSettings.gearA / gearSettings.gearB;
 
 export const calculateMaxCurrentAtSpecifiedPower = (maxPower: Watts, stepper: StepperDefinition) =>
 	Math.sqrt(maxPower / 2 / stepper.resistance);
@@ -39,6 +43,86 @@ export const calculateRequiredTorque = (gantrySettings: GantrySettings) => {
 			((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings))) /
 		(2 * Math.PI * 10)
 	);
+};
+
+export const calculateEffectiveHobbedGearDiameter = (extruderSettings: ExtruderSettings) =>
+	extruderSettings.hobbedGearNominalDiameter - HOBBED_GEAR_DIAMETER_OFFSET_MM;
+
+export const calculateFilamentCrossSectionArea = () => PI * (FILAMENT_DIAMETER_MM / 2) ** 2;
+
+export const calculateFilamentLinearSpeed = (volumetricFlowRate: number) =>
+	volumetricFlowRate / calculateFilamentCrossSectionArea();
+
+export const calculateHobbedGearRotationsPerSecond = (
+	extruderSettings: ExtruderSettings,
+	volumetricFlowRate: number
+) => {
+	const effectiveDiameter = calculateEffectiveHobbedGearDiameter(extruderSettings);
+	const linearSpeed = calculateFilamentLinearSpeed(volumetricFlowRate);
+	return linearSpeed / (PI * effectiveDiameter);
+};
+
+// Motor-shaft speed for a given filament volumetric flow rate. The hobbed gear
+// turns at calculateHobbedGearRotationsPerSecond; the motor, being upstream of
+// the gear reduction, turns gearRatio times faster (mirrors the torque side,
+// where motor torque = load torque / gearRatio for the same power).
+export const calculateMotorRotationsPerSecondForFlowRate = (
+	extruderSettings: ExtruderSettings,
+	volumetricFlowRate: number
+) =>
+	calculateHobbedGearRotationsPerSecond(extruderSettings, volumetricFlowRate) *
+	calculateGearRatio(extruderSettings);
+
+// A larger drive gear gives more leverage per motor revolution, so the
+// nominal headroom retained by speedDeratingFactor should scale up as
+// diameter grows above the 10mm reference point (and down as it shrinks
+// below it) before being converted back into an effective derating percent.
+export const calculateEffectiveSpeedDeratingPercent = (extruderSettings: ExtruderSettings) => {
+	const diameterScale = Math.sqrt(extruderSettings.hobbedGearNominalDiameter / 10);
+	const nominalRemainingFraction = 1 - extruderSettings.speedDeratingFactor / 100;
+	const remainingFraction = nominalRemainingFraction * diameterScale;
+	return (1 - remainingFraction) * 100;
+};
+
+// Real small/low-voltage motors fall off torque faster than the idealized
+// back-EMF model predicts (cogging, current-rise limits, mechanical losses).
+// speedDeratingFactor is how much of the motor's modeled speed headroom is
+// lost: 85% means only 15% of the idealized ceiling is actually usable.
+// Derating treats the requested speed as if it were that much closer to the
+// motor's real ceiling than the model assumes, pulling the torque cliff earlier.
+export const calculateDeratedMotorRotationsPerSecond = (extruderSettings: ExtruderSettings, motorRps: number) => {
+	if (!extruderSettings.speedDeratingEnabled) return motorRps;
+	const effectiveDeratingPercent = calculateEffectiveSpeedDeratingPercent(extruderSettings);
+	const remainingFraction = Math.max(1 - effectiveDeratingPercent / 100, 0.01);
+	return motorRps / remainingFraction;
+};
+
+// Some hobbed gears (e.g. Boombox) are driven by two motors directly coupled
+// to the same gear rather than one, so the combined output torque is shared
+// across motors rather than supplied by a single one.
+export const calculateMotorCountMultiplier = (extruderSettings: ExtruderSettings) =>
+	extruderSettings.hobbedGearPreset === 'boombox' ? 2 : 1;
+
+export const calculateRequiredExtruderTorque = (extruderSettings: ExtruderSettings) => {
+	if (extruderSettings.manualRequiredForce === null) return 0;
+
+	const forceNewtons = extruderSettings.manualRequiredForce * STANDARD_GRAVITY;
+	const radiusCm = calculateEffectiveHobbedGearDiameter(extruderSettings) / 2 / 10;
+
+	return (
+		(forceNewtons * radiusCm) /
+		calculateGearRatio(extruderSettings) /
+		calculateMotorCountMultiplier(extruderSettings)
+	);
+};
+
+export const calculateForceFromMotorTorque = (extruderSettings: ExtruderSettings, motorTorque: number) => {
+	const outputTorque =
+		motorTorque * calculateGearRatio(extruderSettings) * calculateMotorCountMultiplier(extruderSettings);
+	const radiusCm = calculateEffectiveHobbedGearDiameter(extruderSettings) / 2 / 10;
+	const forceNewtons = outputTorque / radiusCm;
+
+	return forceNewtons / STANDARD_GRAVITY;
 };
 
 export type MotorModel = 'classic' | 'spreadCycle' | 'fieldWeakening';

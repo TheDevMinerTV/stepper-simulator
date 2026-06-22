@@ -35,6 +35,10 @@ export const MillimetersPerSecondSquared = z.number().brand('mm/s²');
 export type MillimetersPerSecondSquared = z.infer<typeof MillimetersPerSecondSquared>;
 export const Grams = z.number().brand('g');
 export type Grams = z.infer<typeof Grams>;
+export const Kilogram = z.number().brand('kg');
+export type Kilogram = z.infer<typeof Kilogram>;
+export const CubicMillimetersPerSecond = z.number().brand('mm³/s');
+export type CubicMillimetersPerSecond = z.infer<typeof CubicMillimetersPerSecond>;
 
 export const StepperDefinition = z.object({
 	brand: z.string(),

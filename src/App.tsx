@@ -1,19 +1,20 @@
 import { AttributionCard } from '@/components/attribution';
 import { Graph } from '@/components/graph';
 import { ImportWarning } from '@/components/import-warning';
-import { DriveSettings, GantrySettings } from '@/components/settings';
+import { DriveModeSelector, DriveSettings, ExtruderSettings, GantrySettings } from '@/components/settings';
 import { ShareConfigButton } from '@/components/share-config';
 import { StepperSpecsCard } from '@/components/specs';
 import { StepperSelection } from '@/components/stepper-management';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { clearUrlConfig, parseConfigFromUrl } from '@/lib/config-sharing';
 import type { StepperDefinition } from '@/lib/stepper';
-import { loadImportedConfigurationAtom, steppersAtom } from '@/state/atoms';
+import { currentDriveModeAtom, loadImportedConfigurationAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 
 export function App() {
 	const steppers = useAtomValue(steppersAtom);
+	const driveMode = useAtomValue(currentDriveModeAtom);
 	const loadImportedConfig = useSetAtom(loadImportedConfigurationAtom);
 
 	useEffect(() => {
@@ -31,8 +32,9 @@ export function App() {
 				<StepperSelection />
 			</div>
 			<div className="md:hidden flex flex-row md:flex-col gap-2 w-full md:w-1/3">
+				<DriveModeSelector />
 				<DriveSettings />
-				<GantrySettings />
+				{driveMode === 'extruder' ? <ExtruderSettings /> : <GantrySettings />}
 			</div>
 
 			<div className="flex flex-col gap-2 w-full md:w-2/3">
@@ -53,8 +55,9 @@ export function App() {
 				<ImportWarning />
 
 				<StepperSelection />
+				<DriveModeSelector />
 				<DriveSettings />
-				<GantrySettings />
+				{driveMode === 'extruder' ? <ExtruderSettings /> : <GantrySettings />}
 
 				<AttributionCard className="max-md:hidden" />
 			</div>
