@@ -110,7 +110,7 @@ const parseVoron3DWikiFormat = (line: string): ParsedStepperData | null => {
 
 async function convertCsvToTypeScript() {
 	// Read input files
-	const originalCsvPath = path.join(import.meta.dirname, 'steppers.csv');
+	const originalCsvPath = path.join(import.meta.dirname, 'steppers.tsv');
 	const perasCsvPath = path.join(import.meta.dirname, 'peras-steppers.csv');
 	const markdownPath = path.join(import.meta.dirname, 'voron3d-wiki.md');
 
@@ -223,7 +223,7 @@ async function convertCsvToTypeScript() {
 			inductance: inductanceNum,
 			resistance: resistanceNum,
 			rotorInertia: rotorInertiaNum,
-			comments: (!comments || !comments.trim()) ? [] : comments.split(';').map((x) => x.trim()),
+			comments: !comments || !comments.trim() ? [] : comments.split(';').map((x) => x.trim()),
 			sources: ['original-csv']
 		};
 	};

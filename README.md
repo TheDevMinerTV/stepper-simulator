@@ -19,7 +19,7 @@ A simple website that allows you to simulate how different stepper motors perfor
     pnpm dev
     ```
 
-You can add more stepper motors by adding a new row to the `data/steppers.csv` file and then running `pnpm data:update-stepper-db`.
+You can add more stepper motors by adding a new row to the `data/steppers.tsv` file and then running `pnpm data:update-stepper-db`.
 
 ## Thanks to
 

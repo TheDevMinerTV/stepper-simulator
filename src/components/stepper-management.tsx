@@ -84,7 +84,7 @@ export function ContributeSteppersButton() {
 
 			await navigator.clipboard.writeText(csvData);
 
-			const githubEditUrl = 'https://github.com/TheDevMinerTV/stepper-simulator/edit/main/data/steppers.csv';
+			const githubEditUrl = 'https://github.com/TheDevMinerTV/stepper-simulator/edit/main/data/steppers.tsv';
 			window.open(githubEditUrl, '_blank');
 
 			alert(
