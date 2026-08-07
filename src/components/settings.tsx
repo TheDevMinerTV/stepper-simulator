@@ -1,14 +1,50 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
-import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
-import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+	calculateEffectiveHobbedGearDiameter,
+	calculateEffectiveSpeedDeratingPercent,
+	calculateGearRatio,
+	calculateMotorCountMultiplier,
+	calculateRequiredExtruderTorque,
+	calculateRequiredTorque,
+	type MotorModel
+} from '@/lib/formulas';
+import type {
+	Ampere,
+	Grams,
+	Kilogram,
+	Millimeter,
+	MillimetersPerSecondSquared,
+	NewtonCentimeter,
+	Percent,
+	Volts
+} from '@/lib/stepper';
+import {
+	currentDebugAtom,
+	currentDriveModeAtom,
+	currentDriveSettingsAtom,
+	currentExtruderSettingsAtom,
+	currentGantrySettingsAtom,
+	GEAR_RATIO_PRESETS,
+	HOBBED_GEAR_PRESETS,
+	HOBBED_GEAR_TO_GEAR_RATIO_PRESET,
+	maxPowerAtom,
+	type DriveMode,
+	type GearRatioPreset,
+	type HobbedGearPreset
+} from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
 import {
 	ArrowRightFromLineIcon,
+	CircleGaugeIcon,
+	CircleHelpIcon,
 	CogIcon,
 	CpuIcon,
 	GaugeIcon,
@@ -17,6 +53,39 @@ import {
 	WeightIcon,
 	ZapIcon
 } from 'lucide-react';
+
+export function DriveModeSelector() {
+	const [driveMode, setDriveMode] = useAtom(currentDriveModeAtom);
+
+	return (
+		<Card className="w-full">
+			<CardHeader>
+				<CardTitle>Mode</CardTitle>
+			</CardHeader>
+			<CardContent>
+				<RadioGroup
+					value={driveMode}
+					onValueChange={(value) => setDriveMode(value as DriveMode)}
+					className="gap-3"
+				>
+					<div className="flex items-center gap-2">
+						<RadioGroupItem value="gantry" id="drive-mode-gantry" />
+						<Label htmlFor="drive-mode-gantry">Gantry (toolhead / AB motion)</Label>
+					</div>
+					<div className="flex items-center gap-2">
+						<RadioGroupItem value="extruder" id="drive-mode-extruder" />
+						<Label htmlFor="drive-mode-extruder" className="gap-1.5">
+							Extruder
+							<span className="text-[10px] uppercase tracking-wide text-muted-foreground border border-muted-foreground/40 rounded px-1 py-px leading-none">
+								alpha
+							</span>
+						</Label>
+					</div>
+				</RadioGroup>
+			</CardContent>
+		</Card>
+	);
+}
 
 export function DriveSettings() {
 	const [driveSettings, setDriveSettings] = useAtom(currentDriveSettingsAtom);
@@ -280,6 +349,238 @@ export function GantrySettings() {
 							</span>
 							<span>{calculateRequiredTorque(gantrySettings).toFixed(2)} Ncm required</span>
 							<span>Gear Ratio: {gearRatio.toFixed(2)}</span>
+						</div>
+					</>
+				)}
+			</CardContent>
+		</Card>
+	);
+}
+
+export function ExtruderSettings() {
+	const [extruderSettings, setExtruderSettings] = useAtom(currentExtruderSettingsAtom);
+	const debug = useAtomValue(currentDebugAtom);
+	const gearRatio = calculateGearRatio(extruderSettings);
+	const effectiveDiameter = calculateEffectiveHobbedGearDiameter(extruderSettings);
+	const motorCountMultiplier = calculateMotorCountMultiplier(extruderSettings);
+
+	return (
+		<Card className="w-full">
+			<CardHeader>
+				<CardTitle>Extruder Settings</CardTitle>
+			</CardHeader>
+			<CardContent className="space-y-2">
+				<div className="flex items-center gap-1.5 text-sm font-medium">
+					Hobbed Gear
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<CircleHelpIcon className="w-3.5 h-3.5 text-muted-foreground" />
+						</TooltipTrigger>
+						<TooltipContent>
+							This is the nominal diameter of gear (the outer rim of hobbed region). The diameter 
+							actually used for calculations is 0.6mm smaller, since standard hobbing depth cuts 
+							into the gear and reduces its effective grip diameter.
+						</TooltipContent>
+					</Tooltip>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<Select
+						value={extruderSettings.hobbedGearPreset}
+						onValueChange={(value) => {
+							const preset = value as HobbedGearPreset;
+							const matchedGearRatioPreset = preset === 'custom' ? null : HOBBED_GEAR_TO_GEAR_RATIO_PRESET[preset];
+							const shouldUpdateGearRatio =
+								matchedGearRatioPreset !== null && extruderSettings.gearRatioPreset !== 'custom';
+
+							setExtruderSettings({
+								...extruderSettings,
+								hobbedGearPreset: preset,
+								hobbedGearNominalDiameter:
+									preset === 'custom'
+										? extruderSettings.hobbedGearNominalDiameter
+										: HOBBED_GEAR_PRESETS[preset].diameter,
+								...(shouldUpdateGearRatio
+									? {
+											gearRatioPreset: matchedGearRatioPreset,
+											gearA: GEAR_RATIO_PRESETS[matchedGearRatioPreset].ratio,
+											gearB: 1
+										}
+									: {})
+							});
+						}}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Hobbed Gear" />
+						</SelectTrigger>
+						<SelectContent>
+							{Object.entries(HOBBED_GEAR_PRESETS).map(([key, preset]) => (
+								<SelectItem key={key} value={key}>
+									{preset.label}
+								</SelectItem>
+							))}
+							<SelectItem value="custom">Custom</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<CircleGaugeIcon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Hobbed Gear Nominal Diameter"
+						min={1}
+						step={0.1}
+						disabled={extruderSettings.hobbedGearPreset !== 'custom'}
+						value={extruderSettings.hobbedGearNominalDiameter}
+						onChange={(e) =>
+							setExtruderSettings({
+								...extruderSettings,
+								hobbedGearNominalDiameter: e.target.valueAsNumber as Millimeter
+							})
+						}
+					/>
+					<span>mm</span>
+				</div>
+				<div className="text-sm font-medium">Gear Reduction</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<Select
+						value={extruderSettings.gearRatioPreset}
+						onValueChange={(value) => {
+							const preset = value as GearRatioPreset;
+							setExtruderSettings({
+								...extruderSettings,
+								gearRatioPreset: preset,
+								gearA: preset === 'custom' ? extruderSettings.gearA : GEAR_RATIO_PRESETS[preset].ratio,
+								gearB: preset === 'custom' ? extruderSettings.gearB : 1
+							});
+						}}
+					>
+						<SelectTrigger className="w-full">
+							<SelectValue placeholder="Gear Ratio" />
+						</SelectTrigger>
+						<SelectContent>
+							{Object.entries(GEAR_RATIO_PRESETS).map(([key, preset]) => (
+								<SelectItem key={key} value={key}>
+									{preset.label}
+								</SelectItem>
+							))}
+							<SelectItem value="custom">Custom</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<CogIcon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Gear A"
+						value={extruderSettings.gearA}
+						min={1}
+						onChange={(e) =>
+							setExtruderSettings({
+								...extruderSettings,
+								gearRatioPreset: 'custom',
+								gearA: e.target.valueAsNumber
+							})
+						}
+					/>
+					<span>:</span>
+					<Input
+						type="number"
+						placeholder="Gear B"
+						value={extruderSettings.gearB}
+						min={1}
+						onChange={(e) =>
+							setExtruderSettings({
+								...extruderSettings,
+								gearRatioPreset: 'custom',
+								gearB: e.target.valueAsNumber
+							})
+						}
+					/>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<GaugeIcon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Required Extrusion Force"
+						min={0}
+						step={0.1}
+						value={extruderSettings.manualRequiredForce ?? ''}
+						onChange={(e) => {
+							const v = e.target.valueAsNumber;
+							setExtruderSettings({
+								...extruderSettings,
+								manualRequiredForce: Number.isFinite(v) ? (v as Kilogram) : null
+							});
+						}}
+					/>
+					<span>kgf</span>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<Checkbox
+						id="speed-derating-enabled"
+						checked={extruderSettings.speedDeratingEnabled}
+						onCheckedChange={(checked) =>
+							setExtruderSettings({
+								...extruderSettings,
+								speedDeratingEnabled: checked === true
+							})
+						}
+					/>
+					<Label htmlFor="speed-derating-enabled" className="flex items-center gap-1.5 flex-1">
+						Speed Derating Factor
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<CircleHelpIcon className="w-3.5 h-3.5 text-muted-foreground" />
+							</TooltipTrigger>
+							<TooltipContent>
+								Extrusion is a sustained, direct-contact load with no flywheel to smooth over
+								cogging and current ripple, so real motors fall well short of the idealized
+								torque/speed curve. This derates speed to better match that. Treat the absolute
+								numbers loosely - it's most useful for comparing motors on the same drivetrain,
+								not for predicting an exact maximum flow rate. For retractions non-derated is 
+								more applicable
+							</TooltipContent>
+						</Tooltip>
+					</Label>
+					<Input
+						type="number"
+						placeholder="Speed Derating Factor"
+						min={1}
+						max={100}
+						className="w-24"
+						disabled={!extruderSettings.speedDeratingEnabled}
+						value={extruderSettings.speedDeratingFactor}
+						onChange={(e) =>
+							setExtruderSettings({
+								...extruderSettings,
+								speedDeratingFactor: e.target.valueAsNumber as Percent
+							})
+						}
+					/>
+					<span>%</span>
+				</div>
+
+				{debug && (
+					<>
+						<Separator />
+
+						<div className="flex flex-col w-full max-w-sm gap-2">
+							<span>{effectiveDiameter.toFixed(2)} mm effective hobbed gear diameter</span>
+							<span>{calculateRequiredExtruderTorque(extruderSettings).toFixed(2)} Ncm required</span>
+							<span>Gear Ratio: {gearRatio.toFixed(2)}</span>
+							{motorCountMultiplier > 1 && <span>Motor Count: {motorCountMultiplier} (dual motor)</span>}
+							{extruderSettings.speedDeratingEnabled && (
+								<span>
+									Effective speed derating:{' '}
+									{calculateEffectiveSpeedDeratingPercent(extruderSettings).toFixed(1)}%
+								</span>
+							)}
 						</div>
 					</>
 				)}

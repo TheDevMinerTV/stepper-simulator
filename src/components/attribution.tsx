@@ -52,6 +52,10 @@ export function AttributionCard({ className }: { className?: string }) {
 								another stepper DB
 							</Link>{' '}
 						</li>
+						<li>
+							<Link href="https://github.com/robertsamples">Robert Samples</Link> for the extruder mode
+							functions
+						</li>
 					</ul>
 				</CardContent>
 			</Card>
