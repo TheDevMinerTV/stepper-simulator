@@ -1,19 +1,37 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
-import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
-import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
+import type {
+	Ampere,
+	Grams,
+	Millimeter,
+	MillimetersPerSecond,
+	MillimetersPerSecondSquared,
+	NewtonCentimeter,
+	Percent,
+	Volts
+} from '@/lib/stepper';
+import {
+	currentDebugAtom,
+	currentDriveSettingsAtom,
+	currentGantrySettingsAtom,
+	currentKlipperSettingsAtom,
+	maxPowerAtom
+} from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
 import {
 	ArrowRightFromLineIcon,
 	CogIcon,
 	CpuIcon,
 	GaugeIcon,
+	Grid2x2Icon,
+	MoveHorizontalIcon,
 	PercentIcon,
 	PlugIcon,
+	SquareIcon,
 	WeightIcon,
 	ZapIcon
 } from 'lucide-react';
@@ -251,6 +269,24 @@ export function GantrySettings() {
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
 					<div className="size-5">
+						<Grid2x2Icon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Bed Size"
+						min={1}
+						value={gantrySettings.bedSize}
+						onChange={(e) =>
+							setGantrySettings({
+								...gantrySettings,
+								bedSize: e.target.valueAsNumber as Millimeter
+							})
+						}
+					/>
+					<span>mm</span>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
 						<GaugeIcon className="w-5 h-5" />
 					</div>
 					<Input
@@ -283,6 +319,62 @@ export function GantrySettings() {
 						</div>
 					</>
 				)}
+			</CardContent>
+		</Card>
+	);
+}
+
+export function KlipperSettings() {
+	const [klipperSettings, setKlipperSettings] = useAtom(currentKlipperSettingsAtom);
+
+	return (
+		<Card className="w-full">
+			<CardHeader>
+				<CardTitle>Klipper Settings</CardTitle>
+				<CardDescription>Copied straight out of your `printer.cfg`</CardDescription>
+			</CardHeader>
+			<CardContent className="space-y-2">
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<SquareIcon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Square Corner Velocity"
+						min={0}
+						step={0.5}
+						title="square_corner_velocity: how fast a 90° corner is taken"
+						value={klipperSettings.squareCornerVelocity}
+						onChange={(e) =>
+							setKlipperSettings({
+								...klipperSettings,
+								squareCornerVelocity: e.target.valueAsNumber as MillimetersPerSecond
+							})
+						}
+					/>
+					<span>mm/s</span>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<MoveHorizontalIcon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Minimum Cruise Ratio"
+						min={0}
+						max={0.95}
+						step={0.05}
+						title="minimum_cruise_ratio: the share of a move that has to be spent at the peak velocity"
+						value={klipperSettings.minimumCruiseRatio}
+						onChange={(e) =>
+							setKlipperSettings({
+								...klipperSettings,
+								minimumCruiseRatio: e.target.valueAsNumber
+							})
+						}
+					/>
+					<span>cruise</span>
+				</div>
 			</CardContent>
 		</Card>
 	);

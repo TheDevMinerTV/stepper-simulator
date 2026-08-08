@@ -1,7 +1,8 @@
 import { AttributionCard } from '@/components/attribution';
 import { Graph } from '@/components/graph';
 import { ImportWarning } from '@/components/import-warning';
-import { DriveSettings, GantrySettings } from '@/components/settings';
+import { MoveRecommender } from '@/components/recommender';
+import { DriveSettings, GantrySettings, KlipperSettings } from '@/components/settings';
 import { ShareConfigButton } from '@/components/share-config';
 import { StepperSpecsCard } from '@/components/specs';
 import { StepperSelection } from '@/components/stepper-management';
@@ -35,6 +36,7 @@ export function App() {
 			<div className="md:hidden flex flex-row md:flex-col gap-2 w-full md:w-1/3">
 				<DriveSettings />
 				<GantrySettings />
+				<KlipperSettings />
 			</div>
 
 			<div className="flex flex-col gap-2 w-full md:w-2/3">
@@ -50,6 +52,7 @@ export function App() {
 					</CardContent>
 				</Card>
 				<Graph />
+				<MoveRecommender />
 			</div>
 			<div className="hidden md:flex flex-row md:flex-col gap-2 w-full md:w-1/3">
 				<ImportWarning />
@@ -57,6 +60,7 @@ export function App() {
 				<StepperSelection />
 				<DriveSettings />
 				<GantrySettings />
+				<KlipperSettings />
 
 				<AttributionCard className="max-md:hidden" />
 			</div>

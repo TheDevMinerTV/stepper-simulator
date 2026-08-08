@@ -31,10 +31,14 @@ export const Percent = z.number().brand('%');
 export type Percent = z.infer<typeof Percent>;
 export const Watts = z.number().brand('W');
 export type Watts = z.infer<typeof Watts>;
+export const MillimetersPerSecond = z.number().brand('mm/s');
+export type MillimetersPerSecond = z.infer<typeof MillimetersPerSecond>;
 export const MillimetersPerSecondSquared = z.number().brand('mm/s²');
 export type MillimetersPerSecondSquared = z.infer<typeof MillimetersPerSecondSquared>;
 export const Grams = z.number().brand('g');
 export type Grams = z.infer<typeof Grams>;
+export const Seconds = z.number().brand('s');
+export type Seconds = z.infer<typeof Seconds>;
 
 export const StepperDefinition = z.object({
 	brand: z.string(),

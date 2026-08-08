@@ -2,20 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { chartColor } from '@/lib/chart-colors';
 import {
+	calculateBeltPitch,
 	calculateDriveCurrent,
 	calculateMaxCurrentAtSpecifiedPower,
 	calculateRequiredTorque,
-	calculateSingleCoilTorque,
+	calculateTorqueAtVelocity,
 	calculateTorqueRotor
 } from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
-import {
-	currentDriveSettingsAtom,
-	currentGantrySettingsAtom,
-	maxPowerAtom,
-	steppersAtom
-} from '@/state/atoms';
+import { currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
@@ -35,9 +32,9 @@ export function Graph() {
 	const [unit, setUnit] = useState<'mm/s' | 'rpm'>('mm/s');
 
 	const steppers = useAtomValue(steppersAtom);
-	const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
-	const mmsToRpm = (mms: number) => (mms * 60) / pulleyCircumferenceMm;
-	const rpmToMms = (rpm: number) => (rpm * pulleyCircumferenceMm) / 60;
+	const beltPitchMm = calculateBeltPitch(gantrySettings);
+	const mmsToRpm = (mms: number) => (mms * 60) / beltPitchMm;
+	const rpmToMms = (rpm: number) => (rpm * beltPitchMm) / 60;
 	const displayedMax = unit === 'rpm' ? mmsToRpm(maxVelocity) : maxVelocity;
 
 	const chartData = useMemo(() => {
@@ -54,17 +51,12 @@ export function Graph() {
 				const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
 				const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
 
-				const rps = velocity / pulleyCircumferenceMm;
-				const rawTorque = calculateSingleCoilTorque(
-					driveSettings.motorModel,
-					stepper.stepAngle,
-					stepper.ratedCurrent,
-					stepper.torque,
-					stepper.inductance,
-					stepper.resistance,
-					driveSettings.inputVoltage,
+				const rawTorque = calculateTorqueAtVelocity(
+					driveSettings,
+					gantrySettings,
+					stepper,
 					driveCurrent,
-					rps
+					velocity
 				);
 
 				const torque = Math.max(rawTorque - torqueRotor, 0);
@@ -75,31 +67,20 @@ export function Graph() {
 		});
 	}, [steppers, driveSettings, gantrySettings, maxPower, maxVelocity]);
 
-	const chartConfig = useMemo(() => {
-		const colors = [
-			'#2563eb', // blue
-			'#dc2626', // red
-			'#16a34a', // green
-			'#ca8a04', // yellow
-			'#9333ea', // purple
-			'#c2410c', // orange
-			'#0891b2', // cyan
-			'#be123c', // rose
-			'#059669', // emerald
-			'#7c3aed' // violet
-		];
-
-		return steppers.reduce(
-			(acc, stepper, index) => {
-				acc[generateKey(stepper)] = {
-					label: `${stepper.brand} ${stepper.model}`,
-					color: colors[index % colors.length]
-				};
-				return acc;
-			},
-			{} as Record<string, { label: string; color: string }>
-		);
-	}, [steppers]);
+	const chartConfig = useMemo(
+		() =>
+			steppers.reduce(
+				(acc, stepper, index) => {
+					acc[generateKey(stepper)] = {
+						label: `${stepper.brand} ${stepper.model}`,
+						color: chartColor(index)
+					};
+					return acc;
+				},
+				{} as Record<string, { label: string; color: string }>
+			),
+		[steppers]
+	);
 
 	const requiredTorque = calculateRequiredTorque(gantrySettings);
 
@@ -143,7 +124,7 @@ export function Graph() {
 				) : (
 					<div style={{ width: '100%', height: '400px' }}>
 						<ChartContainer config={chartConfig} className="aspect-auto h-[400px] w-full">
-							<LineChart data={chartData}>
+							<LineChart data={chartData} margin={{ top: 16, right: 12, bottom: 0, left: 0 }}>
 								<CartesianGrid vertical={false} />
 								<XAxis
 									dataKey="velocity"
@@ -160,6 +141,11 @@ export function Graph() {
 									axisLine={false}
 									tickMargin={8}
 									minTickGap={20}
+									// Headroom so the required-torque line and its label never sit on the top edge
+									domain={[
+										0,
+										(dataMax: number) => Math.ceil(Math.max(dataMax, requiredTorque) * 1.1)
+									]}
 									tickFormatter={(value) => `${value} Ncm`}
 								/>
 								<ChartTooltip
@@ -212,11 +198,14 @@ export function Graph() {
 										/>
 									);
 								})}
+								{/* Required torque above every curve is the interesting case, not one to hide:
+								    extend the axis instead of clipping the line out of view */}
 								<ReferenceLine
 									y={requiredTorque}
 									label="Required Torque"
 									stroke="red"
 									strokeDasharray="6 6"
+									ifOverflow="extendDomain"
 								/>
 
 								<ChartLegend />

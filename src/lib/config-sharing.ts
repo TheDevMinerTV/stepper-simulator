@@ -3,8 +3,10 @@ import {
 	DEFAULT_DEBUG,
 	DEFAULT_DRIVE_SETTINGS,
 	DEFAULT_GANTRY_SETTINGS,
+	DEFAULT_KLIPPER_SETTINGS,
 	type DriveSettings,
 	type GantrySettings,
+	type KlipperSettings,
 	type ShareableConfiguration
 } from '@/state/atoms';
 import { z } from 'zod/v4';
@@ -15,6 +17,7 @@ import {
 	Grams,
 	MilliHenry,
 	Millimeter,
+	MillimetersPerSecond,
 	MillimetersPerSecondSquared,
 	NEMASize,
 	NewtonCentimeter,
@@ -47,8 +50,18 @@ const LegacyShareableConfigurationSchema = z.object({
 		gearB: z.number(),
 		acceleration: MillimetersPerSecondSquared,
 		toolheadAndYAxisMass: Grams.nullish().transform((v) => v ?? (500 as Grams)),
-		manualRequiredTorque: NewtonCentimeter.nullable().default(null)
+		manualRequiredTorque: NewtonCentimeter.nullable().default(null),
+		bedSize: Millimeter.default(DEFAULT_GANTRY_SETTINGS.bedSize),
+		cornerAngle: Degree.default(DEFAULT_GANTRY_SETTINGS.cornerAngle),
+		movePathLength: Millimeter.nullable().default(null),
+		headroomPercent: Percent.default(DEFAULT_GANTRY_SETTINGS.headroomPercent)
 	}),
+	klipperSettings: z
+		.object({
+			squareCornerVelocity: MillimetersPerSecond.default(DEFAULT_KLIPPER_SETTINGS.squareCornerVelocity),
+			minimumCruiseRatio: z.number().default(DEFAULT_KLIPPER_SETTINGS.minimumCruiseRatio)
+		})
+		.default(DEFAULT_KLIPPER_SETTINGS),
 	customSteppers: z.array(StepperDefinition),
 	debug: z.boolean(),
 	selectedSteppers: z.array(StepperDefinition)
@@ -95,7 +108,17 @@ const SharedConfigSchema = z.object({
 			gb: z.number().optional(), // gearB
 			a: MillimetersPerSecondSquared.optional(), // acceleration
 			m: Grams.optional(), // toolheadAndYAxisMass
-			t: NewtonCentimeter.optional() // manualRequiredTorque
+			t: NewtonCentimeter.optional(), // manualRequiredTorque
+			bs: Millimeter.optional(), // bedSize
+			pl: Millimeter.optional(), // movePathLength
+			hr: Percent.optional(), // headroomPercent
+			ca: Degree.optional() // cornerAngle
+		})
+		.optional(),
+	k: z
+		.object({
+			cv: MillimetersPerSecond.optional(), // squareCornerVelocity
+			mc: z.number().optional() // minimumCruiseRatio
 		})
 		.optional(),
 	c: z.array(StepperTuple).optional(), // customSteppers
@@ -225,8 +248,30 @@ function packGantrySettings(settings: GantrySettings): SharedConfig['g'] {
 	if (settings.toolheadAndYAxisMass !== DEFAULT_GANTRY_SETTINGS.toolheadAndYAxisMass)
 		packed.m = settings.toolheadAndYAxisMass;
 	if (settings.manualRequiredTorque !== null) packed.t = settings.manualRequiredTorque;
+	if (settings.bedSize !== DEFAULT_GANTRY_SETTINGS.bedSize) packed.bs = settings.bedSize;
+	if (settings.movePathLength !== null) packed.pl = settings.movePathLength;
+	if (settings.headroomPercent !== DEFAULT_GANTRY_SETTINGS.headroomPercent) packed.hr = settings.headroomPercent;
+	if (settings.cornerAngle !== DEFAULT_GANTRY_SETTINGS.cornerAngle) packed.ca = settings.cornerAngle;
 
 	return Object.keys(packed).length > 0 ? packed : undefined;
+}
+
+function packKlipperSettings(settings: KlipperSettings): SharedConfig['k'] {
+	const packed: NonNullable<SharedConfig['k']> = {};
+
+	if (settings.squareCornerVelocity !== DEFAULT_KLIPPER_SETTINGS.squareCornerVelocity)
+		packed.cv = settings.squareCornerVelocity;
+	if (settings.minimumCruiseRatio !== DEFAULT_KLIPPER_SETTINGS.minimumCruiseRatio)
+		packed.mc = settings.minimumCruiseRatio;
+
+	return Object.keys(packed).length > 0 ? packed : undefined;
+}
+
+function unpackKlipperSettings(packed: SharedConfig['k']): KlipperSettings {
+	return {
+		squareCornerVelocity: packed?.cv ?? DEFAULT_KLIPPER_SETTINGS.squareCornerVelocity,
+		minimumCruiseRatio: packed?.mc ?? DEFAULT_KLIPPER_SETTINGS.minimumCruiseRatio
+	};
 }
 
 function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
@@ -237,7 +282,11 @@ function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
 		gearB: packed?.gb ?? DEFAULT_GANTRY_SETTINGS.gearB,
 		acceleration: packed?.a ?? DEFAULT_GANTRY_SETTINGS.acceleration,
 		toolheadAndYAxisMass: packed?.m ?? DEFAULT_GANTRY_SETTINGS.toolheadAndYAxisMass,
-		manualRequiredTorque: packed?.t ?? null
+		manualRequiredTorque: packed?.t ?? null,
+		bedSize: packed?.bs ?? DEFAULT_GANTRY_SETTINGS.bedSize,
+		movePathLength: packed?.pl ?? null,
+		headroomPercent: packed?.hr ?? DEFAULT_GANTRY_SETTINGS.headroomPercent,
+		cornerAngle: packed?.ca ?? DEFAULT_GANTRY_SETTINGS.cornerAngle
 	};
 }
 
@@ -278,6 +327,9 @@ export function encodeConfig(config: ShareableConfiguration): string {
 
 	const gantry = packGantrySettings(config.gantrySettings);
 	if (gantry) payload.g = gantry;
+
+	const klipper = packKlipperSettings(config.klipperSettings);
+	if (klipper) payload.k = klipper;
 
 	if (config.debug !== DEFAULT_DEBUG) payload.b = config.debug;
 
@@ -324,6 +376,7 @@ function decodeSharedConfig(payload: SharedConfig): ImportedConfiguration {
 		config: {
 			driveSettings: unpackDriveSettings(payload.d),
 			gantrySettings: unpackGantrySettings(payload.g),
+			klipperSettings: unpackKlipperSettings(payload.k),
 			customSteppers,
 			debug: payload.b ?? DEFAULT_DEBUG,
 			selectedSteppers

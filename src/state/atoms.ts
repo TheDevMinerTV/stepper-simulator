@@ -1,7 +1,10 @@
 import type { MotorModel } from '@/lib/formulas';
 import type {
 	Ampere,
+	Degree,
 	Grams,
+	Millimeter,
+	MillimetersPerSecond,
 	MillimetersPerSecondSquared,
 	NewtonCentimeter,
 	Percent,
@@ -27,11 +30,28 @@ export type GantrySettings = {
 	acceleration: MillimetersPerSecondSquared;
 	toolheadAndYAxisMass: Grams;
 	manualRequiredTorque: NewtonCentimeter | null;
+	/** Travel of the axis, used to suggest a path length for the move recommender */
+	bedSize: Millimeter;
+	/** Move the recommender optimizes for. `null` follows the bed size at half of it */
+	movePathLength: Millimeter | null;
+	/** Share of the computed acceleration ceiling the recommender holds back */
+	headroomPercent: Percent;
+	/** How far the path turns at the corners the recommended move runs between */
+	cornerAngle: Degree;
+};
+
+/** Values copied straight out of a Klipper `printer.cfg`, named after the config keys they mirror */
+export type KlipperSettings = {
+	/** `square_corner_velocity`: how fast a 90° corner is taken */
+	squareCornerVelocity: MillimetersPerSecond;
+	/** `minimum_cruise_ratio`: share of a move that has to be spent at the peak velocity, 0..1 */
+	minimumCruiseRatio: number;
 };
 
 export type ShareableConfiguration = {
 	driveSettings: DriveSettings;
 	gantrySettings: GantrySettings;
+	klipperSettings: KlipperSettings;
 	customSteppers: StepperDefinition[];
 	debug: boolean;
 	selectedSteppers: StepperDefinition[];
@@ -56,7 +76,15 @@ export const DEFAULT_GANTRY_SETTINGS: GantrySettings = {
 	gearB: 1,
 	acceleration: 20000 as MillimetersPerSecondSquared,
 	toolheadAndYAxisMass: 500 as Grams,
-	manualRequiredTorque: null
+	manualRequiredTorque: null,
+	bedSize: 300 as Millimeter,
+	movePathLength: null,
+	headroomPercent: 25 as Percent,
+	cornerAngle: 90 as Degree
+};
+export const DEFAULT_KLIPPER_SETTINGS: KlipperSettings = {
+	squareCornerVelocity: 5 as MillimetersPerSecond,
+	minimumCruiseRatio: 0.5
 };
 
 function atomWithLocalStorage<T>(key: string, initialValue: T) {
@@ -94,6 +122,7 @@ export const viewModeAtom = atomWithLocalStorage<ViewMode>('viewMode', 'cards');
 const debugAtom = atomWithLocalStorage<boolean>('debug', DEFAULT_DEBUG);
 const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', DEFAULT_DRIVE_SETTINGS);
 const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', DEFAULT_GANTRY_SETTINGS);
+const klipperSettingsAtom = atomWithLocalStorage<KlipperSettings>('klipperSettings', DEFAULT_KLIPPER_SETTINGS);
 const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
 const customSteppersAtom = atom(
 	(get) => {
@@ -108,6 +137,7 @@ const customSteppersAtom = atom(
 
 const tempDriveSettingsAtom = atom<DriveSettings | null>(null);
 const tempGantrySettingsAtom = atom<GantrySettings | null>(null);
+const tempKlipperSettingsAtom = atom<KlipperSettings | null>(null);
 const tempCustomSteppersAtom = atom<StepperDefinition[] | null>(null);
 const tempDebugAtom = atom<boolean | null>(null);
 
@@ -149,6 +179,27 @@ export const currentGantrySettingsAtom = atom(
 			set(tempGantrySettingsAtom, nextValue);
 		} else {
 			set(gantrySettingsAtom, nextValue);
+		}
+	}
+);
+
+export const currentKlipperSettingsAtom = atom(
+	(get) => {
+		const isImported = get(isImportedConfigAtom);
+		const temp = get(tempKlipperSettingsAtom);
+		return isImported && temp ? temp : get(klipperSettingsAtom);
+	},
+	(get, set, update: SetStateAction<KlipperSettings>) => {
+		const isImported = get(isImportedConfigAtom);
+		const temp = get(tempKlipperSettingsAtom);
+		const prev = isImported && temp ? temp : get(klipperSettingsAtom);
+		const nextValue =
+			typeof update === 'function' ? (update as (prev: KlipperSettings) => KlipperSettings)(prev) : update;
+
+		if (isImported) {
+			set(tempKlipperSettingsAtom, nextValue);
+		} else {
+			set(klipperSettingsAtom, nextValue);
 		}
 	}
 );
@@ -206,6 +257,7 @@ export const steppersAtom = atom<StepperDefinition[]>([]);
 export const getCurrentConfigurationAtom = atom<ShareableConfiguration>((get) => ({
 	driveSettings: get(currentDriveSettingsAtom),
 	gantrySettings: get(currentGantrySettingsAtom),
+	klipperSettings: get(currentKlipperSettingsAtom),
 	customSteppers: get(currentCustomSteppersAtom),
 	debug: get(currentDebugAtom),
 	selectedSteppers: get(steppersAtom)
@@ -214,6 +266,7 @@ export const getCurrentConfigurationAtom = atom<ShareableConfiguration>((get) =>
 export const loadImportedConfigurationAtom = atom(null, (_get, set, config: ShareableConfiguration) => {
 	set(tempDriveSettingsAtom, config.driveSettings);
 	set(tempGantrySettingsAtom, config.gantrySettings);
+	set(tempKlipperSettingsAtom, config.klipperSettings);
 	set(tempCustomSteppersAtom, config.customSteppers);
 	set(tempDebugAtom, config.debug);
 	set(steppersAtom, config.selectedSteppers);
@@ -225,16 +278,19 @@ export const loadImportedConfigurationAtom = atom(null, (_get, set, config: Shar
 export const saveImportedConfigurationAtom = atom(null, (get, set) => {
 	const driveSettings = get(tempDriveSettingsAtom);
 	const gantrySettings = get(tempGantrySettingsAtom);
+	const klipperSettings = get(tempKlipperSettingsAtom);
 	const customSteppers = get(tempCustomSteppersAtom);
 	const debug = get(tempDebugAtom);
 
 	if (driveSettings) set(driveSettingsAtom, driveSettings);
 	if (gantrySettings) set(gantrySettingsAtom, gantrySettings);
+	if (klipperSettings) set(klipperSettingsAtom, klipperSettings);
 	if (customSteppers) set(customSteppersAtom, customSteppers);
 	if (debug !== null) set(debugAtom, debug);
 
 	set(tempDriveSettingsAtom, null);
 	set(tempGantrySettingsAtom, null);
+	set(tempKlipperSettingsAtom, null);
 	set(tempCustomSteppersAtom, null);
 	set(tempDebugAtom, null);
 
