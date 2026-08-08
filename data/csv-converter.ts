@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import prettier from 'prettier';
 
 const prettierConfig = JSON.parse(
@@ -20,6 +21,44 @@ interface ParsedStepperData {
 	comments: string[];
 	sources: string[];
 }
+
+/**
+ * A stepper that used to be in the DB and is not in any source file anymore. Share links reference
+ * steppers by `brand|model`, so dropping an entry would silently break every link that used it.
+ * Archived entries stay resolvable by `src/lib/config-sharing.ts` but are hidden from the picker.
+ */
+interface ArchivedStepper extends Omit<ParsedStepperData, 'sources'> {
+	archivedAt: string;
+}
+
+const archivePath = path.join(import.meta.dirname, 'archived-steppers.json');
+const aliasPath = path.join(import.meta.dirname, 'stepper-aliases.json');
+const stepperDbPath = path.join(import.meta.dirname, '..', 'src', 'lib', 'stepper-db.ts');
+
+const stepperId = (stepper: { brand: string; model: string }) => `${stepper.brand}|${stepper.model}`;
+
+const readJsonFile = <T>(filePath: string, fallback: T): T => {
+	if (!fs.existsSync(filePath)) return fallback;
+	return JSON.parse(fs.readFileSync(filePath, 'utf-8')) as T;
+};
+
+/** What the previous run published as live, read back out of the generated file */
+const readPublishedSteppers = async (): Promise<Map<string, ParsedStepperData>> => {
+	const published = new Map<string, ParsedStepperData>();
+	if (!fs.existsSync(stepperDbPath)) return published;
+
+	const { STEPPER_DB } = (await import(pathToFileURL(stepperDbPath).href)) as {
+		STEPPER_DB: Map<string, Map<string, ParsedStepperData>>;
+	};
+
+	for (const brandMap of STEPPER_DB.values()) {
+		for (const stepper of brandMap.values()) {
+			published.set(stepperId(stepper), stepper);
+		}
+	}
+
+	return published;
+};
 
 const CsvFormatType = {
 	ORIGINAL: 'original',
@@ -402,35 +441,71 @@ async function convertCsvToTypeScript() {
 		rawBrandMap.set(data.model, data);
 	}
 
+	// Archive whatever the previous run published and no source file carries anymore, so share
+	// links that reference it by `brand|model` keep resolving
+	const currentById = new Map<string, ParsedStepperData>();
+	for (const brandMap of steppersByBrand.values()) {
+		for (const stepper of brandMap.values()) {
+			currentById.set(stepperId(stepper), stepper);
+		}
+	}
+
+	const archive = readJsonFile<{ steppers: ArchivedStepper[] }>(archivePath, { steppers: [] });
+	const archiveById = new Map(archive.steppers.map((stepper) => [stepperId(stepper), stepper]));
+
+	// A stepper that came back into a source file is live again
+	for (const id of archiveById.keys()) {
+		if (currentById.has(id)) {
+			console.log(`♻️  Un-archiving ${id}: it is back in a source file`);
+			archiveById.delete(id);
+		}
+	}
+
+	const archivedAt = new Date().toISOString().slice(0, 10);
+	for (const [id, stepper] of await readPublishedSteppers()) {
+		if (currentById.has(id) || archiveById.has(id)) continue;
+
+		console.log(`📦 Archiving ${id}: gone from every source file, share links keep resolving it`);
+		const { sources: _sources, ...definition } = stepper;
+		archiveById.set(id, { ...definition, archivedAt });
+	}
+
+	const aliases = readJsonFile<{ aliases: Record<string, string> }>(aliasPath, { aliases: {} });
+
 	// Generate the nested Map TypeScript content
-	const brandEntries: string[] = [];
+	const renderStepperDefinition = (data: Omit<ParsedStepperData, 'sources'>) => `{
+			brand: ${JSON.stringify(data.brand)},
+			model: ${JSON.stringify(data.model)},
+			nemaSize: ${data.nemaSize},
+			bodyLength: ${data.bodyLength} as Millimeter,
+			stepAngle: ${data.stepAngle} as Degree,
+			ratedCurrent: ${data.ratedCurrent} as Ampere,
+			torque: ${data.torque} as NewtonCentimeter,
+			inductance: ${data.inductance} as MilliHenry,
+			resistance: ${data.resistance} as Ohm,
+			rotorInertia: ${data.rotorInertia} as GramSquareCentimeter,
+			comments: ${JSON.stringify(data.comments)}
+		}`;
 
-	for (const [brand, rawModelsMap] of steppersByBrand.entries()) {
-		const modelEntries: string[] = [];
+	const renderBrandMaps = (steppers: Iterable<Omit<ParsedStepperData, 'sources'>>) => {
+		const byBrand = new Map<string, string[]>();
 
-		for (const [model, data] of rawModelsMap.entries()) {
-			const stepperDefinition = `{
-				brand: ${JSON.stringify(data.brand)},
-				model: ${JSON.stringify(data.model)},
-				nemaSize: ${data.nemaSize},
-				bodyLength: ${data.bodyLength} as Millimeter,
-				stepAngle: ${data.stepAngle} as Degree,
-				ratedCurrent: ${data.ratedCurrent} as Ampere,
-				torque: ${data.torque} as NewtonCentimeter,
-				inductance: ${data.inductance} as MilliHenry,
-				resistance: ${data.resistance} as Ohm,
-				rotorInertia: ${data.rotorInertia} as GramSquareCentimeter,
-				comments: ${JSON.stringify(data.comments)}
-			}`;
-			modelEntries.push(`\t\t["${model}", ${stepperDefinition}]`);
+		for (const data of steppers) {
+			const modelEntries = byBrand.get(data.brand) ?? [];
+			modelEntries.push(`\t\t["${data.model}", ${renderStepperDefinition(data)}]`);
+			byBrand.set(data.brand, modelEntries);
 		}
 
-		const brandEntry = `\t["${brand}", new Map<string, StepperDefinition>([
+		return Array.from(byBrand.entries())
+			.map(
+				([brand, modelEntries]) => `\t["${brand}", new Map<string, StepperDefinition>([
 ${modelEntries.join(',\n')}
-\t])]`;
+\t])]`
+			)
+			.join(',\n');
+	};
 
-		brandEntries.push(brandEntry);
-	}
+	const liveSteppers = Array.from(steppersByBrand.values()).flatMap((brandMap) => Array.from(brandMap.values()));
 
 	const tsContent = `import type {
 		Ampere,
@@ -444,12 +519,26 @@ ${modelEntries.join(',\n')}
 	} from "@/lib/stepper";
 
 	export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
-		${brandEntries.join(',\n')}
+		${renderBrandMaps(liveSteppers)}
 	]);
+
+	/**
+	 * Steppers that left the source data. Hidden from the picker, but still resolvable so that
+	 * share links referencing them by \`brand|model\` keep working. Edit \`data/archived-steppers.json\`.
+	 */
+	export const ARCHIVED_STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
+		${renderBrandMaps(archiveById.values())}
+	]);
+
+	/** \`brand|model\` of a renamed stepper -> its current \`brand|model\`. Edit \`data/stepper-aliases.json\`. */
+	export const STEPPER_ALIASES: Map<string, string> = new Map(${JSON.stringify(Object.entries(aliases.aliases))});
 	`;
 
+	const archivedSteppers = Array.from(archiveById.values()).sort((a, b) => stepperId(a).localeCompare(stepperId(b)));
+	fs.writeFileSync(archivePath, `${JSON.stringify({ steppers: archivedSteppers }, null, '\t')}\n`, 'utf-8');
+
 	// Write to stepper-db.ts
-	const outputPath = path.join(import.meta.dirname, '..', 'src', 'lib', 'stepper-db.ts');
+	const outputPath = stepperDbPath;
 
 	// Format the content with prettier before writing
 	try {
@@ -471,6 +560,8 @@ ${modelEntries.join(',\n')}
 	console.log(`📊 Total entries processed: ${totalEntries}`);
 	console.log(`✅ Successfully converted: ${totalConverted}`);
 	console.log(`🏭 Unique brands: ${steppersByBrand.size}`);
+	console.log(`📦 Archived (link-resolvable only): ${archivedSteppers.length}`);
+	console.log(`🔗 Aliases: ${Object.keys(aliases.aliases).length}`);
 	console.log(`📄 Output written to: ${outputPath}`);
 }
 

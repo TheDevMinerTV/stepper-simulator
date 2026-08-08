@@ -3195,6 +3195,27 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
+		'Excit3D',
+		new Map<string, StepperDefinition>([
+			[
+				'MaxMotor',
+				{
+					brand: 'Excit3D',
+					model: 'MaxMotor',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 56 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.45 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: []
+				}
+			]
+		])
+	],
+	[
 		'JUST MOTION CONTROL',
 		new Map<string, StepperDefinition>([
 			[
@@ -3481,3 +3502,12 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	]
 ]);
+
+/**
+ * Steppers that left the source data. Hidden from the picker, but still resolvable so that
+ * share links referencing them by `brand|model` keep working. Edit `data/archived-steppers.json`.
+ */
+export const ARCHIVED_STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([]);
+
+/** `brand|model` of a renamed stepper -> its current `brand|model`. Edit `data/stepper-aliases.json`. */
+export const STEPPER_ALIASES: Map<string, string> = new Map([]);

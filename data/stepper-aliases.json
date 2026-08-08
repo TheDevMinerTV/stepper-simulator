@@ -1,0 +1,4 @@
+{
+	"$comment": "Hand-maintained. Maps the `brand|model` id an old share link may carry to the id it should resolve to now. Use this when a stepper is renamed; use archived-steppers.json (generated) when one is removed.",
+	"aliases": {}
+}

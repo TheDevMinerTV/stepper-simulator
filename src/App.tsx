@@ -8,21 +8,23 @@ import { StepperSelection } from '@/components/stepper-management';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { clearUrlConfig, parseConfigFromUrl } from '@/lib/config-sharing';
 import type { StepperDefinition } from '@/lib/stepper';
-import { loadImportedConfigurationAtom, steppersAtom } from '@/state/atoms';
+import { loadImportedConfigurationAtom, steppersAtom, unresolvedImportedSteppersAtom } from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 
 export function App() {
 	const steppers = useAtomValue(steppersAtom);
 	const loadImportedConfig = useSetAtom(loadImportedConfigurationAtom);
+	const setUnresolvedSteppers = useSetAtom(unresolvedImportedSteppersAtom);
 
 	useEffect(() => {
-		const configFromUrl = parseConfigFromUrl();
-		if (configFromUrl) {
-			loadImportedConfig(configFromUrl);
+		const imported = parseConfigFromUrl();
+		if (imported) {
+			loadImportedConfig(imported.config);
+			setUnresolvedSteppers(imported.unresolvedSteppers);
 			clearUrlConfig();
 		}
-	}, [loadImportedConfig]);
+	}, [loadImportedConfig, setUnresolvedSteppers]);
 
 	return (
 		<div className="flex max-md:flex-col gap-2 p-2 max-w-7xl mx-auto">

@@ -39,6 +39,25 @@ export type ShareableConfiguration = {
 
 export const isImportedConfigAtom = atom<boolean>(false);
 export const showImportWarningAtom = atom<boolean>(false);
+/** Ids (`brand|model`) referenced by an imported link that could not be resolved */
+export const unresolvedImportedSteppersAtom = atom<string[]>([]);
+
+export const DEFAULT_DEBUG = false;
+export const DEFAULT_DRIVE_SETTINGS: DriveSettings = {
+	inputVoltage: 24 as Volts,
+	maxDriveCurrent: 1 as Ampere,
+	maxDrivePercent: 100 as Percent,
+	motorModel: 'classic'
+};
+export const DEFAULT_GANTRY_SETTINGS: GantrySettings = {
+	pulleyTeeth: 20,
+	toothPitch: 2,
+	gearA: 1,
+	gearB: 1,
+	acceleration: 20000 as MillimetersPerSecondSquared,
+	toolheadAndYAxisMass: 500 as Grams,
+	manualRequiredTorque: null
+};
 
 function atomWithLocalStorage<T>(key: string, initialValue: T) {
 	const getInitialValue = () => {
@@ -72,22 +91,9 @@ export const viewModeAtom = atomWithLocalStorage<ViewMode>('viewMode', 'cards');
 
 // Persisted layer: private on purpose. Components must use the `current*` atoms so
 // imported (shared-link) configs are respected
-const debugAtom = atomWithLocalStorage<boolean>('debug', false);
-const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', {
-	inputVoltage: 24 as Volts,
-	maxDriveCurrent: 1 as Ampere,
-	maxDrivePercent: 100 as Percent,
-	motorModel: 'classic'
-});
-const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', {
-	pulleyTeeth: 20,
-	toothPitch: 2,
-	gearA: 1,
-	gearB: 1,
-	acceleration: 20000 as MillimetersPerSecondSquared,
-	toolheadAndYAxisMass: 500 as Grams,
-	manualRequiredTorque: null
-});
+const debugAtom = atomWithLocalStorage<boolean>('debug', DEFAULT_DEBUG);
+const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', DEFAULT_DRIVE_SETTINGS);
+const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', DEFAULT_GANTRY_SETTINGS);
 const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
 const customSteppersAtom = atom(
 	(get) => {
