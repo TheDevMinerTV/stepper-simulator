@@ -134,7 +134,7 @@ export function Graph() {
 				) : (
 					<div style={{ width: '100%', height: '400px' }}>
 						<ChartContainer config={chartConfig} className="aspect-auto h-[400px] w-full">
-							<LineChart data={chartData}>
+							<LineChart data={chartData} margin={{ top: 16, right: 12, bottom: 0, left: 0 }}>
 								<CartesianGrid vertical={false} />
 								<XAxis
 									dataKey="velocity"
@@ -151,6 +151,8 @@ export function Graph() {
 									axisLine={false}
 									tickMargin={8}
 									minTickGap={20}
+									// Headroom so the required-torque line and its label never sit on the top edge
+									domain={[0, (dataMax: number) => Math.ceil(Math.max(dataMax, requiredTorque) * 1.1)]}
 									tickFormatter={(value) => `${value} Ncm`}
 								/>
 								<ChartTooltip
@@ -203,11 +205,14 @@ export function Graph() {
 										/>
 									);
 								})}
+								{/* Required torque above every curve is the interesting case, not one to hide:
+								    extend the axis instead of clipping the line out of view */}
 								<ReferenceLine
 									y={requiredTorque}
 									label="Required Torque"
 									stroke="red"
 									strokeDasharray="6 6"
+									ifOverflow="extendDomain"
 								/>
 
 								<ChartLegend />
