@@ -166,7 +166,17 @@ export function Graph() {
 									cursor={false}
 									content={
 										<ChartTooltipContent
-											hideLabel
+											labelFormatter={(_, payload) => {
+												const velocity = payload?.[0]?.payload?.velocity;
+												if (typeof velocity !== 'number') return null;
+
+												const mms = `${Math.round(velocity)} mm/s`;
+												const rpmValue = mmsToRpm(velocity);
+												if (!Number.isFinite(rpmValue)) return mms;
+
+												const rpm = `${Math.round(rpmValue)} RPM`;
+												return unit === 'rpm' ? `${rpm} · ${mms}` : `${mms} · ${rpm}`;
+											}}
 											formatter={(value, name) => (
 												<>
 													<div
