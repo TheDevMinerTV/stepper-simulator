@@ -279,13 +279,18 @@ export function encodeConfig(config: ShareableConfiguration): string {
 	const gantry = packGantrySettings(config.gantrySettings);
 	if (gantry) payload.g = gantry;
 
-	if (config.customSteppers.length > 0) payload.c = config.customSteppers.map(packStepper);
 	if (config.debug !== DEFAULT_DEBUG) payload.b = config.debug;
+
+	// Only custom steppers that a selection actually points at travel with the link. The rest of
+	// the sender's library is dead weight to the recipient and not theirs to hand out
+	const selectedIds = new Set(config.selectedSteppers.map((stepper) => stepperId(stepper)));
+	const sharedCustomSteppers = config.customSteppers.filter((stepper) => selectedIds.has(stepperId(stepper)));
+	if (sharedCustomSteppers.length > 0) payload.c = sharedCustomSteppers.map(packStepper);
 
 	if (config.selectedSteppers.length > 0) {
 		const referenceable = new Set([
 			...stepperDbIndex().keys(),
-			...config.customSteppers.map((stepper) => stepperId(stepper))
+			...sharedCustomSteppers.map((stepper) => stepperId(stepper))
 		]);
 
 		payload.s = config.selectedSteppers.map((stepper) => {
