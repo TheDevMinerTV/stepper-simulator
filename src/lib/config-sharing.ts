@@ -54,7 +54,7 @@ const LegacyShareableConfigurationSchema = z.object({
 		bedSize: Millimeter.default(DEFAULT_GANTRY_SETTINGS.bedSize),
 		cornerAngle: Degree.default(DEFAULT_GANTRY_SETTINGS.cornerAngle),
 		movePathLength: Millimeter.nullable().default(null),
-		safetyMarginPercent: Percent.default(DEFAULT_GANTRY_SETTINGS.safetyMarginPercent)
+		headroomPercent: Percent.default(DEFAULT_GANTRY_SETTINGS.headroomPercent)
 	}),
 	klipperSettings: z
 		.object({
@@ -111,7 +111,7 @@ const SharedConfigSchema = z.object({
 			t: NewtonCentimeter.optional(), // manualRequiredTorque
 			bs: Millimeter.optional(), // bedSize
 			pl: Millimeter.optional(), // movePathLength
-			sm: Percent.optional(), // safetyMarginPercent
+			hr: Percent.optional(), // headroomPercent
 			ca: Degree.optional() // cornerAngle
 		})
 		.optional(),
@@ -250,8 +250,7 @@ function packGantrySettings(settings: GantrySettings): SharedConfig['g'] {
 	if (settings.manualRequiredTorque !== null) packed.t = settings.manualRequiredTorque;
 	if (settings.bedSize !== DEFAULT_GANTRY_SETTINGS.bedSize) packed.bs = settings.bedSize;
 	if (settings.movePathLength !== null) packed.pl = settings.movePathLength;
-	if (settings.safetyMarginPercent !== DEFAULT_GANTRY_SETTINGS.safetyMarginPercent)
-		packed.sm = settings.safetyMarginPercent;
+	if (settings.headroomPercent !== DEFAULT_GANTRY_SETTINGS.headroomPercent) packed.hr = settings.headroomPercent;
 	if (settings.cornerAngle !== DEFAULT_GANTRY_SETTINGS.cornerAngle) packed.ca = settings.cornerAngle;
 
 	return Object.keys(packed).length > 0 ? packed : undefined;
@@ -286,7 +285,7 @@ function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
 		manualRequiredTorque: packed?.t ?? null,
 		bedSize: packed?.bs ?? DEFAULT_GANTRY_SETTINGS.bedSize,
 		movePathLength: packed?.pl ?? null,
-		safetyMarginPercent: packed?.sm ?? DEFAULT_GANTRY_SETTINGS.safetyMarginPercent,
+		headroomPercent: packed?.hr ?? DEFAULT_GANTRY_SETTINGS.headroomPercent,
 		cornerAngle: packed?.ca ?? DEFAULT_GANTRY_SETTINGS.cornerAngle
 	};
 }

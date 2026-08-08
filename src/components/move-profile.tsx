@@ -1,10 +1,13 @@
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { velocityAtDistance } from '@/lib/motion';
+import { timeOptimalVelocityAt, velocityAtDistance } from '@/lib/motion';
 import type { MoveRecommendation } from '@/lib/recommender';
 import { useMemo } from 'react';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 
 const SAMPLES = 200;
+
+/** The dashed floor rides alongside its stepper's own line, under a key that cannot collide with one */
+export const floorKey = (key: string) => `floor:${key}`;
 
 export type ChartConfig = Record<string, { label: string; color: string }>;
 
@@ -32,6 +35,9 @@ export function MoveProfileChart({
 
 				for (const { key, recommendation } of recommendations) {
 					point[key] = velocityAtDistance(recommendation.profile, distance);
+					if (recommendation.timeOptimal) {
+						point[floorKey(key)] = timeOptimalVelocityAt(recommendation.timeOptimal, pathLength, distance);
+					}
 				}
 
 				return point;
@@ -100,6 +106,22 @@ export function MoveProfileChart({
 							strokeWidth={2}
 						/>
 					))}
+					{/* Kept out of the legend: it is the same motor, not another one */}
+					{recommendations
+						.filter(({ recommendation }) => recommendation.timeOptimal)
+						.map(({ key }) => (
+							<Line
+								key={floorKey(key)}
+								dataKey={floorKey(key)}
+								type="linear"
+								dot={false}
+								stroke={chartConfig[key]?.color}
+								strokeWidth={1.5}
+								strokeDasharray="5 5"
+								strokeOpacity={0.7}
+								legendType="none"
+							/>
+						))}
 					<ChartLegend />
 				</LineChart>
 			</ChartContainer>

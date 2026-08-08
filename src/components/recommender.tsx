@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { MoveProfileChart, type ChartConfig } from '@/components/move-profile';
+import { floorKey, MoveProfileChart, type ChartConfig } from '@/components/move-profile';
 import { chartColor } from '@/lib/chart-colors';
 import { calculateBeltPitch } from '@/lib/formulas';
 import { recommendMoves, resolveMinimumCruiseRatio, resolvePathLength } from '@/lib/recommender';
@@ -73,10 +73,9 @@ export function MoveRecommender() {
 	const chartConfig = useMemo(
 		() =>
 			steppers.reduce((acc, stepper, index) => {
-				acc[stepperKey(stepper)] = {
-					label: `${stepper.brand} ${stepper.model}`,
-					color: chartColor(index)
-				};
+				const label = `${stepper.brand} ${stepper.model}`;
+				acc[stepperKey(stepper)] = { label, color: chartColor(index) };
+				acc[floorKey(stepperKey(stepper))] = { label: `${label} · floor`, color: chartColor(index) };
 				return acc;
 			}, {} as ChartConfig),
 		[steppers]
@@ -116,14 +115,14 @@ export function MoveRecommender() {
 						min={0}
 						max={99}
 						className="w-20"
-						value={gantrySettings.safetyMarginPercent}
+						value={gantrySettings.headroomPercent}
 						onChange={(e) => {
 							const v = e.target.valueAsNumber;
 							if (Number.isNaN(v)) return;
-							setGantrySettings({ ...gantrySettings, safetyMarginPercent: v as Percent });
+							setGantrySettings({ ...gantrySettings, headroomPercent: v as Percent });
 						}}
 					/>
-					<span>% margin</span>
+					<span>% headroom</span>
 				</div>
 			</CardHeader>
 			<CardContent className="space-y-4">
@@ -292,9 +291,11 @@ export function MoveRecommender() {
 					{Math.round(gantrySettings.cornerAngle)}° corner at {klipperSettings.squareCornerVelocity} mm/s
 					square corner velocity, and at least {Math.round(resolveMinimumCruiseRatio(klipperSettings) * 100)}%
 					of it is spent cruising, as Klipper's minimum cruise ratio demands. Assumes one motor per axis and
-					no friction beyond the modelled load. {gantrySettings.safetyMarginPercent}% of the computed
-					acceleration ceiling is held back for what the model does not cover (belt compliance, resonance,
-					mid-band losses).
+					no friction beyond the modelled load. The dashed lines are the physical floor: the same motor and
+					the same headroom, but with acceleration free to follow the torque curve rather than being one
+					constant for the whole move, which is faster than Klipper can actually plan.{' '}
+					{gantrySettings.headroomPercent}% of the computed acceleration ceiling is held back for what the
+					model does not cover (belt compliance, resonance, mid-band losses).
 				</p>
 			</CardContent>
 		</Card>

@@ -34,8 +34,8 @@ export type GantrySettings = {
 	bedSize: Millimeter;
 	/** Move the recommender optimizes for. `null` follows the bed size at half of it */
 	movePathLength: Millimeter | null;
-	/** Share of the computed acceleration ceiling the recommender holds back as headroom */
-	safetyMarginPercent: Percent;
+	/** Share of the computed acceleration ceiling the recommender holds back */
+	headroomPercent: Percent;
 	/** How far the path turns at the corners the recommended move runs between */
 	cornerAngle: Degree;
 };
@@ -79,7 +79,7 @@ export const DEFAULT_GANTRY_SETTINGS: GantrySettings = {
 	manualRequiredTorque: null,
 	bedSize: 300 as Millimeter,
 	movePathLength: null,
-	safetyMarginPercent: 25 as Percent,
+	headroomPercent: 25 as Percent,
 	cornerAngle: 90 as Degree
 };
 export const DEFAULT_KLIPPER_SETTINGS: KlipperSettings = {

@@ -5,7 +5,14 @@ import {
 	calculateRotorTorqueCoefficient,
 	calculateTorqueAtVelocity
 } from '@/lib/formulas';
-import { buildMoveProfile, calculateJunctionVelocity, type CornerSettings, type MoveProfile } from '@/lib/motion';
+import {
+	buildMoveProfile,
+	calculateJunctionVelocity,
+	solveTimeOptimalProfile,
+	type CornerSettings,
+	type MoveProfile,
+	type TimeOptimalProfile
+} from '@/lib/motion';
 import type {
 	Millimeter,
 	MillimetersPerSecond,
@@ -28,8 +35,8 @@ const PATH_LIMITED_TOLERANCE = 0.999;
 export type MoveRecommenderSettings = {
 	/** Length of the move being optimized for, in mm */
 	pathLength: Millimeter;
-	/** Fraction of the computed acceleration ceiling held back as headroom, 0..1 */
-	safetyMargin: number;
+	/** Fraction of the computed acceleration ceiling held back, 0..1 */
+	headroom: number;
 	/** The corners on either side of the move, which set the velocity it enters and leaves at */
 	corner: CornerSettings;
 	/** Klipper's `minimum_cruise_ratio`: share of the move that has to be spent cruising, 0..1 */
@@ -48,6 +55,11 @@ export type MoveRecommendation = {
 	junctionVelocity: MillimetersPerSecond;
 	profile: MoveProfile;
 	/**
+	 * Same motor and the same headroom, but with acceleration free to follow the torque curve instead
+	 * of being one constant. A floor Klipper cannot reach, not a recommendation.
+	 */
+	timeOptimal: TimeOptimalProfile | null;
+	/**
 	 * The path is too short to ever reach the motor's velocity ceiling: the profile is triangular,
 	 * and a faster motor would not help unless the acceleration goes up with it.
 	 */
@@ -55,7 +67,7 @@ export type MoveRecommendation = {
 	/** Acceleration ceiling at standstill, i.e. the best case the motor can ever offer */
 	maxAcceleration: MillimetersPerSecondSquared;
 	/**
-	 * Fastest velocity that still holds the margin at the acceleration configured in Gantry
+	 * Fastest velocity that still keeps the headroom at the acceleration configured in Gantry
 	 * Settings, or `null` when that acceleration is out of reach even at standstill.
 	 */
 	velocityAtConfiguredAcceleration: MillimetersPerSecond | null;
@@ -162,14 +174,14 @@ export function recommendMove(
 	driveSettings: DriveSettings,
 	gantrySettings: GantrySettings,
 	stepper: StepperDefinition,
-	{ pathLength, safetyMargin, corner, minimumCruiseRatio }: MoveRecommenderSettings
+	{ pathLength, headroom, corner, minimumCruiseRatio }: MoveRecommenderSettings
 ): MoveRecommendation | null {
 	if (!(pathLength > 0)) return null;
 
 	const limit = createAccelerationLimit(driveSettings, gantrySettings, stepper);
 	if (!limit) return null;
 
-	const accelerationLimit = (velocity: number) => limit(velocity) * (1 - safetyMargin);
+	const accelerationLimit = (velocity: number) => limit(velocity) * (1 - headroom);
 
 	const maxAcceleration = accelerationLimit(0);
 	if (!(maxAcceleration > 0) || !Number.isFinite(maxAcceleration)) return null;
@@ -228,6 +240,8 @@ export function recommendMove(
 
 	return {
 		stepper,
+		// Same corners, so the floor and the recommendation share their endpoints and compare directly
+		timeOptimal: solveTimeOptimalProfile(accelerationLimit, pathLength, profile.junctionVelocity),
 		velocity: profile.peakVelocity,
 		acceleration: profile.acceleration,
 		moveTime: profile.moveTime,
@@ -246,8 +260,8 @@ export const defaultPathLength = (bedSize: Millimeter) => (bedSize / 2) as Milli
 export const resolvePathLength = (gantrySettings: GantrySettings) =>
 	gantrySettings.movePathLength ?? defaultPathLength(gantrySettings.bedSize);
 
-export const resolveSafetyMargin = (gantrySettings: GantrySettings) =>
-	Math.min(Math.max(gantrySettings.safetyMarginPercent, 0), 99) / 100;
+export const resolveHeadroom = (gantrySettings: GantrySettings) =>
+	Math.min(Math.max(gantrySettings.headroomPercent, 0), 99) / 100;
 
 /** A ratio of 1 would leave no distance to accelerate over, so the knob stops short of it */
 export const resolveMinimumCruiseRatio = (klipperSettings: KlipperSettings) =>
@@ -261,7 +275,7 @@ export function recommendMoves(
 ) {
 	const settings: MoveRecommenderSettings = {
 		pathLength: resolvePathLength(gantrySettings),
-		safetyMargin: resolveSafetyMargin(gantrySettings),
+		headroom: resolveHeadroom(gantrySettings),
 		// The corner mixes a firmware value with a property of the path being simulated
 		corner: {
 			squareCornerVelocity: klipperSettings.squareCornerVelocity,

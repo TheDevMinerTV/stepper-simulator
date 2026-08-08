@@ -86,6 +86,84 @@ export function buildMoveProfile(
 	};
 }
 
+export type TimeOptimalProfile = {
+	peakVelocity: MillimetersPerSecond;
+	moveTime: Seconds;
+	/** Velocities on a uniform grid across the first half of the move; the second half mirrors it */
+	halfVelocities: number[];
+};
+
+const TIME_OPTIMAL_STEPS = 1000;
+
+/**
+ * The floor: how fast the motor could physically cover the path if acceleration were free to follow
+ * the torque curve instead of being one constant for the whole move.
+ *
+ * Klipper commits to a single acceleration per move, so it has to pick one low enough to survive the
+ * top of the ramp and gives up torque everywhere below that. Spending acceleration the instant it is
+ * available is the classic bang-bang solution: full acceleration out of the corner, full deceleration
+ * back into the next one. Both limits are the same curve here, so the profile is symmetric and only
+ * the first half has to be integrated.
+ *
+ * Stepping over distance rather than time keeps the grid uniform for plotting, and each step is
+ * closed-form under constant acceleration, which stays finite at v = 0 where `dv/dx = a/v` would not.
+ *
+ * Returns `null` if the motor stalls at a standstill, leaving the move unable to start.
+ */
+export function solveTimeOptimalProfile(
+	accelerationLimit: (velocity: number) => number,
+	pathLength: Millimeter | number,
+	junctionVelocity: MillimetersPerSecond | number
+): TimeOptimalProfile | null {
+	const step = pathLength / 2 / TIME_OPTIMAL_STEPS;
+	const halfVelocities = [junctionVelocity as number];
+
+	let velocity = junctionVelocity as number;
+	let time = 0;
+
+	for (let i = 0; i < TIME_OPTIMAL_STEPS; i++) {
+		// Midpoint: sample the limit halfway through the step rather than at its start
+		const midVelocity = Math.sqrt(Math.max(velocity ** 2 + accelerationLimit(velocity) * step, 0));
+		const acceleration = Math.max(accelerationLimit(midVelocity), 0);
+		const next = Math.sqrt(velocity ** 2 + 2 * acceleration * step);
+
+		// Standing still with nothing to give: the move can never start
+		if (!(velocity + next > 0)) return null;
+
+		// `2·step / (v + v_next)`, not `(v_next − v) / a`. The two agree exactly under constant
+		// acceleration, but the second loses everything to cancellation as `a` approaches zero:
+		// `2·a·step` slips under the floating-point resolution of `v²`, the difference rounds to
+		// nothing, and the step contributes no time at all. That is precisely the stall velocity,
+		// where a long move spends most of its distance
+		time += (2 * step) / (velocity + next);
+		velocity = next;
+
+		halfVelocities.push(velocity);
+	}
+
+	return {
+		peakVelocity: velocity as MillimetersPerSecond,
+		moveTime: (2 * time) as Seconds,
+		halfVelocities
+	};
+}
+
+/** Velocity a given distance into the time-optimal move, mirrored around the midpoint */
+export function timeOptimalVelocityAt(profile: TimeOptimalProfile, pathLength: number, distance: number) {
+	const half = pathLength / 2;
+	if (!(half > 0)) return profile.peakVelocity;
+
+	const clamped = Math.min(Math.max(distance, 0), pathLength);
+	const steps = profile.halfVelocities.length - 1;
+	const position = (Math.min(clamped, pathLength - clamped) / half) * steps;
+	const index = Math.min(Math.floor(position), steps - 1);
+
+	const from = profile.halfVelocities[index];
+	const to = profile.halfVelocities[index + 1];
+
+	return from + (to - from) * (position - index);
+}
+
 /** Velocity a given distance into the move, for plotting the profile */
 export function velocityAtDistance(profile: MoveProfile, distance: number) {
 	const { junctionVelocity, peakVelocity, acceleration, accelDistance, pathLength } = profile;
