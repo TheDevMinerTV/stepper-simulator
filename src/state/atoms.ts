@@ -70,14 +70,16 @@ export const searchModeAtom = atomWithLocalStorage<SearchMode>('searchMode', 'fu
 export type ViewMode = 'table' | 'cards';
 export const viewModeAtom = atomWithLocalStorage<ViewMode>('viewMode', 'cards');
 
-export const debugAtom = atomWithLocalStorage<boolean>('debug', false);
-export const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', {
+// Persisted layer: private on purpose. Components must use the `current*` atoms so
+// imported (shared-link) configs are respected
+const debugAtom = atomWithLocalStorage<boolean>('debug', false);
+const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', {
 	inputVoltage: 24 as Volts,
 	maxDriveCurrent: 1 as Ampere,
 	maxDrivePercent: 100 as Percent,
 	motorModel: 'classic'
 });
-export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', {
+const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', {
 	pulleyTeeth: 20,
 	toothPitch: 2,
 	gearA: 1,
@@ -87,7 +89,7 @@ export const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySe
 	manualRequiredTorque: null
 });
 const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
-export const customSteppersAtom = atom(
+const customSteppersAtom = atom(
 	(get) => {
 		const steppers = get(rawCustomSteppersAtom);
 

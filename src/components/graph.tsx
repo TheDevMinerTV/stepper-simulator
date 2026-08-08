@@ -10,7 +10,12 @@ import {
 	calculateTorqueRotor
 } from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
-import { driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
+import {
+	currentDriveSettingsAtom,
+	currentGantrySettingsAtom,
+	maxPowerAtom,
+	steppersAtom
+} from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
@@ -23,8 +28,8 @@ function generateKey(stepper: StepperDefinition) {
 }
 
 export function Graph() {
-	const driveSettings = useAtomValue(driveSettingsAtom);
-	const gantrySettings = useAtomValue(gantrySettingsAtom);
+	const driveSettings = useAtomValue(currentDriveSettingsAtom);
+	const gantrySettings = useAtomValue(currentGantrySettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
 	const [maxVelocity, setMaxVelocity] = useState(DEFAULT_MAX_VELOCITY);
 	const [unit, setUnit] = useState<'mm/s' | 'rpm'>('mm/s');

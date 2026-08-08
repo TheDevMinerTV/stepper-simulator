@@ -8,7 +8,13 @@ import {
 	calculateTorqueRotor
 } from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
-import { debugAtom, driveSettingsAtom, gantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
+import {
+	currentDebugAtom,
+	currentDriveSettingsAtom,
+	currentGantrySettingsAtom,
+	maxPowerAtom,
+	steppersAtom
+} from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
 	BicepsFlexedIcon,
@@ -23,7 +29,7 @@ import {
 } from 'lucide-react';
 
 export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
-	const debug = useAtomValue(debugAtom);
+	const debug = useAtomValue(currentDebugAtom);
 
 	return (
 		<div className="flex flex-col gap-2">
@@ -74,8 +80,8 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 }
 
 function DebugStepperSpecs({ stepper }: { stepper: StepperDefinition }) {
-	const driveSettings = useAtomValue(driveSettingsAtom);
-	const gantrySettings = useAtomValue(gantrySettingsAtom);
+	const driveSettings = useAtomValue(currentDriveSettingsAtom);
+	const gantrySettings = useAtomValue(currentGantrySettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
 
 	const maxCurrentAtSpecifiedPower = calculateMaxCurrentAtSpecifiedPower(maxPower, stepper);
