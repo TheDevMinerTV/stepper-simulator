@@ -4,7 +4,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
-import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
+import type {
+	Ampere,
+	Grams,
+	Millimeter,
+	MillimetersPerSecondSquared,
+	NewtonCentimeter,
+	Percent,
+	Volts
+} from '@/lib/stepper';
 import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
 import {
@@ -12,6 +20,7 @@ import {
 	CogIcon,
 	CpuIcon,
 	GaugeIcon,
+	Grid2x2Icon,
 	PercentIcon,
 	PlugIcon,
 	WeightIcon,
@@ -248,6 +257,24 @@ export function GantrySettings() {
 						}
 					/>
 					<span>g</span>
+				</div>
+				<div className="flex w-full max-w-sm items-center gap-2">
+					<div className="size-5">
+						<Grid2x2Icon className="w-5 h-5" />
+					</div>
+					<Input
+						type="number"
+						placeholder="Bed Size"
+						min={1}
+						value={gantrySettings.bedSize}
+						onChange={(e) =>
+							setGantrySettings({
+								...gantrySettings,
+								bedSize: e.target.valueAsNumber as Millimeter
+							})
+						}
+					/>
+					<span>mm</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
 					<div className="size-5">

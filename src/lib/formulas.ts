@@ -1,10 +1,20 @@
-import type { StepperDefinition, Watts } from '@/lib/stepper';
+import type { MillimetersPerSecond, StepperDefinition, Watts } from '@/lib/stepper';
 import type { DriveSettings, GantrySettings } from '@/state/atoms';
 
 const PI = Math.PI;
 const SQRT2 = Math.SQRT2;
 
 export const calculateGearRatio = (gantrySettings: GantrySettings) => gantrySettings.gearA / gantrySettings.gearB;
+
+/** Belt travel per motor rotation, in mm */
+export const calculateBeltPitch = (gantrySettings: GantrySettings) =>
+	(gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings);
+
+/** Motor shaft speed at a belt velocity, in rotations per second */
+export const calculateMotorRotationsPerSecond = (
+	gantrySettings: GantrySettings,
+	velocity: MillimetersPerSecond | number
+) => velocity / calculateBeltPitch(gantrySettings);
 
 export const calculateMaxCurrentAtSpecifiedPower = (maxPower: Watts, stepper: StepperDefinition) =>
 	Math.sqrt(maxPower / 2 / stepper.resistance);
@@ -20,28 +30,63 @@ export const calculateDriveCurrent = (
 		maxCurrentAtSpecifiedPower
 	);
 
-export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: StepperDefinition) =>
-	(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * gantrySettings.toothPitch)) *
+/**
+ * Motor torque spent spinning up the rotor itself, per unit of gantry acceleration (Ncm per mm/s²).
+ *
+ * The rotor term is linear in acceleration, so keeping it as a coefficient lets the torque view and
+ * the acceleration view share one definition of the load model.
+ */
+export const calculateRotorTorqueCoefficient = (gantrySettings: GantrySettings, stepper: StepperDefinition) =>
+	(1 / (gantrySettings.pulleyTeeth * gantrySettings.toothPitch)) *
 	2 *
 	PI *
 	(stepper.rotorInertia / (1000 * 100 ** 2)) *
 	100 *
 	calculateGearRatio(gantrySettings);
 
+export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: StepperDefinition) =>
+	gantrySettings.acceleration * calculateRotorTorqueCoefficient(gantrySettings, stepper);
+
 export const calculatePowerAtDriveCurrent = (driveCurrent: number, stepper: StepperDefinition) =>
 	driveCurrent ** 2 * stepper.resistance * 2;
+
+/** Motor torque spent accelerating the moving mass, per unit of gantry acceleration (Ncm per mm/s²) */
+export const calculateLoadTorqueCoefficient = (gantrySettings: GantrySettings) =>
+	((gantrySettings.toolheadAndYAxisMass / 1000 / 1000) * calculateBeltPitch(gantrySettings)) / (2 * PI * 10);
 
 export const calculateRequiredTorque = (gantrySettings: GantrySettings) => {
 	if (gantrySettings.manualRequiredTorque !== null) return gantrySettings.manualRequiredTorque;
 
-	return (
-		((((gantrySettings.acceleration / 1000) * gantrySettings.toolheadAndYAxisMass) / 1000) *
-			((gantrySettings.pulleyTeeth * gantrySettings.toothPitch) / calculateGearRatio(gantrySettings))) /
-		(2 * Math.PI * 10)
-	);
+	return gantrySettings.acceleration * calculateLoadTorqueCoefficient(gantrySettings);
 };
 
 export type MotorModel = 'classic' | 'spreadCycle' | 'fieldWeakening';
+
+/**
+ * Torque the stepper produces at a belt velocity, before anything is subtracted for the load (Ncm).
+ *
+ * Every view of the model goes through here so they cannot drift apart on how a belt velocity maps
+ * onto motor rotations.
+ */
+export function calculateTorqueAtVelocity(
+	driveSettings: DriveSettings,
+	gantrySettings: GantrySettings,
+	stepper: StepperDefinition,
+	driveCurrent: number,
+	velocity: MillimetersPerSecond | number
+) {
+	return calculateSingleCoilTorque(
+		driveSettings.motorModel,
+		stepper.stepAngle,
+		stepper.ratedCurrent,
+		stepper.torque,
+		stepper.inductance,
+		stepper.resistance,
+		driveSettings.inputVoltage,
+		driveCurrent,
+		calculateMotorRotationsPerSecond(gantrySettings, velocity)
+	);
+}
 
 export function calculateSingleCoilTorque(
 	model: MotorModel,

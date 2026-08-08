@@ -47,7 +47,10 @@ const LegacyShareableConfigurationSchema = z.object({
 		gearB: z.number(),
 		acceleration: MillimetersPerSecondSquared,
 		toolheadAndYAxisMass: Grams.nullish().transform((v) => v ?? (500 as Grams)),
-		manualRequiredTorque: NewtonCentimeter.nullable().default(null)
+		manualRequiredTorque: NewtonCentimeter.nullable().default(null),
+		bedSize: Millimeter.default(DEFAULT_GANTRY_SETTINGS.bedSize),
+		movePathLength: Millimeter.nullable().default(null),
+		safetyMarginPercent: Percent.default(DEFAULT_GANTRY_SETTINGS.safetyMarginPercent)
 	}),
 	customSteppers: z.array(StepperDefinition),
 	debug: z.boolean(),
@@ -95,7 +98,10 @@ const SharedConfigSchema = z.object({
 			gb: z.number().optional(), // gearB
 			a: MillimetersPerSecondSquared.optional(), // acceleration
 			m: Grams.optional(), // toolheadAndYAxisMass
-			t: NewtonCentimeter.optional() // manualRequiredTorque
+			t: NewtonCentimeter.optional(), // manualRequiredTorque
+			bs: Millimeter.optional(), // bedSize
+			pl: Millimeter.optional(), // movePathLength
+			sm: Percent.optional() // safetyMarginPercent
 		})
 		.optional(),
 	c: z.array(StepperTuple).optional(), // customSteppers
@@ -225,6 +231,10 @@ function packGantrySettings(settings: GantrySettings): SharedConfig['g'] {
 	if (settings.toolheadAndYAxisMass !== DEFAULT_GANTRY_SETTINGS.toolheadAndYAxisMass)
 		packed.m = settings.toolheadAndYAxisMass;
 	if (settings.manualRequiredTorque !== null) packed.t = settings.manualRequiredTorque;
+	if (settings.bedSize !== DEFAULT_GANTRY_SETTINGS.bedSize) packed.bs = settings.bedSize;
+	if (settings.movePathLength !== null) packed.pl = settings.movePathLength;
+	if (settings.safetyMarginPercent !== DEFAULT_GANTRY_SETTINGS.safetyMarginPercent)
+		packed.sm = settings.safetyMarginPercent;
 
 	return Object.keys(packed).length > 0 ? packed : undefined;
 }
@@ -237,7 +247,10 @@ function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
 		gearB: packed?.gb ?? DEFAULT_GANTRY_SETTINGS.gearB,
 		acceleration: packed?.a ?? DEFAULT_GANTRY_SETTINGS.acceleration,
 		toolheadAndYAxisMass: packed?.m ?? DEFAULT_GANTRY_SETTINGS.toolheadAndYAxisMass,
-		manualRequiredTorque: packed?.t ?? null
+		manualRequiredTorque: packed?.t ?? null,
+		bedSize: packed?.bs ?? DEFAULT_GANTRY_SETTINGS.bedSize,
+		movePathLength: packed?.pl ?? null,
+		safetyMarginPercent: packed?.sm ?? DEFAULT_GANTRY_SETTINGS.safetyMarginPercent
 	};
 }
 

@@ -2,6 +2,7 @@ import type { MotorModel } from '@/lib/formulas';
 import type {
 	Ampere,
 	Grams,
+	Millimeter,
 	MillimetersPerSecondSquared,
 	NewtonCentimeter,
 	Percent,
@@ -27,6 +28,12 @@ export type GantrySettings = {
 	acceleration: MillimetersPerSecondSquared;
 	toolheadAndYAxisMass: Grams;
 	manualRequiredTorque: NewtonCentimeter | null;
+	/** Travel of the axis, used to suggest a path length for the move recommender */
+	bedSize: Millimeter;
+	/** Move the recommender optimizes for. `null` follows the bed size at half of it */
+	movePathLength: Millimeter | null;
+	/** Share of the computed acceleration ceiling the recommender holds back as headroom */
+	safetyMarginPercent: Percent;
 };
 
 export type ShareableConfiguration = {
@@ -56,7 +63,10 @@ export const DEFAULT_GANTRY_SETTINGS: GantrySettings = {
 	gearB: 1,
 	acceleration: 20000 as MillimetersPerSecondSquared,
 	toolheadAndYAxisMass: 500 as Grams,
-	manualRequiredTorque: null
+	manualRequiredTorque: null,
+	bedSize: 300 as Millimeter,
+	movePathLength: null,
+	safetyMarginPercent: 25 as Percent
 };
 
 function atomWithLocalStorage<T>(key: string, initialValue: T) {

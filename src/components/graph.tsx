@@ -3,19 +3,15 @@ import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
+	calculateBeltPitch,
 	calculateDriveCurrent,
 	calculateMaxCurrentAtSpecifiedPower,
 	calculateRequiredTorque,
-	calculateSingleCoilTorque,
+	calculateTorqueAtVelocity,
 	calculateTorqueRotor
 } from '@/lib/formulas';
 import type { StepperDefinition } from '@/lib/stepper';
-import {
-	currentDriveSettingsAtom,
-	currentGantrySettingsAtom,
-	maxPowerAtom,
-	steppersAtom
-} from '@/state/atoms';
+import { currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
@@ -35,9 +31,9 @@ export function Graph() {
 	const [unit, setUnit] = useState<'mm/s' | 'rpm'>('mm/s');
 
 	const steppers = useAtomValue(steppersAtom);
-	const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
-	const mmsToRpm = (mms: number) => (mms * 60) / pulleyCircumferenceMm;
-	const rpmToMms = (rpm: number) => (rpm * pulleyCircumferenceMm) / 60;
+	const beltPitchMm = calculateBeltPitch(gantrySettings);
+	const mmsToRpm = (mms: number) => (mms * 60) / beltPitchMm;
+	const rpmToMms = (rpm: number) => (rpm * beltPitchMm) / 60;
 	const displayedMax = unit === 'rpm' ? mmsToRpm(maxVelocity) : maxVelocity;
 
 	const chartData = useMemo(() => {
@@ -54,17 +50,12 @@ export function Graph() {
 				const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
 				const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
 
-				const rps = velocity / pulleyCircumferenceMm;
-				const rawTorque = calculateSingleCoilTorque(
-					driveSettings.motorModel,
-					stepper.stepAngle,
-					stepper.ratedCurrent,
-					stepper.torque,
-					stepper.inductance,
-					stepper.resistance,
-					driveSettings.inputVoltage,
+				const rawTorque = calculateTorqueAtVelocity(
+					driveSettings,
+					gantrySettings,
+					stepper,
 					driveCurrent,
-					rps
+					velocity
 				);
 
 				const torque = Math.max(rawTorque - torqueRotor, 0);
