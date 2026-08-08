@@ -3,8 +3,10 @@ import {
 	DEFAULT_DEBUG,
 	DEFAULT_DRIVE_SETTINGS,
 	DEFAULT_GANTRY_SETTINGS,
+	DEFAULT_KLIPPER_SETTINGS,
 	type DriveSettings,
 	type GantrySettings,
+	type KlipperSettings,
 	type ShareableConfiguration
 } from '@/state/atoms';
 import { z } from 'zod/v4';
@@ -15,6 +17,7 @@ import {
 	Grams,
 	MilliHenry,
 	Millimeter,
+	MillimetersPerSecond,
 	MillimetersPerSecondSquared,
 	NEMASize,
 	NewtonCentimeter,
@@ -49,9 +52,16 @@ const LegacyShareableConfigurationSchema = z.object({
 		toolheadAndYAxisMass: Grams.nullish().transform((v) => v ?? (500 as Grams)),
 		manualRequiredTorque: NewtonCentimeter.nullable().default(null),
 		bedSize: Millimeter.default(DEFAULT_GANTRY_SETTINGS.bedSize),
+		cornerAngle: Degree.default(DEFAULT_GANTRY_SETTINGS.cornerAngle),
 		movePathLength: Millimeter.nullable().default(null),
 		safetyMarginPercent: Percent.default(DEFAULT_GANTRY_SETTINGS.safetyMarginPercent)
 	}),
+	klipperSettings: z
+		.object({
+			squareCornerVelocity: MillimetersPerSecond.default(DEFAULT_KLIPPER_SETTINGS.squareCornerVelocity),
+			minimumCruiseRatio: z.number().default(DEFAULT_KLIPPER_SETTINGS.minimumCruiseRatio)
+		})
+		.default(DEFAULT_KLIPPER_SETTINGS),
 	customSteppers: z.array(StepperDefinition),
 	debug: z.boolean(),
 	selectedSteppers: z.array(StepperDefinition)
@@ -101,7 +111,14 @@ const SharedConfigSchema = z.object({
 			t: NewtonCentimeter.optional(), // manualRequiredTorque
 			bs: Millimeter.optional(), // bedSize
 			pl: Millimeter.optional(), // movePathLength
-			sm: Percent.optional() // safetyMarginPercent
+			sm: Percent.optional(), // safetyMarginPercent
+			ca: Degree.optional() // cornerAngle
+		})
+		.optional(),
+	k: z
+		.object({
+			cv: MillimetersPerSecond.optional(), // squareCornerVelocity
+			mc: z.number().optional() // minimumCruiseRatio
 		})
 		.optional(),
 	c: z.array(StepperTuple).optional(), // customSteppers
@@ -235,8 +252,27 @@ function packGantrySettings(settings: GantrySettings): SharedConfig['g'] {
 	if (settings.movePathLength !== null) packed.pl = settings.movePathLength;
 	if (settings.safetyMarginPercent !== DEFAULT_GANTRY_SETTINGS.safetyMarginPercent)
 		packed.sm = settings.safetyMarginPercent;
+	if (settings.cornerAngle !== DEFAULT_GANTRY_SETTINGS.cornerAngle) packed.ca = settings.cornerAngle;
 
 	return Object.keys(packed).length > 0 ? packed : undefined;
+}
+
+function packKlipperSettings(settings: KlipperSettings): SharedConfig['k'] {
+	const packed: NonNullable<SharedConfig['k']> = {};
+
+	if (settings.squareCornerVelocity !== DEFAULT_KLIPPER_SETTINGS.squareCornerVelocity)
+		packed.cv = settings.squareCornerVelocity;
+	if (settings.minimumCruiseRatio !== DEFAULT_KLIPPER_SETTINGS.minimumCruiseRatio)
+		packed.mc = settings.minimumCruiseRatio;
+
+	return Object.keys(packed).length > 0 ? packed : undefined;
+}
+
+function unpackKlipperSettings(packed: SharedConfig['k']): KlipperSettings {
+	return {
+		squareCornerVelocity: packed?.cv ?? DEFAULT_KLIPPER_SETTINGS.squareCornerVelocity,
+		minimumCruiseRatio: packed?.mc ?? DEFAULT_KLIPPER_SETTINGS.minimumCruiseRatio
+	};
 }
 
 function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
@@ -250,7 +286,8 @@ function unpackGantrySettings(packed: SharedConfig['g']): GantrySettings {
 		manualRequiredTorque: packed?.t ?? null,
 		bedSize: packed?.bs ?? DEFAULT_GANTRY_SETTINGS.bedSize,
 		movePathLength: packed?.pl ?? null,
-		safetyMarginPercent: packed?.sm ?? DEFAULT_GANTRY_SETTINGS.safetyMarginPercent
+		safetyMarginPercent: packed?.sm ?? DEFAULT_GANTRY_SETTINGS.safetyMarginPercent,
+		cornerAngle: packed?.ca ?? DEFAULT_GANTRY_SETTINGS.cornerAngle
 	};
 }
 
@@ -291,6 +328,9 @@ export function encodeConfig(config: ShareableConfiguration): string {
 
 	const gantry = packGantrySettings(config.gantrySettings);
 	if (gantry) payload.g = gantry;
+
+	const klipper = packKlipperSettings(config.klipperSettings);
+	if (klipper) payload.k = klipper;
 
 	if (config.debug !== DEFAULT_DEBUG) payload.b = config.debug;
 
@@ -337,6 +377,7 @@ function decodeSharedConfig(payload: SharedConfig): ImportedConfiguration {
 		config: {
 			driveSettings: unpackDriveSettings(payload.d),
 			gantrySettings: unpackGantrySettings(payload.g),
+			klipperSettings: unpackKlipperSettings(payload.k),
 			customSteppers,
 			debug: payload.b ?? DEFAULT_DEBUG,
 			selectedSteppers

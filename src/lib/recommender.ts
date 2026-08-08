@@ -5,6 +5,7 @@ import {
 	calculateRotorTorqueCoefficient,
 	calculateTorqueAtVelocity
 } from '@/lib/formulas';
+import { buildMoveProfile, calculateJunctionVelocity, type CornerSettings, type MoveProfile } from '@/lib/motion';
 import type {
 	Millimeter,
 	MillimetersPerSecond,
@@ -13,7 +14,7 @@ import type {
 	StepperDefinition,
 	Watts
 } from '@/lib/stepper';
-import type { DriveSettings, GantrySettings } from '@/state/atoms';
+import type { DriveSettings, GantrySettings, KlipperSettings } from '@/state/atoms';
 
 /** Far past any real machine: only ever used as the closed end of a bisection */
 const SEARCH_VELOCITY_CEILING = 100_000;
@@ -29,6 +30,10 @@ export type MoveRecommenderSettings = {
 	pathLength: Millimeter;
 	/** Fraction of the computed acceleration ceiling held back as headroom, 0..1 */
 	safetyMargin: number;
+	/** The corners on either side of the move, which set the velocity it enters and leaves at */
+	corner: CornerSettings;
+	/** Klipper's `minimum_cruise_ratio`: share of the move that has to be spent cruising, 0..1 */
+	minimumCruiseRatio: number;
 };
 
 export type MoveRecommendation = {
@@ -37,8 +42,11 @@ export type MoveRecommendation = {
 	velocity: MillimetersPerSecond;
 	/** Acceleration of that profile */
 	acceleration: MillimetersPerSecondSquared;
-	/** Time for the whole move, rest to rest */
+	/** Time for the whole move, corner to corner */
 	moveTime: Seconds;
+	/** Velocity carried through the corners on either side */
+	junctionVelocity: MillimetersPerSecond;
+	profile: MoveProfile;
 	/**
 	 * The path is too short to ever reach the motor's velocity ceiling: the profile is triangular,
 	 * and a faster motor would not help unless the acceleration goes up with it.
@@ -141,10 +149,12 @@ function goldenSectionMinimum(f: (x: number) => number, lower: number, upper: nu
 /**
  * Fastest velocity/acceleration pair a stepper can run over a path of `pathLength`.
  *
- * The move is a rest-to-rest trapezoid. For a peak velocity `p` the largest usable acceleration is
- * whatever the motor still makes at `p` (the limit curve only falls as velocity rises, so the top of
- * the ramp is the binding point), and the move takes `d/p + p/a`. Both terms fight each other, so
- * the answer is the minimum of that curve, not either extreme.
+ * The move is a symmetric trapezoid between two identical corners: it enters and leaves at whatever
+ * junction velocity Klipper would carry through them, rather than starting from rest. For a peak
+ * velocity `p` the largest usable acceleration is whatever the motor still makes at `p` (the limit
+ * curve only falls as velocity rises, so the top of the ramp is the binding point). Ramping and
+ * cruising fight each other, so the answer is the minimum of the move-time curve over `p`, not
+ * either extreme.
  *
  * Returns `null` when the stepper cannot move the gantry at all, or when there is nothing to move.
  */
@@ -152,7 +162,7 @@ export function recommendMove(
 	driveSettings: DriveSettings,
 	gantrySettings: GantrySettings,
 	stepper: StepperDefinition,
-	{ pathLength, safetyMargin }: MoveRecommenderSettings
+	{ pathLength, safetyMargin, corner, minimumCruiseRatio }: MoveRecommenderSettings
 ): MoveRecommendation | null {
 	if (!(pathLength > 0)) return null;
 
@@ -164,14 +174,32 @@ export function recommendMove(
 	const maxAcceleration = accelerationLimit(0);
 	if (!(maxAcceleration > 0) || !Number.isFinite(maxAcceleration)) return null;
 
-	// Peak velocities above this cannot be reached inside the path even at the motor's own ceiling:
-	// `a(p) · d - p²` starts positive and falls monotonically, since `a` only ever decreases
-	const reachable = (peak: number) => accelerationLimit(peak) * pathLength - peak * peak;
+	const profileAt = (peak: number) => {
+		const acceleration = accelerationLimit(peak);
+		const junctionVelocity = calculateJunctionVelocity(corner, acceleration, pathLength, peak);
+
+		return buildMoveProfile(pathLength, peak, junctionVelocity, acceleration);
+	};
+
+	// Klipper's lookahead refuses to plan a move that is all ramp and no cruise. In `flush()` the
+	// peak is held to `(smoothed_v2 + reachable_smoothed_v2) · 0.5`, where the reachable term uses
+	// `smooth_delta_v2 = 2·d·max_accel_to_decel` and `max_accel_to_decel = accel·(1 − ratio)`. For a
+	// move between two equal corners that collapses to `peak² ≤ v_j² + d·a·(1 − ratio)`, which is the
+	// same thing as insisting that `ratio` of the distance is spent at the peak
+	const minimumCruiseDistance = minimumCruiseRatio * pathLength;
+
+	// Peak velocities above this cannot be reached inside the path even at the motor's own ceiling.
+	// The corner velocity is capped by the peak, so for small peaks the whole move is a cruise and
+	// this is trivially positive; past that it falls monotonically, since acceleration only decreases
+	const reachable = (peak: number) => {
+		if (!(accelerationLimit(peak) > 0)) return -1;
+		return profileAt(peak).cruiseDistance - minimumCruiseDistance;
+	};
 	if (reachable(SEARCH_VELOCITY_CEILING) >= 0) return null;
 	const peakCeiling = bisect(reachable, 0, SEARCH_VELOCITY_CEILING);
 	if (!(peakCeiling > 0)) return null;
 
-	const moveTimeAt = (peak: number) => pathLength / peak + peak / accelerationLimit(peak);
+	const moveTimeAt = (peak: number) => profileAt(peak).moveTime;
 
 	let bestIndex = COARSE_SAMPLES;
 	let bestTime = Infinity;
@@ -186,7 +214,7 @@ export function recommendMove(
 	const bracketLow = (peakCeiling * Math.max(bestIndex - 1, 0.01)) / COARSE_SAMPLES;
 	const bracketHigh = (peakCeiling * Math.min(bestIndex + 1, COARSE_SAMPLES)) / COARSE_SAMPLES;
 	const velocity = goldenSectionMinimum(moveTimeAt, bracketLow, bracketHigh);
-	const acceleration = accelerationLimit(velocity);
+	const profile = profileAt(velocity);
 
 	const configuredAcceleration = gantrySettings.acceleration;
 	const velocityAtConfiguredAcceleration =
@@ -200,10 +228,13 @@ export function recommendMove(
 
 	return {
 		stepper,
-		velocity: velocity as MillimetersPerSecond,
-		acceleration: acceleration as MillimetersPerSecondSquared,
-		moveTime: (pathLength / velocity + velocity / acceleration) as Seconds,
-		pathLimited: velocity * velocity >= PATH_LIMITED_TOLERANCE * acceleration * pathLength,
+		velocity: profile.peakVelocity,
+		acceleration: profile.acceleration,
+		moveTime: profile.moveTime,
+		junctionVelocity: profile.junctionVelocity,
+		profile,
+		// Sitting on the cruise floor means the path ran out first, not the motor
+		pathLimited: profile.cruiseDistance <= minimumCruiseDistance + (1 - PATH_LIMITED_TOLERANCE) * pathLength,
 		maxAcceleration: maxAcceleration as MillimetersPerSecondSquared,
 		velocityAtConfiguredAcceleration
 	};
@@ -218,14 +249,25 @@ export const resolvePathLength = (gantrySettings: GantrySettings) =>
 export const resolveSafetyMargin = (gantrySettings: GantrySettings) =>
 	Math.min(Math.max(gantrySettings.safetyMarginPercent, 0), 99) / 100;
 
+/** A ratio of 1 would leave no distance to accelerate over, so the knob stops short of it */
+export const resolveMinimumCruiseRatio = (klipperSettings: KlipperSettings) =>
+	Math.min(Math.max(klipperSettings.minimumCruiseRatio, 0), 0.95);
+
 export function recommendMoves(
 	driveSettings: DriveSettings,
 	gantrySettings: GantrySettings,
+	klipperSettings: KlipperSettings,
 	steppers: StepperDefinition[]
 ) {
 	const settings: MoveRecommenderSettings = {
 		pathLength: resolvePathLength(gantrySettings),
-		safetyMargin: resolveSafetyMargin(gantrySettings)
+		safetyMargin: resolveSafetyMargin(gantrySettings),
+		// The corner mixes a firmware value with a property of the path being simulated
+		corner: {
+			squareCornerVelocity: klipperSettings.squareCornerVelocity,
+			cornerAngle: gantrySettings.cornerAngle
+		},
+		minimumCruiseRatio: resolveMinimumCruiseRatio(klipperSettings)
 	};
 
 	return steppers.map((stepper) => ({

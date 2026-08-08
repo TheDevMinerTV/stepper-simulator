@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { chartColor } from '@/lib/chart-colors';
 import {
 	calculateBeltPitch,
 	calculateDriveCurrent,
@@ -66,31 +67,20 @@ export function Graph() {
 		});
 	}, [steppers, driveSettings, gantrySettings, maxPower, maxVelocity]);
 
-	const chartConfig = useMemo(() => {
-		const colors = [
-			'#2563eb', // blue
-			'#dc2626', // red
-			'#16a34a', // green
-			'#ca8a04', // yellow
-			'#9333ea', // purple
-			'#c2410c', // orange
-			'#0891b2', // cyan
-			'#be123c', // rose
-			'#059669', // emerald
-			'#7c3aed' // violet
-		];
-
-		return steppers.reduce(
-			(acc, stepper, index) => {
-				acc[generateKey(stepper)] = {
-					label: `${stepper.brand} ${stepper.model}`,
-					color: colors[index % colors.length]
-				};
-				return acc;
-			},
-			{} as Record<string, { label: string; color: string }>
-		);
-	}, [steppers]);
+	const chartConfig = useMemo(
+		() =>
+			steppers.reduce(
+				(acc, stepper, index) => {
+					acc[generateKey(stepper)] = {
+						label: `${stepper.brand} ${stepper.model}`,
+						color: chartColor(index)
+					};
+					return acc;
+				},
+				{} as Record<string, { label: string; color: string }>
+			),
+		[steppers]
+	);
 
 	const requiredTorque = calculateRequiredTorque(gantrySettings);
 
@@ -152,7 +142,10 @@ export function Graph() {
 									tickMargin={8}
 									minTickGap={20}
 									// Headroom so the required-torque line and its label never sit on the top edge
-									domain={[0, (dataMax: number) => Math.ceil(Math.max(dataMax, requiredTorque) * 1.1)]}
+									domain={[
+										0,
+										(dataMax: number) => Math.ceil(Math.max(dataMax, requiredTorque) * 1.1)
+									]}
 									tickFormatter={(value) => `${value} Ncm`}
 								/>
 								<ChartTooltip

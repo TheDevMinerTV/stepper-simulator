@@ -3,13 +3,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { MoveProfileChart, type ChartConfig } from '@/components/move-profile';
+import { chartColor } from '@/lib/chart-colors';
 import { calculateBeltPitch } from '@/lib/formulas';
-import { recommendMoves, resolvePathLength } from '@/lib/recommender';
-import type { Millimeter, MillimetersPerSecondSquared, Percent } from '@/lib/stepper';
+import { recommendMoves, resolveMinimumCruiseRatio, resolvePathLength } from '@/lib/recommender';
+import type { Degree, Millimeter, MillimetersPerSecondSquared, Percent, StepperDefinition } from '@/lib/stepper';
 import {
 	currentDebugAtom,
 	currentDriveSettingsAtom,
 	currentGantrySettingsAtom,
+	currentKlipperSettingsAtom,
 	steppersAtom,
 	type GantrySettings
 } from '@/state/atoms';
@@ -33,6 +36,8 @@ function matchingPreset(gantrySettings: GantrySettings) {
 	);
 }
 
+const stepperKey = (stepper: StepperDefinition) => `${stepper.brand} ${stepper.model}`;
+
 function formatMoveTime(seconds: number) {
 	return seconds < 1 ? `${(seconds * 1000).toFixed(0)} ms` : `${seconds.toFixed(2)} s`;
 }
@@ -45,6 +50,7 @@ function UnitHint({ children }: { children: ReactNode }) {
 export function MoveRecommender() {
 	const [gantrySettings, setGantrySettings] = useAtom(currentGantrySettingsAtom);
 	const driveSettings = useAtomValue(currentDriveSettingsAtom);
+	const klipperSettings = useAtomValue(currentKlipperSettingsAtom);
 	const steppers = useAtomValue(steppersAtom);
 	const debug = useAtomValue(currentDebugAtom);
 
@@ -54,12 +60,30 @@ export function MoveRecommender() {
 
 	const results = useMemo(
 		() =>
-			recommendMoves(driveSettings, gantrySettings, steppers).sort((a, b) => {
+			recommendMoves(driveSettings, gantrySettings, klipperSettings, steppers).sort((a, b) => {
 				if (!a.recommendation) return 1;
 				if (!b.recommendation) return -1;
 				return a.recommendation.moveTime - b.recommendation.moveTime;
 			}),
-		[driveSettings, gantrySettings, steppers]
+		[driveSettings, gantrySettings, klipperSettings, steppers]
+	);
+
+	// Coloured by selection order rather than by rank, so a stepper keeps the colour the torque
+	// graph gave it even as the ranking reshuffles
+	const chartConfig = useMemo(
+		() =>
+			steppers.reduce((acc, stepper, index) => {
+				acc[stepperKey(stepper)] = {
+					label: `${stepper.brand} ${stepper.model}`,
+					color: chartColor(index)
+				};
+				return acc;
+			}, {} as ChartConfig),
+		[steppers]
+	);
+
+	const profiles = results.flatMap(({ stepper, recommendation }) =>
+		recommendation ? [{ key: stepperKey(stepper), recommendation }] : []
 	);
 
 	return (
@@ -68,7 +92,8 @@ export function MoveRecommender() {
 				<div className="grid flex-1 gap-1">
 					<CardTitle>Move Recommender</CardTitle>
 					<CardDescription>
-						Fastest velocity/acceleration pair for a {Math.round(pathLength)} mm move, rest to rest
+						Fastest velocity/acceleration pair for a {Math.round(pathLength)} mm move between two{' '}
+						{Math.round(gantrySettings.cornerAngle)}° corners
 					</CardDescription>
 				</div>
 				<div className="flex items-center gap-2">
@@ -102,31 +127,49 @@ export function MoveRecommender() {
 				</div>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				<ToggleGroup
-					type="single"
-					variant="outline"
-					size="sm"
-					value={matchingPreset(gantrySettings)}
-					onValueChange={(value) => {
-						const preset = PATH_LENGTH_PRESETS.find((p) => p.key === value);
-						if (!preset) return;
+				<div className="flex flex-wrap items-center justify-between gap-2">
+					<ToggleGroup
+						type="single"
+						variant="outline"
+						size="sm"
+						value={matchingPreset(gantrySettings)}
+						onValueChange={(value) => {
+							const preset = PATH_LENGTH_PRESETS.find((p) => p.key === value);
+							if (!preset) return;
 
-						setGantrySettings({
-							...gantrySettings,
-							// Half the bed is the default, so following the bed size is the more useful state
-							movePathLength:
-								preset.key === 'half-bed'
-									? null
-									: (Math.round(preset.of(gantrySettings.bedSize)) as Millimeter)
-						});
-					}}
-				>
-					{PATH_LENGTH_PRESETS.map((preset) => (
-						<ToggleGroupItem key={preset.key} value={preset.key}>
-							{preset.label}
-						</ToggleGroupItem>
-					))}
-				</ToggleGroup>
+							setGantrySettings({
+								...gantrySettings,
+								// Half the bed is the default, so following the bed size is the more useful state
+								movePathLength:
+									preset.key === 'half-bed'
+										? null
+										: (Math.round(preset.of(gantrySettings.bedSize)) as Millimeter)
+							});
+						}}
+					>
+						{PATH_LENGTH_PRESETS.map((preset) => (
+							<ToggleGroupItem key={preset.key} value={preset.key}>
+								{preset.label}
+							</ToggleGroupItem>
+						))}
+					</ToggleGroup>
+					<div className="flex items-center gap-2 text-sm">
+						<span className="text-muted-foreground">Corner</span>
+						<Input
+							type="number"
+							min={1}
+							max={180}
+							className="w-20"
+							value={gantrySettings.cornerAngle}
+							onChange={(e) => {
+								const v = e.target.valueAsNumber;
+								if (Number.isNaN(v)) return;
+								setGantrySettings({ ...gantrySettings, cornerAngle: v as Degree });
+							}}
+						/>
+						<span title="90° is a square corner, 180° a full reversal">°</span>
+					</div>
+				</div>
 
 				{steppers.length === 0 ? (
 					<div>No steppers selected</div>
@@ -148,7 +191,7 @@ export function MoveRecommender() {
 									</TableHead>
 									<TableHead className="text-right">
 										Time
-										<UnitHint>rest to rest</UnitHint>
+										<UnitHint>corner to corner</UnitHint>
 									</TableHead>
 									<TableHead className="text-right">
 										v at set accel
@@ -159,7 +202,7 @@ export function MoveRecommender() {
 							</TableHeader>
 							<TableBody>
 								{results.map(({ stepper, recommendation }) => (
-									<TableRow key={`${stepper.brand}|${stepper.model}`}>
+									<TableRow key={stepperKey(stepper)}>
 										<TableCell className="max-w-56">
 											<div className="truncate" title={`${stepper.brand} ${stepper.model}`}>
 												{stepper.brand} {stepper.model}
@@ -199,6 +242,9 @@ export function MoveRecommender() {
 												</TableCell>
 												<TableCell className="text-right font-mono tabular-nums">
 													{formatMoveTime(recommendation.moveTime)}
+													<UnitHint>
+														from {Math.round(recommendation.junctionVelocity)} mm/s
+													</UnitHint>
 												</TableCell>
 												<TableCell className="text-right font-mono tabular-nums">
 													{recommendation.velocityAtConfiguredAcceleration === null
@@ -237,10 +283,15 @@ export function MoveRecommender() {
 					</div>
 				)}
 
+				<MoveProfileChart recommendations={profiles} chartConfig={chartConfig} pathLength={pathLength} />
+
 				<p className="text-xs text-muted-foreground">
 					<span className="font-medium">path-limited</span> means the move ends before the motor runs out of
 					speed, <span className="font-medium">motor-limited</span> that a longer move would not go any
-					faster. Assumes one motor per axis, a rest-to-rest trapezoid with no junction velocity or jerk, and
+					faster. The move enters and leaves at the velocity Klipper's junction deviation carries through a{' '}
+					{Math.round(gantrySettings.cornerAngle)}° corner at {klipperSettings.squareCornerVelocity} mm/s
+					square corner velocity, and at least {Math.round(resolveMinimumCruiseRatio(klipperSettings) * 100)}%
+					of it is spent cruising, as Klipper's minimum cruise ratio demands. Assumes one motor per axis and
 					no friction beyond the modelled load. {gantrySettings.safetyMarginPercent}% of the computed
 					acceleration ceiling is held back for what the model does not cover (belt compliance, resonance,
 					mid-band losses).
