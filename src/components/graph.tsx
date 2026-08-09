@@ -126,6 +126,7 @@ export function Graph() {
 						type="number"
 						value={Number.isFinite(displayedMax) ? Math.round(displayedMax) : 0}
 						className="w-24"
+						step={100}
 						onChange={(e) => {
 							const v = e.target.valueAsNumber;
 							if (Number.isNaN(v)) return;
