@@ -1,10 +1,13 @@
 import type { StepperDefinition, Watts } from '@/lib/stepper';
-import type { DriveSettings, GantrySettings } from '@/state/atoms';
+import type { DriveSettings, GantrySettings } from '@/lib/configuration';
 
 const PI = Math.PI;
 const SQRT2 = Math.SQRT2;
 
 export const calculateGearRatio = (gantrySettings: GantrySettings) => gantrySettings.gearA / gantrySettings.gearB;
+
+export const calculateMaxPower = (driveSettings: DriveSettings) =>
+	(driveSettings.inputVoltage * driveSettings.maxDriveCurrent) as Watts;
 
 export const calculateMaxCurrentAtSpecifiedPower = (maxPower: Watts, stepper: StepperDefinition) =>
 	Math.sqrt(maxPower / 2 / stepper.resistance);

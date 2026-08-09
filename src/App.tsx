@@ -6,7 +6,7 @@ import { ShareConfigButton } from '@/components/share-config';
 import { StepperSpecsCard } from '@/components/specs';
 import { StepperSelection } from '@/components/stepper-management';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { clearUrlConfig, parseConfigFromUrl } from '@/lib/config-sharing';
+import { clearUrlConfig, parseConfigFromUrl } from '@/lib/share-url';
 import type { StepperDefinition } from '@/lib/stepper';
 import { loadImportedConfigurationAtom, steppersAtom, unresolvedImportedSteppersAtom } from '@/state/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';

@@ -2,30 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { calculateRequiredTorque } from '@/lib/formulas';
 import {
-	calculateDriveCurrent,
-	calculateMaxCurrentAtSpecifiedPower,
-	calculateRequiredTorque,
-	calculateSingleCoilTorque,
-	calculateTorqueRotor
-} from '@/lib/formulas';
-import type { StepperDefinition } from '@/lib/stepper';
-import {
-	currentDriveSettingsAtom,
-	currentGantrySettingsAtom,
-	maxPowerAtom,
-	steppersAtom
-} from '@/state/atoms';
+	buildTorqueCurve,
+	DEFAULT_MAX_VELOCITY,
+	stepperSeriesColor,
+	stepperSeriesKey as generateKey
+} from '@/lib/torque-curve';
+import { currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom, steppersAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
-
-const STEP_SIZE = 20;
-const DEFAULT_MAX_VELOCITY = 2000;
-
-function generateKey(stepper: StepperDefinition) {
-	return `${stepper.brand} ${stepper.model}`;
-}
 
 export function Graph() {
 	const driveSettings = useAtomValue(currentDriveSettingsAtom);
@@ -40,66 +27,25 @@ export function Graph() {
 	const rpmToMms = (rpm: number) => (rpm * pulleyCircumferenceMm) / 60;
 	const displayedMax = unit === 'rpm' ? mmsToRpm(maxVelocity) : maxVelocity;
 
-	const chartData = useMemo(() => {
-		const velocityPoints = Array.from(
-			{ length: Math.floor((maxVelocity + STEP_SIZE) / STEP_SIZE) },
-			(_, i) => i * STEP_SIZE
-		);
+	const chartData = useMemo(
+		() => buildTorqueCurve({ steppers, driveSettings, gantrySettings, maxPower, maxVelocity }),
+		[steppers, driveSettings, gantrySettings, maxPower, maxVelocity]
+	);
 
-		return velocityPoints.map((velocity) => {
-			const dataPoint: Record<string, number> = { velocity };
-
-			for (const stepper of steppers) {
-				const maxCurrentAtSpecifiedPower = calculateMaxCurrentAtSpecifiedPower(maxPower, stepper);
-				const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
-				const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
-
-				const rps = velocity / pulleyCircumferenceMm;
-				const rawTorque = calculateSingleCoilTorque(
-					driveSettings.motorModel,
-					stepper.stepAngle,
-					stepper.ratedCurrent,
-					stepper.torque,
-					stepper.inductance,
-					stepper.resistance,
-					driveSettings.inputVoltage,
-					driveCurrent,
-					rps
-				);
-
-				const torque = Math.max(rawTorque - torqueRotor, 0);
-				dataPoint[generateKey(stepper)] = torque;
-			}
-
-			return dataPoint;
-		});
-	}, [steppers, driveSettings, gantrySettings, maxPower, maxVelocity]);
-
-	const chartConfig = useMemo(() => {
-		const colors = [
-			'#2563eb', // blue
-			'#dc2626', // red
-			'#16a34a', // green
-			'#ca8a04', // yellow
-			'#9333ea', // purple
-			'#c2410c', // orange
-			'#0891b2', // cyan
-			'#be123c', // rose
-			'#059669', // emerald
-			'#7c3aed' // violet
-		];
-
-		return steppers.reduce(
-			(acc, stepper, index) => {
-				acc[generateKey(stepper)] = {
-					label: `${stepper.brand} ${stepper.model}`,
-					color: colors[index % colors.length]
-				};
-				return acc;
-			},
-			{} as Record<string, { label: string; color: string }>
-		);
-	}, [steppers]);
+	const chartConfig = useMemo(
+		() =>
+			steppers.reduce(
+				(acc, stepper, index) => {
+					acc[generateKey(stepper)] = {
+						label: generateKey(stepper),
+						color: stepperSeriesColor(index)
+					};
+					return acc;
+				},
+				{} as Record<string, { label: string; color: string }>
+			),
+		[steppers]
+	);
 
 	const requiredTorque = calculateRequiredTorque(gantrySettings);
 

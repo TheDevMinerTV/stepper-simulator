@@ -1,63 +1,32 @@
-import type { MotorModel } from '@/lib/formulas';
-import type {
-	Ampere,
-	Grams,
-	MillimetersPerSecondSquared,
-	NewtonCentimeter,
-	Percent,
-	StepperDefinition,
-	Volts,
-	Watts
-} from '@/lib/stepper';
+import {
+	DEFAULT_DEBUG,
+	DEFAULT_DRIVE_SETTINGS,
+	DEFAULT_GANTRY_SETTINGS,
+	type DriveSettings,
+	type GantrySettings,
+	type ShareableConfiguration
+} from '@/lib/configuration';
+import { calculateMaxPower } from '@/lib/formulas';
+import type { StepperDefinition, Watts } from '@/lib/stepper';
 import { atom } from 'jotai';
 
 type SetStateAction<T> = T | ((prev: T) => T);
 
-export type DriveSettings = {
-	inputVoltage: Volts;
-	maxDriveCurrent: Ampere;
-	maxDrivePercent: Percent;
-	motorModel: MotorModel;
-};
-export type GantrySettings = {
-	pulleyTeeth: number;
-	toothPitch: number;
-	gearA: number;
-	gearB: number;
-	acceleration: MillimetersPerSecondSquared;
-	toolheadAndYAxisMass: Grams;
-	manualRequiredTorque: NewtonCentimeter | null;
-};
-
-export type ShareableConfiguration = {
-	driveSettings: DriveSettings;
-	gantrySettings: GantrySettings;
-	customSteppers: StepperDefinition[];
-	debug: boolean;
-	selectedSteppers: StepperDefinition[];
+// The configuration shape itself lives in `@/lib/configuration` so the server can import it
+// without pulling in this module's `localStorage` access. Re-exported for the app's convenience
+export {
+	DEFAULT_DEBUG,
+	DEFAULT_DRIVE_SETTINGS,
+	DEFAULT_GANTRY_SETTINGS,
+	type DriveSettings,
+	type GantrySettings,
+	type ShareableConfiguration
 };
 
 export const isImportedConfigAtom = atom<boolean>(false);
 export const showImportWarningAtom = atom<boolean>(false);
 /** Ids (`brand|model`) referenced by an imported link that could not be resolved */
 export const unresolvedImportedSteppersAtom = atom<string[]>([]);
-
-export const DEFAULT_DEBUG = false;
-export const DEFAULT_DRIVE_SETTINGS: DriveSettings = {
-	inputVoltage: 24 as Volts,
-	maxDriveCurrent: 1 as Ampere,
-	maxDrivePercent: 100 as Percent,
-	motorModel: 'classic'
-};
-export const DEFAULT_GANTRY_SETTINGS: GantrySettings = {
-	pulleyTeeth: 20,
-	toothPitch: 2,
-	gearA: 1,
-	gearB: 1,
-	acceleration: 20000 as MillimetersPerSecondSquared,
-	toolheadAndYAxisMass: 500 as Grams,
-	manualRequiredTorque: null
-};
 
 function atomWithLocalStorage<T>(key: string, initialValue: T) {
 	const getInitialValue = () => {
@@ -196,10 +165,7 @@ export const currentDebugAtom = atom(
 	}
 );
 
-export const maxPowerAtom = atom<Watts>((get) => {
-	const driveSettings = get(currentDriveSettingsAtom);
-	return (driveSettings.inputVoltage * driveSettings.maxDriveCurrent) as Watts;
-});
+export const maxPowerAtom = atom<Watts>((get) => calculateMaxPower(get(currentDriveSettingsAtom)));
 
 export const steppersAtom = atom<StepperDefinition[]>([]);
 

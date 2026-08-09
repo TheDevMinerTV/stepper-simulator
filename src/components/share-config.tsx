@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { buildShareUrl } from '@/lib/config-sharing';
+import { buildShareUrl } from '@/lib/share-url';
 import { getCurrentConfigurationAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
 import { LinkIcon } from 'lucide-react';

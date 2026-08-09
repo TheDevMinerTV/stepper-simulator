@@ -6,9 +6,9 @@
 	"license": "CC BY-NC-SA 4.0",
 	"scripts": {
 		"dev": "vite",
-		"build": "tsc -b && vite build",
+		"build": "vite build && tsx scripts/split-build.ts && tsc -b && nitro build",
 		"lint": "eslint .",
-		"preview": "vite preview",
+		"preview": "node .output/server/index.mjs",
 		"data:update-stepper-db": "tsx data/csv-converter.ts",
 		"data:dump-stepper-db-table": "tsx data/generate-table.ts"
 	},
@@ -21,6 +21,7 @@
 		"@radix-ui/react-separator": "^1.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
 		"@radix-ui/react-switch": "^1.2.6",
+		"@resvg/resvg-js": "^2.6.2",
 		"@tailwindcss/vite": "^4.1.12",
 		"@tanstack/react-table": "^8.21.3",
 		"class-variance-authority": "^0.7.1",
@@ -42,6 +43,8 @@
 		"@types/react": "^19.1.10",
 		"@types/react-dom": "^19.1.7",
 		"@vitejs/plugin-react": "^6.0.0",
+		"h3": "1.15.11",
+		"nitropack": "^2.13.4",
 		"prettier": "^3.6.2",
 		"tsx": "^4.20.4",
 		"typescript": "~6.0.0",

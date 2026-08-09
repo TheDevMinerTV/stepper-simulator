@@ -6,7 +6,7 @@ import {
 	type DriveSettings,
 	type GantrySettings,
 	type ShareableConfiguration
-} from '@/state/atoms';
+} from '@/lib/configuration';
 import { z } from 'zod/v4';
 import {
 	Ampere,
@@ -366,22 +366,3 @@ export function decodeConfig(param: string): ImportedConfiguration | null {
 	return { config: legacy.data as ShareableConfiguration, unresolvedSteppers: [] };
 }
 
-export function buildShareUrl(config: ShareableConfiguration): string {
-	const baseUrl = window.location.origin + window.location.pathname;
-	return `${baseUrl}?config=${encodeConfig(config)}`;
-}
-
-export function parseConfigFromUrl(): ImportedConfiguration | null {
-	const configParam = new URLSearchParams(window.location.search).get('config');
-	if (!configParam) {
-		return null;
-	}
-
-	return decodeConfig(configParam);
-}
-
-export function clearUrlConfig() {
-	const url = new URL(window.location.href);
-	url.searchParams.delete('config');
-	window.history.replaceState({}, '', url.toString());
-}
