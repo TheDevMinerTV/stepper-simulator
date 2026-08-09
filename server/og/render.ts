@@ -31,8 +31,8 @@ function rasterize(svg: string): Buffer {
 	return Buffer.from(resvg.render().asPng());
 }
 
-export function renderOgImage(configParam: string | null | undefined, siteName: string): OgImage {
-	const key = `${siteName}\n${configParam ?? ''}`;
+export function renderOgImage(configParam: string | null | undefined, siteName: string, version = ''): OgImage {
+	const key = `${version}\n${siteName}\n${configParam ?? ''}`;
 	const cached = cache.get(key);
 	if (cached) return cached;
 

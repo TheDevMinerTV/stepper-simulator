@@ -10,10 +10,13 @@ import { resolveBaseUrl } from '../site';
  * a 500 here drops the unfurl entirely.
  */
 export default defineEventHandler((event) => {
-	const config = getQuery(event).config;
-	const configParam = typeof config === 'string' ? config : null;
+	const query = getQuery(event);
+	const configParam = typeof query.config === 'string' ? query.config : null;
+	// Only a cache-buster (see OG_IMAGE_VERSION in og/meta.ts); it never changes what is drawn,
+	// but it does have to key the cache, or a stale entry would outlive the bump it exists for
+	const version = typeof query.v === 'string' ? query.v : '';
 
-	const { png, etag } = renderOgImage(configParam, resolveBaseUrl(event).replace(/^https?:\/\//, ''));
+	const { png, etag } = renderOgImage(configParam, resolveBaseUrl(event).replace(/^https?:\/\//, ''), version);
 
 	setResponseHeader(event, 'content-type', 'image/png');
 	setResponseHeader(event, 'cache-control', 'public, max-age=31536000, immutable');

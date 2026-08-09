@@ -11,6 +11,15 @@ import { buildOgModel } from './model';
 /** The block in `index.html` that gets swapped out, per request */
 const OG_BLOCK = /<!--\s*og:start\s*-->[\s\S]*?<!--\s*og:end\s*-->/;
 
+/**
+ * Cache-buster for the image URL. **Bump this whenever the rendering changes.**
+ *
+ * `/og.png` is served `immutable` because a share link is immutable, so a client that fetched a
+ * card once never asks again. Without a token in the URL, a change to the renderer would only be
+ * visible on links nobody had unfurled yet.
+ */
+const OG_IMAGE_VERSION = 2;
+
 function escapeAttribute(value: string): string {
 	return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
@@ -35,8 +44,8 @@ export function buildOgTags({
 	const model = buildOgModel(configParam);
 	const imageUrl =
 		model.variant === 'config' && configParam
-			? `${baseUrl}/og.png?config=${encodeURIComponent(configParam)}`
-			: `${baseUrl}/og.png`;
+			? `${baseUrl}/og.png?v=${OG_IMAGE_VERSION}&config=${encodeURIComponent(configParam)}`
+			: `${baseUrl}/og.png?v=${OG_IMAGE_VERSION}`;
 
 	return [
 		`<title>${escapeAttribute(model.title)}</title>`,

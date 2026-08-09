@@ -31,6 +31,7 @@ const FONT_FAMILY = 'sans-serif';
 const PADDING_X = 48;
 const CHART_TOP = 132;
 const LEGEND_ROW_HEIGHT = 32;
+const LEGEND_FONT_SIZE = 20;
 const LEGEND_COLUMNS = 2;
 const BOTTOM_PADDING = 40;
 
@@ -147,11 +148,26 @@ function renderLegend(model: OgModel, top: number): string {
 		const row = Math.floor(index / LEGEND_COLUMNS);
 		const x = PADDING_X + column * columnWidth;
 		const y = top + row * LEGEND_ROW_HEIGHT;
-		const crossing = series.crossing === null ? '' : ` · ${formatNumber(series.crossing, 0)} mm/s`;
+		// A motor that is short of the required torque standing still has no crossing to name, and
+		// a bare label there reads as missing data rather than as the answer
+		const verdict =
+			series.crossing !== null
+				? ` · ${formatNumber(series.crossing, 0)} mm/s`
+				: series.belowRequired
+					? ' · below required'
+					: '';
+
+		// The verdict is the point of the entry, so the model name is what gives way when the two
+		// together do not fit the column
+		const label = fitText(
+			series.label,
+			LEGEND_FONT_SIZE,
+			columnWidth - 42 - estimateTextWidth(verdict, LEGEND_FONT_SIZE)
+		);
 
 		return [
 			`<rect x="${x}" y="${y}" width="16" height="16" rx="4" fill="${series.color}" />`,
-			text(`${series.label}${crossing}`, { x: x + 26, y: y + 14, size: 20, fill: COLORS.foreground })
+			text(`${label}${verdict}`, { x: x + 26, y: y + 14, size: LEGEND_FONT_SIZE, fill: COLORS.foreground })
 		].join('');
 	});
 

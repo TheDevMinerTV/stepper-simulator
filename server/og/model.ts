@@ -30,6 +30,8 @@ export type OgSeries = {
 	color: string;
 	/** Velocity (mm/s) at which this motor drops below the required torque */
 	crossing: number | null;
+	/** Already short of the required torque at standstill, so it never has a crossing to report */
+	belowRequired: boolean;
 };
 
 export type OgModel = {
@@ -144,7 +146,8 @@ export function buildOgModel(configParam: string | null | undefined): OgModel {
 			key,
 			label: truncate(key),
 			color: stepperSeriesColor(index),
-			crossing: requiredTorque === null ? null : crossingVelocity(points, key, requiredTorque)
+			crossing: requiredTorque === null ? null : crossingVelocity(points, key, requiredTorque),
+			belowRequired: requiredTorque !== null && points.length > 0 && points[0][key] < requiredTorque
 		};
 	});
 

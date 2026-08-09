@@ -105,8 +105,8 @@ const NICE_TICK_STEPS = [
 const AUTO_MAX_VELOCITY_CAP = NICE_TICK_STEPS[NICE_TICK_STEPS.length - 1] * 5;
 /** Fraction of the range left past the point where the last motor stops being useful */
 const AUTO_VELOCITY_HEADROOM = 1.15;
-/** A series below this fraction of the strongest standstill torque is no longer worth plotting */
-const AUTO_VELOCITY_FLOOR_FRACTION = 0.02;
+/** A series below this fraction of its own standstill torque has nothing left to show */
+const AUTO_VELOCITY_FLOOR_FRACTION = 0.05;
 
 function roundToNiceRange(velocity: number): number {
 	const step = NICE_TICK_STEPS.find((candidate) => candidate * 5 >= velocity);
@@ -114,8 +114,13 @@ function roundToNiceRange(velocity: number): number {
 }
 
 /**
- * Picks a velocity range that fits every selected stepper: wide enough to show each curve fall
- * past the required torque, but not so wide that they all collapse into the left edge.
+ * Picks a velocity range that fits every selected stepper: wide enough that each curve is shown
+ * falling off, but not so wide that they all collapse into the left edge.
+ *
+ * Each series gets its own cutoff. A motor that starts *below* the required torque never crosses
+ * it, and thresholding the whole chart on the required torque would leave that motor as a flat
+ * line running off the right edge, which is exactly the shape that says "nothing was fitted here".
+ * Such a series is instead followed down to a fraction of its own standstill torque.
  *
  * Sampled coarsely on purpose. This only decides the axis, and the fine curve is built afterwards.
  */
@@ -128,16 +133,22 @@ export function autoMaxVelocity({
 	const stepSize = AUTO_MAX_VELOCITY_CAP / 500;
 	const points = buildTorqueCurve({ ...input, maxVelocity: AUTO_MAX_VELOCITY_CAP, stepSize });
 	const keys = input.steppers.map(stepperSeriesKey);
+	const required = Number.isFinite(requiredTorque) ? Math.max(requiredTorque, 0) : 0;
 
-	const standstill = Math.max(...keys.map((key) => points[0][key]), 0);
-	const floor = standstill * AUTO_VELOCITY_FLOOR_FRACTION;
-	const threshold = Math.max(Number.isFinite(requiredTorque) ? requiredTorque : 0, floor);
+	const thresholds = new Map(
+		keys.map((key) => {
+			const floor = points[0][key] * AUTO_VELOCITY_FLOOR_FRACTION;
+			return [key, points[0][key] > required ? Math.max(required, floor) : floor];
+		})
+	);
 
-	// One step past the last sample where anything is still above the threshold, so the crossing
-	// itself stays on screen
+	// One step past the last sample where a series is still above its own threshold, so the point
+	// where it gives up stays on screen
 	let lastRelevant = 0;
 	for (const point of points) {
-		if (keys.some((key) => point[key] > threshold)) lastRelevant = point.velocity + stepSize;
+		for (const key of keys) {
+			if (point[key] > thresholds.get(key)!) lastRelevant = Math.max(lastRelevant, point.velocity + stepSize);
+		}
 	}
 
 	if (lastRelevant === 0) return roundToNiceRange(DEFAULT_MAX_VELOCITY);
