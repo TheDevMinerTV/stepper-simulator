@@ -95,6 +95,57 @@ export function buildTorqueCurve({
 }
 
 /**
+ * Tick spacings that read well on an axis; the range is always five of one of them. Kept dense
+ * enough that rounding up to the next one cannot inflate the range by much.
+ */
+const NICE_TICK_STEPS = [
+	10, 20, 25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 2500, 3000, 4000, 5000
+];
+/** Nothing sensible needs a wider range, and it bounds the work `autoMaxVelocity` does */
+const AUTO_MAX_VELOCITY_CAP = NICE_TICK_STEPS[NICE_TICK_STEPS.length - 1] * 5;
+/** Fraction of the range left past the point where the last motor stops being useful */
+const AUTO_VELOCITY_HEADROOM = 1.15;
+/** A series below this fraction of the strongest standstill torque is no longer worth plotting */
+const AUTO_VELOCITY_FLOOR_FRACTION = 0.02;
+
+function roundToNiceRange(velocity: number): number {
+	const step = NICE_TICK_STEPS.find((candidate) => candidate * 5 >= velocity);
+	return step === undefined ? AUTO_MAX_VELOCITY_CAP : step * 5;
+}
+
+/**
+ * Picks a velocity range that fits every selected stepper: wide enough to show each curve fall
+ * past the required torque, but not so wide that they all collapse into the left edge.
+ *
+ * Sampled coarsely on purpose. This only decides the axis, and the fine curve is built afterwards.
+ */
+export function autoMaxVelocity({
+	requiredTorque,
+	...input
+}: Omit<TorqueCurveInput, 'maxVelocity' | 'stepSize'> & { requiredTorque: number }): number {
+	if (input.steppers.length === 0) return DEFAULT_MAX_VELOCITY;
+
+	const stepSize = AUTO_MAX_VELOCITY_CAP / 500;
+	const points = buildTorqueCurve({ ...input, maxVelocity: AUTO_MAX_VELOCITY_CAP, stepSize });
+	const keys = input.steppers.map(stepperSeriesKey);
+
+	const standstill = Math.max(...keys.map((key) => points[0][key]), 0);
+	const floor = standstill * AUTO_VELOCITY_FLOOR_FRACTION;
+	const threshold = Math.max(Number.isFinite(requiredTorque) ? requiredTorque : 0, floor);
+
+	// One step past the last sample where anything is still above the threshold, so the crossing
+	// itself stays on screen
+	let lastRelevant = 0;
+	for (const point of points) {
+		if (keys.some((key) => point[key] > threshold)) lastRelevant = point.velocity + stepSize;
+	}
+
+	if (lastRelevant === 0) return roundToNiceRange(DEFAULT_MAX_VELOCITY);
+
+	return roundToNiceRange(Math.min(lastRelevant * AUTO_VELOCITY_HEADROOM, AUTO_MAX_VELOCITY_CAP));
+}
+
+/**
  * Velocity (mm/s) at which a series drops below the required torque, linearly interpolated between
  * samples. `null` when the series never crosses inside the sampled range: either it is already
  * below the line at standstill, or it stays above it all the way to `maxVelocity`.

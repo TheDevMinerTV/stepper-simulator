@@ -4,8 +4,8 @@ import { Input } from '@/components/ui/input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateRequiredTorque } from '@/lib/formulas';
 import {
+	autoMaxVelocity,
 	buildTorqueCurve,
-	DEFAULT_MAX_VELOCITY,
 	stepperSeriesColor,
 	stepperSeriesKey as generateKey
 } from '@/lib/torque-curve';
@@ -18,13 +18,22 @@ export function Graph() {
 	const driveSettings = useAtomValue(currentDriveSettingsAtom);
 	const gantrySettings = useAtomValue(currentGantrySettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
-	const [maxVelocity, setMaxVelocity] = useState(DEFAULT_MAX_VELOCITY);
+	// `null` until the field is edited: the range follows the selection on its own, but a typed
+	// value is never overwritten by it
+	const [manualMaxVelocity, setManualMaxVelocity] = useState<number | null>(null);
 	const [unit, setUnit] = useState<'mm/s' | 'rpm'>('mm/s');
 
 	const steppers = useAtomValue(steppersAtom);
 	const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
 	const mmsToRpm = (mms: number) => (mms * 60) / pulleyCircumferenceMm;
 	const rpmToMms = (rpm: number) => (rpm * pulleyCircumferenceMm) / 60;
+
+	const requiredTorque = calculateRequiredTorque(gantrySettings);
+	const fittedMaxVelocity = useMemo(
+		() => autoMaxVelocity({ steppers, driveSettings, gantrySettings, maxPower, requiredTorque }),
+		[steppers, driveSettings, gantrySettings, maxPower, requiredTorque]
+	);
+	const maxVelocity = manualMaxVelocity ?? fittedMaxVelocity;
 	const displayedMax = unit === 'rpm' ? mmsToRpm(maxVelocity) : maxVelocity;
 
 	const chartData = useMemo(
@@ -46,8 +55,6 @@ export function Graph() {
 			),
 		[steppers]
 	);
-
-	const requiredTorque = calculateRequiredTorque(gantrySettings);
 
 	return (
 		<Card className="pt-0">
@@ -76,7 +83,7 @@ export function Graph() {
 						onChange={(e) => {
 							const v = e.target.valueAsNumber;
 							if (Number.isNaN(v)) return;
-							setMaxVelocity(unit === 'rpm' ? rpmToMms(v) : v);
+							setManualMaxVelocity(unit === 'rpm' ? rpmToMms(v) : v);
 						}}
 					/>
 					<span>{unit}</span>

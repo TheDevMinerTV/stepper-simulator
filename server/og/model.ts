@@ -1,6 +1,7 @@
 import { decodeConfig } from '@/lib/config-sharing';
 import { calculateMaxPower, calculateRequiredTorque } from '@/lib/formulas';
 import {
+	autoMaxVelocity,
 	buildTorqueCurve,
 	crossingVelocity,
 	DEFAULT_MAX_VELOCITY,
@@ -115,13 +116,19 @@ export function buildOgModel(configParam: string | null | undefined): OgModel {
 	const selected = imported.config.selectedSteppers;
 	const steppers = selected.slice(0, MAX_SERIES);
 
-	const points = buildTorqueCurve({
+	const rawRequiredTorque = calculateRequiredTorque(gantrySettings);
+	const requiredTorque = Number.isFinite(rawRequiredTorque) ? rawRequiredTorque : null;
+
+	// Nobody gets to pan or zoom an unfurled image, so the range has to be right the first time
+	const curveInput = {
 		steppers,
 		driveSettings,
 		gantrySettings,
-		maxPower: calculateMaxPower(driveSettings),
-		maxVelocity: DEFAULT_MAX_VELOCITY
-	}).map((point) => {
+		maxPower: calculateMaxPower(driveSettings)
+	};
+	const maxVelocity = autoMaxVelocity({ ...curveInput, requiredTorque: requiredTorque ?? 0 });
+
+	const points = buildTorqueCurve({ ...curveInput, maxVelocity }).map((point) => {
 		const sanitized: TorqueCurvePoint = { velocity: point.velocity };
 		for (const [key, value] of Object.entries(point)) {
 			sanitized[key] = Number.isFinite(value) ? value : 0;
@@ -129,9 +136,6 @@ export function buildOgModel(configParam: string | null | undefined): OgModel {
 
 		return sanitized;
 	});
-
-	const rawRequiredTorque = calculateRequiredTorque(gantrySettings);
-	const requiredTorque = Number.isFinite(rawRequiredTorque) ? rawRequiredTorque : null;
 
 	const series: OgSeries[] = steppers.map((stepper, index) => {
 		const key = stepperSeriesKey(stepper);
@@ -159,7 +163,7 @@ export function buildOgModel(configParam: string | null | undefined): OgModel {
 		points,
 		series,
 		requiredTorque,
-		maxVelocity: DEFAULT_MAX_VELOCITY,
+		maxVelocity,
 		omittedSteppers: selected.length - steppers.length
 	};
 
