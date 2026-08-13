@@ -82,8 +82,15 @@ export function buildExtruderCurve({
 const NICE_FLOW_STEPS = [0.5, 1, 2, 2.5, 5, 7.5, 10, 15, 20, 25, 30, 40, 50];
 /** Nothing sensible needs a wider range, and it bounds the work `autoMaxFlowRate` does */
 const AUTO_MAX_FLOW_CAP = NICE_FLOW_STEPS[NICE_FLOW_STEPS.length - 1] * 5;
-/** Fraction of the range left past the point where the last motor stops being useful */
-const AUTO_FLOW_HEADROOM = 1.15;
+/**
+ * Fraction of the range left past the point where the last motor stops being useful.
+ *
+ * Wider than the velocity axis allows itself. Where every motor clears the required force, the
+ * range is decided by the crossings alone, and a curve is still high and steeply falling as it
+ * reaches one — so a tight margin ends the plot mid-air. The extra room lets each curve bend over
+ * on screen, which is what makes it readable as "this is where it gives up".
+ */
+const AUTO_FLOW_HEADROOM = 1.4;
 /** A series below this fraction of its own standstill force has nothing left to show */
 const AUTO_FLOW_FLOOR_FRACTION = 0.05;
 
