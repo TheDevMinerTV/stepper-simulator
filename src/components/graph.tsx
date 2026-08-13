@@ -177,9 +177,13 @@ export function Graph() {
 
 	const displayToFlow =
 		extruderUnit === 'linear' ? linearToFlow : extruderUnit === 'print' ? printSpeedToFlow : (v: number) => v;
-	const extruderAxisTicks = isExtruderMode
+
+	// Both axes state their own bounds and ticks. Left to itself a numeric axis rounds the range
+	// out to the next tick it likes, which strands the end of every curve short of the right edge
+	const xAxisMax = isExtruderMode ? effectiveMaxFlowRate : maxVelocity;
+	const xAxisTicks = isExtruderMode
 		? generateEvenTicks(displayedMaxFlow, AXIS_TICK_COUNT).map(displayToFlow)
-		: undefined;
+		: generateEvenTicks(maxVelocity, AXIS_TICK_COUNT);
 
 	const formatXAxisValue = (value: number) =>
 		isExtruderMode
@@ -325,8 +329,8 @@ export function Graph() {
 									axisLine={AXIS_LINE}
 									tickMargin={8}
 									minTickGap={20}
-									domain={isExtruderMode ? [0, effectiveMaxFlowRate] : undefined}
-									ticks={extruderAxisTicks}
+									domain={[0, xAxisMax]}
+									ticks={xAxisTicks}
 									tickFormatter={formatXAxisValue}
 								/>
 								<YAxis

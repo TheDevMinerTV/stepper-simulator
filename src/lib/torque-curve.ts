@@ -61,10 +61,10 @@ export function buildTorqueCurve({
 	stepSize = TORQUE_CURVE_STEP_SIZE
 }: TorqueCurveInput): TorqueCurvePoint[] {
 	const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
-	const velocityPoints = Array.from(
-		{ length: Math.floor((maxVelocity + stepSize) / stepSize) },
-		(_, i) => i * stepSize
-	);
+	// The endpoint is sampled even when it is not a whole number of steps in, so the curve covers
+	// the range it was asked for rather than stopping at the last step short of it
+	const velocityPoints = Array.from({ length: Math.ceil(maxVelocity / stepSize) }, (_, i) => i * stepSize);
+	velocityPoints.push(maxVelocity);
 
 	return velocityPoints.map((velocity) => {
 		const dataPoint: TorqueCurvePoint = { velocity };

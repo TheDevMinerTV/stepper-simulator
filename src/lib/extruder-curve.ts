@@ -43,7 +43,10 @@ export function buildExtruderCurve({
 	maxFlowRate,
 	stepSize = EXTRUDER_CURVE_STEP_SIZE
 }: ExtruderCurveInput): ExtruderCurvePoint[] {
-	const flowPoints = Array.from({ length: Math.floor((maxFlowRate + stepSize) / stepSize) }, (_, i) => i * stepSize);
+	// The endpoint is sampled even when it is not a whole number of steps in, so the curve covers
+	// the range it was asked for rather than stopping at the last step short of it
+	const flowPoints = Array.from({ length: Math.ceil(maxFlowRate / stepSize) }, (_, i) => i * stepSize);
+	flowPoints.push(maxFlowRate);
 
 	return flowPoints.map((flowRate) => {
 		const dataPoint: ExtruderCurvePoint = { flowRate };
