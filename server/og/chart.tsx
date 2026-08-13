@@ -22,7 +22,8 @@ const COLORS = {
 	foreground: '#fafafa',
 	muted: '#a1a1aa',
 	dim: '#71717a',
-	grid: '#27272a',
+	/** Axis lines and grid share one grey, so the frame reads as a single system */
+	grid: '#3f3f46',
 	required: '#f87171'
 };
 
@@ -74,6 +75,30 @@ function text(
 	return `<text x="${x}" y="${y}" font-family="${FONT_FAMILY}" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${escapeXml(value)}</text>`;
 }
 
+/** The verticals are a reading aid, not part of the frame, so they sit back from the solid lines */
+const GRID_LINE_OPACITY = 0.5;
+
+type GridLineProps = { x1: number; y1: number; x2: number; y2: number; key?: string };
+
+/**
+ * recharts only renders the first `CartesianGrid` child, so the dashed verticals cannot be a
+ * second grid laid over the solid horizontals; they are a custom line renderer on the one grid.
+ */
+function dashedGridLine({ x1, y1, x2, y2, key }: GridLineProps) {
+	return (
+		<line
+			key={key}
+			x1={x1}
+			y1={y1}
+			x2={x2}
+			y2={y2}
+			stroke={COLORS.grid}
+			strokeOpacity={GRID_LINE_OPACITY}
+			strokeDasharray="4 4"
+		/>
+	);
+}
+
 /** Six evenly spaced ticks: recharts cannot measure text server-side, so tick placement is ours */
 function xAxisTicks(maxX: number): number[] {
 	return Array.from({ length: 6 }, (_, i) => Math.round((maxX / 5) * i));
@@ -89,7 +114,7 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 			// it server-side and would let it run off the canvas
 			margin={{ top: 8, right: 72, bottom: 8, left: 8 }}
 		>
-			<CartesianGrid vertical={false} stroke={COLORS.grid} />
+			<CartesianGrid stroke={COLORS.grid} vertical={dashedGridLine} />
 			<XAxis
 				dataKey={model.xKey}
 				type="number"
@@ -97,7 +122,7 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 				ticks={xAxisTicks(model.maxX)}
 				interval={0}
 				tickLine={false}
-				axisLine={false}
+				axisLine={{ stroke: COLORS.grid }}
 				tickMargin={12}
 				height={44}
 				tick={{ fill: COLORS.muted, fontSize: 20, fontFamily: FONT_FAMILY }}
@@ -105,7 +130,7 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 			/>
 			<YAxis
 				tickLine={false}
-				axisLine={false}
+				axisLine={{ stroke: COLORS.grid }}
 				tickMargin={12}
 				width={110}
 				tick={{ fill: COLORS.muted, fontSize: 20, fontFamily: FONT_FAMILY }}

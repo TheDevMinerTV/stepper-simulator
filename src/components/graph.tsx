@@ -28,6 +28,45 @@ const DEFAULT_EXTRUSION_WIDTH = 0.4;
 const DEFAULT_LAYER_HEIGHT = 0.2;
 const AXIS_TICK_COUNT = 6;
 
+/**
+ * Axis lines and grid share one grey, so the frame reads as a single system.
+ *
+ * The colour arrives as `currentColor` off a Tailwind class rather than a `var()` in the `stroke`
+ * attribute: `var()` is only dependable in a CSS property, not in a presentation attribute. Naming
+ * a stroke at all is also what opts these lines out of `ChartContainer`'s `stroke-border/50` rule,
+ * which is keyed on recharts' default `stroke="#ccc"` and is too faint to read on a dark ground.
+ */
+const AXIS_LINE = { stroke: 'currentColor', className: 'text-border' } as const;
+
+/** The verticals are a reading aid, not part of the frame, so they sit back from the solid lines */
+const GRID_LINE_OPACITY = 0.5;
+
+type GridLineProps = { x1: number; y1: number; x2: number; y2: number; key?: string };
+
+/**
+ * recharts only renders the first `CartesianGrid` child, so the dashed verticals cannot be a
+ * second grid laid over the solid horizontals; they are a custom line renderer on the one grid.
+ *
+ * The grid's own props are spread onto the lines recharts draws itself, but a custom renderer is
+ * handed only geometry — so the colour has to be restated here or `currentColor` falls through to
+ * the inherited foreground and the lines come out white.
+ */
+function dashedGridLine({ x1, y1, x2, y2, key }: GridLineProps) {
+	return (
+		<line
+			key={key}
+			className="text-border"
+			x1={x1}
+			y1={y1}
+			x2={x2}
+			y2={y2}
+			stroke="currentColor"
+			strokeOpacity={GRID_LINE_OPACITY}
+			strokeDasharray="4 4"
+		/>
+	);
+}
+
 // Evenly spaced ticks in display units, always including 0 and the exact max
 // (rather than relying on the chart's auto-picked "nice" values in the raw
 // data domain, which drift when the unit conversion factor changes).
@@ -274,12 +313,16 @@ export function Graph() {
 					<div style={{ width: '100%', height: '400px' }}>
 						<ChartContainer config={chartConfig} className="aspect-auto h-[400px] w-full">
 							<LineChart data={chartData}>
-								<CartesianGrid vertical={false} />
+								<CartesianGrid
+									className="text-border"
+									stroke="currentColor"
+									vertical={dashedGridLine}
+								/>
 								<XAxis
 									dataKey={xAxisKey}
 									type="number"
 									tickLine={false}
-									axisLine={false}
+									axisLine={AXIS_LINE}
 									tickMargin={8}
 									minTickGap={20}
 									domain={isExtruderMode ? [0, effectiveMaxFlowRate] : undefined}
@@ -288,7 +331,7 @@ export function Graph() {
 								/>
 								<YAxis
 									tickLine={false}
-									axisLine={false}
+									axisLine={AXIS_LINE}
 									tickMargin={8}
 									minTickGap={20}
 									tickFormatter={(value) => `${value} ${yAxisUnit}`}
