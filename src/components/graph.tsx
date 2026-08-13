@@ -3,6 +3,8 @@ import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Button } from '@/components/ui/button';
+import { saveChartImage } from '@/lib/chart-export';
 import { calculateFilamentCrossSectionArea, calculateRequiredTorque } from '@/lib/formulas';
 import { DEFAULT_MAX_FLOW_RATE, autoMaxFlowRate, buildExtruderCurve } from '@/lib/extruder-curve';
 import {
@@ -21,7 +23,8 @@ import {
 	steppersAtom
 } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
-import { useMemo, useState } from 'react';
+import { SaveIcon } from 'lucide-react';
+import { useMemo, useRef, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 
 const DEFAULT_EXTRUSION_WIDTH = 0.4;
@@ -91,6 +94,7 @@ export function Graph() {
 	const [extrusionWidth, setExtrusionWidth] = useState(DEFAULT_EXTRUSION_WIDTH);
 	const [layerHeight, setLayerHeight] = useState(DEFAULT_LAYER_HEIGHT);
 
+	const chartRef = useRef<HTMLDivElement>(null);
 	const steppers = useAtomValue(steppersAtom);
 	const isExtruderMode = driveMode === 'extruder';
 	const pulleyCircumferenceMm = gantrySettings.pulleyTeeth * gantrySettings.toothPitch;
@@ -185,6 +189,35 @@ export function Graph() {
 		? generateEvenTicks(displayedMaxFlow, AXIS_TICK_COUNT).map(displayToFlow)
 		: generateEvenTicks(maxVelocity, AXIS_TICK_COUNT);
 
+	const [saveError, setSaveError] = useState<string | null>(null);
+
+	async function saveGraph() {
+		const container = chartRef.current;
+		const svg = container?.querySelector('svg');
+		if (!container || !svg) return;
+
+		// Read the theme off the live card rather than assuming one, so a saved image looks like
+		// what was on screen in either light or dark
+		const card = container.closest('[data-slot="card"]') ?? container;
+		const background = window.getComputedStyle(card).backgroundColor;
+
+		try {
+			setSaveError(null);
+			await saveChartImage({
+				svg,
+				series: steppers.map((stepper) => {
+					const key = generateKey(stepper);
+					return { label: chartConfig[key]?.label ?? key, color: chartConfig[key]?.color ?? '#666' };
+				}),
+				background,
+				foreground: window.getComputedStyle(container).color || '#000000',
+				filename: isExtruderMode ? 'extrusion-force-graph' : 'torque-graph'
+			});
+		} catch (error) {
+			setSaveError(error instanceof Error ? error.message : 'the image could not be saved');
+		}
+	}
+
 	const formatXAxisValue = (value: number) =>
 		isExtruderMode
 			? extruderUnit === 'linear'
@@ -208,7 +241,7 @@ export function Graph() {
 							{extruderUnit === 'print' && (
 								<div className="flex flex-col gap-1.5">
 									<div className="flex items-center gap-2">
-										<Label htmlFor="extrusion-width" className="whitespace-nowrap">
+										<Label htmlFor="extrusion-width" className="whitespace-nowrap text-xs">
 											Line Width (mm)
 										</Label>
 										<Input
@@ -217,7 +250,7 @@ export function Graph() {
 											step={0.05}
 											min={0.05}
 											value={extrusionWidth}
-											className="w-20"
+											className="w-16"
 											onChange={(e) => {
 												const v = e.target.valueAsNumber;
 												if (Number.isNaN(v) || v <= 0) return;
@@ -226,7 +259,7 @@ export function Graph() {
 										/>
 									</div>
 									<div className="flex items-center gap-2">
-										<Label htmlFor="layer-height" className="whitespace-nowrap">
+										<Label htmlFor="layer-height" className="whitespace-nowrap text-xs">
 											Layer Height (mm)
 										</Label>
 										<Input
@@ -235,7 +268,7 @@ export function Graph() {
 											step={0.05}
 											min={0.05}
 											value={layerHeight}
-											className="w-20"
+											className="w-16"
 											onChange={(e) => {
 												const v = e.target.valueAsNumber;
 												if (Number.isNaN(v) || v <= 0) return;
@@ -255,14 +288,20 @@ export function Graph() {
 										setExtruderUnit(value);
 								}}
 							>
-								<ToggleGroupItem value="volumetric">Flow</ToggleGroupItem>
-								<ToggleGroupItem value="linear">Retraction Speed</ToggleGroupItem>
-								<ToggleGroupItem value="print">Print Speed</ToggleGroupItem>
+								<ToggleGroupItem value="volumetric" className="text-xs">
+									Flow
+								</ToggleGroupItem>
+								<ToggleGroupItem value="linear" className="text-xs">
+									Retraction Speed
+								</ToggleGroupItem>
+								<ToggleGroupItem value="print" className="text-xs">
+									Print Speed
+								</ToggleGroupItem>
 							</ToggleGroup>
 							<Input
 								type="number"
 								value={Number.isFinite(displayedMaxFlow) ? Math.round(displayedMaxFlow) : 0}
-								className="w-24"
+								className="w-18"
 								onChange={(e) => {
 									const v = e.target.valueAsNumber;
 									if (Number.isNaN(v)) return;
@@ -306,7 +345,18 @@ export function Graph() {
 								: 'mm³/s'
 							: unit}
 					</span>
+					<Button
+						type="button"
+						variant="outline"
+						size="icon"
+						onClick={saveGraph}
+						title="Save graph as an image"
+						aria-label="Save graph as an image"
+					>
+						<SaveIcon />
+					</Button>
 				</div>
+				{saveError && <p className="text-destructive w-full text-right text-xs">Could not save: {saveError}</p>}
 			</CardHeader>
 			<CardContent className="pt-0">
 				{chartData.length === 0 ? (
@@ -314,7 +364,7 @@ export function Graph() {
 				) : steppers.length === 0 ? (
 					<div>No steppers selected</div>
 				) : (
-					<div style={{ width: '100%', height: '400px' }}>
+					<div ref={chartRef} style={{ width: '100%', height: '400px' }}>
 						<ChartContainer config={chartConfig} className="aspect-auto h-[400px] w-full">
 							<LineChart data={chartData}>
 								<CartesianGrid
