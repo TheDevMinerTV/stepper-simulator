@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
 import { saveChartImage } from '@/lib/chart-export';
@@ -45,6 +46,9 @@ const AXIS_LINE = { stroke: 'currentColor', className: 'text-border' } as const;
 /** The verticals are a reading aid, not part of the frame, so they sit back from the solid lines */
 const GRID_LINE_OPACITY = 0.5;
 
+/** Width of the invisible band that makes a curve clickable, in pixels */
+const CLICK_TARGET_WIDTH = 16;
+
 type GridLineProps = { x1: number; y1: number; x2: number; y2: number; key?: string };
 
 /**
@@ -69,6 +73,14 @@ function dashedGridLine({ x1, y1, x2, y2, key }: GridLineProps) {
 			strokeDasharray="4 4"
 		/>
 	);
+}
+
+/**
+ * Which series a legend entry stands for. The lines carry no `name`, so recharts fills `value`
+ * with the dataKey; `dataKey` itself is still preferred when it is there.
+ */
+function legendKey(entry: { dataKey?: string | number | ((item: unknown) => unknown); value?: unknown }): string {
+	return String(typeof entry?.dataKey === 'string' ? entry.dataKey : (entry?.value ?? ''));
 }
 
 // Evenly spaced ticks in display units, always including 0 and the exact max
@@ -189,6 +201,17 @@ export function Graph() {
 	const xAxisTicks = isExtruderMode
 		? generateEvenTicks(displayedMaxFlow, AXIS_TICK_COUNT).map(displayToFlow)
 		: generateEvenTicks(maxVelocity, AXIS_TICK_COUNT);
+
+	// Series switched off by clicking their line or legend entry. They keep their place in the
+	// legend and their colour there, so the chart still says what has been set aside
+	const [hiddenSeries, setHiddenSeries] = useState<ReadonlySet<string>>(() => new Set());
+	const toggleSeries = (key: string) =>
+		setHiddenSeries((previous) => {
+			const next = new Set(previous);
+			if (!next.delete(key)) next.add(key);
+
+			return next;
+		});
 
 	// Each motor's crossing of the requirement, to be marked on the axis. A motor that never
 	// crosses has nothing to mark: it is either short of the line already or still above it at
@@ -464,14 +487,55 @@ export function Graph() {
 								/>
 								{steppers.map((stepper) => {
 									const key = generateKey(stepper);
+									const hidden = hiddenSeries.has(key);
+
 									return (
 										<Line
 											key={key}
 											dataKey={key}
 											type="monotone"
 											dot={false}
+											// A switched-off curve is out of the hover entirely: no marker riding
+											// an invisible line, and no row in the tooltip for something the
+											// chart is not currently drawing. `true` is spelled out rather than
+											// left as `undefined`: relying on the default that way turned the
+											// marker off for every series, not only the hidden ones.
+											activeDot={hidden ? false : true}
+											tooltipType={hidden ? 'none' : undefined}
+											// `stroke` stays put while only its opacity changes, so the legend —
+											// which takes its colour from this prop — keeps saying which motor
+											// the entry belongs to after the curve is switched off
 											stroke={chartConfig[key]?.color}
+											strokeOpacity={hidden ? 0 : 1}
 											strokeWidth={2}
+											style={{ pointerEvents: 'none' }}
+										/>
+									);
+								})}
+								{/*
+								 * A 2px stroke is far too fine to click, so each curve gets an invisible
+								 * companion carrying the hit area and the handler. `pointer-events: stroke`
+								 * makes the whole band clickable despite there being nothing to see, and
+								 * keeping the handler solely here means one click is one toggle.
+								 */}
+								{steppers.map((stepper) => {
+									const key = generateKey(stepper);
+									const hidden = hiddenSeries.has(key);
+
+									return (
+										<Line
+											key={`${key}-hit`}
+											dataKey={key}
+											type="monotone"
+											dot={false}
+											activeDot={false}
+											stroke="transparent"
+											strokeWidth={CLICK_TARGET_WIDTH}
+											legendType="none"
+											tooltipType="none"
+											isAnimationActive={false}
+											onClick={() => toggleSeries(key)}
+											style={{ cursor: 'pointer', pointerEvents: hidden ? 'none' : 'stroke' }}
 										/>
 									);
 								})}
@@ -482,19 +546,39 @@ export function Graph() {
 									strokeDasharray="6 6"
 								/>
 								{/* Where each motor gives up, marked on the axis in that motor's own colour */}
-								{crossings.map(({ key, x, color }) => (
-									<ReferenceLine
-										key={`${key}-crossing`}
-										segment={[
-											{ x, y: 0 },
-											{ x, y: crossingTickHeight }
-										]}
-										stroke={color}
-										strokeWidth={2}
-									/>
-								))}
+								{crossings
+									.filter(({ key }) => !hiddenSeries.has(key))
+									.map(({ key, x, color }) => (
+										<ReferenceLine
+											key={`${key}-crossing`}
+											segment={[
+												{ x, y: 0 },
+												{ x, y: crossingTickHeight }
+											]}
+											stroke={color}
+											strokeWidth={2}
+										/>
+									))}
 
-								<ChartLegend />
+								<ChartLegend
+									onClick={(entry) => toggleSeries(legendKey(entry))}
+									formatter={(value, entry) => {
+										const hidden = hiddenSeries.has(legendKey(entry));
+
+										return (
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<span className="cursor-pointer" style={{ opacity: hidden ? 0.4 : 1 }}>
+														{value}
+													</span>
+												</TooltipTrigger>
+												{/* Naming the direction beats "show/hide" when the state is
+												    already known */}
+												<TooltipContent>{hidden ? 'Click to show' : 'Click to hide'}</TooltipContent>
+											</Tooltip>
+										);
+									}}
+								/>
 							</LineChart>
 						</ChartContainer>
 					</div>
