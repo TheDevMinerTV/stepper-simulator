@@ -49,6 +49,11 @@ const GRID_LINE_OPACITY = 0.5;
 /** Width of the invisible band that makes a curve clickable, in pixels */
 const CLICK_TARGET_WIDTH = 16;
 
+/** Crossings closer together than this fraction of the axis get their labels stacked */
+const CROSSING_LABEL_MIN_GAP = 0.06;
+/** Vertical step between stacked crossing labels, in pixels */
+const CROSSING_LABEL_STEP = 14;
+
 type GridLineProps = { x1: number; y1: number; x2: number; y2: number; key?: string };
 
 /**
@@ -217,16 +222,30 @@ export function Graph() {
 	// crosses has nothing to mark: it is either short of the line already or still above it at
 	// the end of the range.
 	const requiredValue = isExtruderMode ? requiredForce : requiredTorque;
+	const axisMax = isExtruderMode ? effectiveMaxFlowRate : maxVelocity;
 	const crossings = useMemo(() => {
 		if (!Number.isFinite(requiredValue) || requiredValue <= 0) return [];
 
-		return steppers.flatMap((stepper) => {
+		const found = steppers.flatMap((stepper) => {
 			const key = generateKey(stepper);
 			const x = seriesCrossing(chartData, xAxisKey, key, requiredValue);
 
-			return x === null ? [] : [{ key, x, color: chartConfig[key]?.color ?? '#666' }];
+			return x === null ? [] : [{ key, x, color: chartConfig[key]?.color ?? '#666', level: 0 }];
 		});
-	}, [steppers, chartData, xAxisKey, requiredValue, chartConfig]);
+
+		// Motors often give up within a hair of each other, which prints their labels on top of
+		// one another. Anything landing too close to its neighbour is stacked above it instead.
+		found.sort((a, b) => a.x - b.x);
+		let previousX = Number.NEGATIVE_INFINITY;
+		let level = 0;
+		for (const crossing of found) {
+			level = crossing.x - previousX < axisMax * CROSSING_LABEL_MIN_GAP ? level + 1 : 0;
+			crossing.level = level;
+			previousX = crossing.x;
+		}
+
+		return found;
+	}, [steppers, chartData, xAxisKey, requiredValue, chartConfig, axisMax]);
 
 	/** A stub off the axis rather than a full-height rule, which would crowd the plot */
 	const crossingTickHeight = useMemo(() => {
@@ -271,16 +290,24 @@ export function Graph() {
 		}
 	}
 
-	const formatXAxisValue = (value: number) =>
+	/** The x value in whatever units the axis is currently showing, bare of them */
+	const toDisplayedX = (value: number) =>
 		isExtruderMode
 			? extruderUnit === 'linear'
-				? `${Math.round(flowToLinear(value))} mm/s`
+				? flowToLinear(value)
 				: extruderUnit === 'print'
-					? `${Math.round(flowToPrintSpeed(value))} mm/s`
-					: `${value} mm³/s`
+					? flowToPrintSpeed(value)
+					: value
 			: unit === 'rpm'
-				? `${Math.round(mmsToRpm(value))} RPM`
-				: `${value} mm/s`;
+				? mmsToRpm(value)
+				: value;
+
+	const formatXAxisValue = (value: number) => {
+		const displayed = Math.round(toDisplayedX(value));
+		if (isExtruderMode) return extruderUnit === 'volumetric' ? `${displayed} mm³/s` : `${displayed} mm/s`;
+
+		return unit === 'rpm' ? `${displayed} RPM` : `${displayed} mm/s`;
+	};
 
 	return (
 		<Card className="pt-0">
@@ -548,7 +575,7 @@ export function Graph() {
 								{/* Where each motor gives up, marked on the axis in that motor's own colour */}
 								{crossings
 									.filter(({ key }) => !hiddenSeries.has(key))
-									.map(({ key, x, color }) => (
+									.map(({ key, x, color, level }) => (
 										<ReferenceLine
 											key={`${key}-crossing`}
 											segment={[
@@ -557,6 +584,14 @@ export function Graph() {
 											]}
 											stroke={color}
 											strokeWidth={2}
+											// Bare number: the axis right below it already names the unit
+											label={{
+												value: String(Math.round(toDisplayedX(x))),
+												position: 'top',
+												offset: 6 + level * CROSSING_LABEL_STEP,
+												fill: color,
+												fontSize: 11
+											}}
 										/>
 									))}
 

@@ -99,6 +99,33 @@ function dashedGridLine({ x1, y1, x2, y2, key }: GridLineProps) {
 	);
 }
 
+/** Crossings closer together than this fraction of the axis get their labels stacked */
+const CROSSING_LABEL_MIN_GAP = 0.06;
+/** Vertical step between stacked crossing labels, in pixels */
+const CROSSING_LABEL_STEP = 22;
+
+/**
+ * How many labels each crossing has to clear. Motors often give up within a hair of each other,
+ * which would print their numbers on top of one another.
+ */
+function crossingLevels(model: OgModel): Map<string, number> {
+	const ordered = model.series
+		.filter((series): series is typeof series & { crossing: number } => series.crossing !== null)
+		.sort((a, b) => a.crossing - b.crossing);
+
+	const levels = new Map<string, number>();
+	let previous = Number.NEGATIVE_INFINITY;
+	let level = 0;
+
+	for (const series of ordered) {
+		level = series.crossing - previous < model.maxX * CROSSING_LABEL_MIN_GAP ? level + 1 : 0;
+		levels.set(series.key, level);
+		previous = series.crossing;
+	}
+
+	return levels;
+}
+
 /** A stub off the axis rather than a full-height rule, which would crowd the plot */
 function crossingTickHeight(model: OgModel): number {
 	const peak = model.points.reduce((highest, point) => {
@@ -119,6 +146,7 @@ function xAxisTicks(maxX: number): number[] {
 }
 
 function renderPlot(model: OgModel, width: number, height: number): string {
+	const levels = crossingLevels(model);
 	const markup = renderToStaticMarkup(
 		<LineChart
 			width={width}
@@ -176,6 +204,15 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 						]}
 						stroke={series.color}
 						strokeWidth={3}
+						// Bare number: the axis right below it already names the unit
+						label={{
+							value: formatNumber(series.crossing, 0),
+							position: 'top',
+							offset: 6 + (levels.get(series.key) ?? 0) * CROSSING_LABEL_STEP,
+							fill: series.color,
+							fontSize: 18,
+							fontFamily: FONT_FAMILY
+						}}
 					/>
 				)
 			)}
