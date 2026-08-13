@@ -65,19 +65,25 @@ export type GearRatioPreset =
 	| 'tbg'
 	| 'custom';
 
-export const GEAR_RATIO_PRESETS: Record<Exclude<GearRatioPreset, 'custom'>, { label: string; ratio: number }> = {
-	ungeared: { label: 'Ungeared (1:1)', ratio: 1 },
-	titan: { label: 'Titan (3:1)', ratio: 3 },
-	bmg: { label: 'BMG (5:1)', ratio: 5 },
-	x1p1: { label: 'X1 / P1 (4.417:1)', ratio: 4.417 },
-	cc: { label: 'CC (5.2:1)', ratio: 5.2 },
-	k1: { label: 'K1 (6.25:1)', ratio: 6.25 },
-	lgx: { label: 'LGX (6.84:1)', ratio: 6.84 },
-	orbiter: { label: 'Orbiter (7.5:1)', ratio: 7.5 },
-	g2: { label: 'G2 (9:1)', ratio: 9 },
-	lgxLite: { label: 'LGX Lite (9.576:1)', ratio: 9.576 },
-	tbg: { label: 'TBG (11.531:1)', ratio: 11.531 }
+// Name and ratio are kept apart so a caller can say "BMG 5:1" without parsing a display string
+// back into its pieces; `gearRatioPresetLabel` puts them together for the picker.
+export const GEAR_RATIO_PRESETS: Record<Exclude<GearRatioPreset, 'custom'>, { name: string; ratio: number }> = {
+	ungeared: { name: 'Ungeared', ratio: 1 },
+	titan: { name: 'Titan', ratio: 3 },
+	bmg: { name: 'BMG', ratio: 5 },
+	x1p1: { name: 'X1 / P1', ratio: 4.417 },
+	cc: { name: 'CC', ratio: 5.2 },
+	k1: { name: 'K1', ratio: 6.25 },
+	lgx: { name: 'LGX', ratio: 6.84 },
+	orbiter: { name: 'Orbiter', ratio: 7.5 },
+	g2: { name: 'G2', ratio: 9 },
+	lgxLite: { name: 'LGX Lite', ratio: 9.576 },
+	tbg: { name: 'TBG', ratio: 11.531 }
 };
+
+export function gearRatioPresetLabel(preset: Exclude<GearRatioPreset, 'custom'>): string {
+	return `${GEAR_RATIO_PRESETS[preset].name} (${GEAR_RATIO_PRESETS[preset].ratio}:1)`;
+}
 
 // The drivetrain a given hobbed gear is normally paired with. Where a hobbed
 // gear is shared between two common drivetrains with different ratios (e.g.

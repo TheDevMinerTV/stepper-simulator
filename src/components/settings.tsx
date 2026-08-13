@@ -33,6 +33,7 @@ import {
 	currentExtruderSettingsAtom,
 	currentGantrySettingsAtom,
 	GEAR_RATIO_PRESETS,
+	gearRatioPresetLabel,
 	HOBBED_GEAR_PRESETS,
 	HOBBED_GEAR_TO_GEAR_RATIO_PRESET,
 	maxPowerAtom,
@@ -460,9 +461,9 @@ export function ExtruderSettings() {
 							<SelectValue placeholder="Gear Ratio" />
 						</SelectTrigger>
 						<SelectContent>
-							{Object.entries(GEAR_RATIO_PRESETS).map(([key, preset]) => (
+							{Object.keys(GEAR_RATIO_PRESETS).map((key) => (
 								<SelectItem key={key} value={key}>
-									{preset.label}
+									{gearRatioPresetLabel(key as Exclude<GearRatioPreset, 'custom'>)}
 								</SelectItem>
 							))}
 							<SelectItem value="custom">Custom</SelectItem>

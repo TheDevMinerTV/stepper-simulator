@@ -1,5 +1,10 @@
 import { decodeConfig } from '@/lib/config-sharing';
-import type { DriveSettings, ExtruderSettings, GantrySettings } from '@/lib/configuration';
+import {
+	GEAR_RATIO_PRESETS,
+	type DriveSettings,
+	type ExtruderSettings,
+	type GantrySettings
+} from '@/lib/configuration';
 import { autoMaxFlowRate, buildExtruderCurve } from '@/lib/extruder-curve';
 import {
 	calculateEffectiveHobbedGearDiameter,
@@ -181,6 +186,13 @@ function buildExtruderShape(
 	const curveInput = { steppers, driveSettings, extruderSettings, maxPower };
 	const maxX = autoMaxFlowRate({ ...curveInput, requiredForce: required ?? 0 });
 
+	// A named drivetrain says more than its ratio does, and the preset is only ever set when the
+	// ratio still matches it: editing the gears by hand switches it to `custom`
+	const gearing =
+		extruderSettings.gearRatioPreset === 'custom'
+			? `${formatNumber(gearRatio, 2)}:1`
+			: `${GEAR_RATIO_PRESETS[extruderSettings.gearRatioPreset].name} ${formatNumber(gearRatio, 3)}:1`;
+
 	return {
 		mode: 'extruder',
 		xKey: 'flowRate',
@@ -194,7 +206,7 @@ function buildExtruderShape(
 			`${formatNumber(driveSettings.inputVoltage)} V`,
 			`${formatNumber(driveSettings.maxDriveCurrent, 2)} A`,
 			`${formatNumber(extruderSettings.hobbedGearNominalDiameter, 1)} mm hob`,
-			`${formatNumber(gearRatio, 2)}:1`,
+			gearing,
 			extruderSettings.speedDeratingEnabled
 				? `${formatNumber(extruderSettings.speedDeratingFactor, 0)}% derating`
 				: 'no derating'

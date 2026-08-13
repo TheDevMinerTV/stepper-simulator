@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateFilamentCrossSectionArea, calculateRequiredTorque } from '@/lib/formulas';
-import { DEFAULT_MAX_FLOW_RATE, buildExtruderCurve } from '@/lib/extruder-curve';
+import { DEFAULT_MAX_FLOW_RATE, autoMaxFlowRate, buildExtruderCurve } from '@/lib/extruder-curve';
 import {
 	DEFAULT_MAX_VELOCITY,
 	autoMaxVelocity,
@@ -26,7 +26,6 @@ import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'rec
 
 const DEFAULT_EXTRUSION_WIDTH = 0.4;
 const DEFAULT_LAYER_HEIGHT = 0.2;
-const DEFAULT_MAX_PRINT_SPEED = DEFAULT_MAX_FLOW_RATE / (DEFAULT_EXTRUSION_WIDTH * DEFAULT_LAYER_HEIGHT);
 const AXIS_TICK_COUNT = 6;
 
 // Evenly spaced ticks in display units, always including 0 and the exact max
@@ -46,8 +45,8 @@ export function Graph() {
 	// `null` until the field is edited: the range follows the selection on its own, but a typed
 	// value is never overwritten by it
 	const [manualMaxVelocity, setManualMaxVelocity] = useState<number | null>(null);
-	const [maxFlowRate, setMaxFlowRate] = useState(DEFAULT_MAX_FLOW_RATE);
-	const [maxPrintSpeed, setMaxPrintSpeed] = useState(DEFAULT_MAX_PRINT_SPEED);
+	const [manualMaxFlowRate, setManualMaxFlowRate] = useState<number | null>(null);
+	const [manualMaxPrintSpeed, setManualMaxPrintSpeed] = useState<number | null>(null);
 	const [unit, setUnit] = useState<'mm/s' | 'rpm'>('mm/s');
 	const [extruderUnit, setExtruderUnit] = useState<'volumetric' | 'linear' | 'print'>('volumetric');
 	const [extrusionWidth, setExtrusionWidth] = useState(DEFAULT_EXTRUSION_WIDTH);
@@ -60,13 +59,22 @@ export function Graph() {
 	const rpmToMms = (rpm: number) => (rpm * pulleyCircumferenceMm) / 60;
 
 	const requiredTorque = calculateRequiredTorque(gantrySettings);
-	// Auto-fitting only describes the velocity axis, which extruder mode does not use
+	const requiredForce = extruderSettings.manualRequiredForce ?? 0;
+
+	// Each mode only fits the axis it actually draws; the other value is inert
 	const fittedMaxVelocity = useMemo(
 		() =>
 			isExtruderMode
 				? DEFAULT_MAX_VELOCITY
 				: autoMaxVelocity({ steppers, driveSettings, gantrySettings, maxPower, requiredTorque }),
 		[isExtruderMode, steppers, driveSettings, gantrySettings, maxPower, requiredTorque]
+	);
+	const fittedMaxFlowRate = useMemo(
+		() =>
+			isExtruderMode
+				? autoMaxFlowRate({ steppers, driveSettings, extruderSettings, maxPower, requiredForce })
+				: DEFAULT_MAX_FLOW_RATE,
+		[isExtruderMode, steppers, driveSettings, extruderSettings, maxPower, requiredForce]
 	);
 	const maxVelocity = manualMaxVelocity ?? fittedMaxVelocity;
 	const displayedMax = unit === 'rpm' ? mmsToRpm(maxVelocity) : maxVelocity;
@@ -78,10 +86,11 @@ export function Graph() {
 	const flowToPrintSpeed = (flow: number) => flow / printLineCrossSectionArea;
 	const printSpeedToFlow = (printSpeed: number) => printSpeed * printLineCrossSectionArea;
 
-	// In print speed mode, maxPrintSpeed (not maxFlowRate) is the canonical axis
-	// bound, so the displayed max stays put when line width/height change.
-	// The underlying flow domain is re-derived from it instead, which is what
-	// makes the curves shift relative to a fixed axis as width/height change.
+	const maxFlowRate = manualMaxFlowRate ?? fittedMaxFlowRate;
+	// Once a print speed has been typed it becomes the canonical axis bound, so the displayed max
+	// stays put and the curves shift against it as line width/height change. Until then the fitted
+	// flow range is canonical and it is the axis that gets restated in the new units.
+	const maxPrintSpeed = manualMaxPrintSpeed ?? flowToPrintSpeed(fittedMaxFlowRate);
 	const effectiveMaxFlowRate = extruderUnit === 'print' ? printSpeedToFlow(maxPrintSpeed) : maxFlowRate;
 	const displayedMaxFlow =
 		extruderUnit === 'linear' ? flowToLinear(maxFlowRate) : extruderUnit === 'print' ? maxPrintSpeed : maxFlowRate;
@@ -124,7 +133,6 @@ export function Graph() {
 		[steppers]
 	);
 
-	const requiredForce = extruderSettings.manualRequiredForce ?? 0;
 	const xAxisKey = isExtruderMode ? 'flowRate' : 'velocity';
 	const yAxisUnit = isExtruderMode ? 'kgf' : 'Ncm';
 
@@ -215,9 +223,9 @@ export function Graph() {
 								onChange={(e) => {
 									const v = e.target.valueAsNumber;
 									if (Number.isNaN(v)) return;
-									if (extruderUnit === 'linear') setMaxFlowRate(linearToFlow(v));
-									else if (extruderUnit === 'print') setMaxPrintSpeed(v);
-									else setMaxFlowRate(v);
+									if (extruderUnit === 'linear') setManualMaxFlowRate(linearToFlow(v));
+									else if (extruderUnit === 'print') setManualMaxPrintSpeed(v);
+									else setManualMaxFlowRate(v);
 								}}
 							/>
 						</>
