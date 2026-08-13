@@ -27,7 +27,7 @@ import {
 import { useAtomValue } from 'jotai';
 import { SaveIcon } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
-import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
+import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis, type TooltipProps } from 'recharts';
 
 const DEFAULT_EXTRUSION_WIDTH = 0.4;
 const DEFAULT_LAYER_HEIGHT = 0.2;
@@ -472,45 +472,65 @@ export function Graph() {
 								/>
 								<ChartTooltip
 									cursor={false}
-									content={
-										<ChartTooltipContent
-											labelFormatter={(_, payload) => {
-												const raw = payload?.[0]?.payload?.[xAxisKey] as number | undefined;
-												if (raw === undefined) return null;
-												if (isExtruderMode) return formatXAxisValue(raw);
+									// The payload is filtered here rather than left to each line's
+									// `tooltipType`, which recharts does not honour: every curve has an
+									// invisible twin carrying its hit area, so without this each motor is
+									// listed twice. Switched-off series are dropped on the way through too.
+									content={(props: TooltipProps<number, string>) => {
+										const seen = new Set<string>();
+										const payload = (props.payload ?? []).filter((entry) => {
+											const key = String(entry.dataKey ?? '');
+											if (hiddenSeries.has(key) || seen.has(key)) return false;
 
-												// Gantry mode shows both units at once, so the reading
-												// is useful whichever one the axis is currently in
-												const mms = `${Math.round(raw)} mm/s`;
-												const rpmValue = mmsToRpm(raw);
-												if (!Number.isFinite(rpmValue)) return mms;
+											seen.add(key);
+											return true;
+										});
 
-												const rpm = `${Math.round(rpmValue)} RPM`;
-												return unit === 'rpm' ? `${rpm} · ${mms}` : `${mms} · ${rpm}`;
-											}}
-											formatter={(value, name) => (
-												<>
-													<div
-														className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[var(--color-bg)]"
-														style={
-															{
-																'--color-bg':
-																	chartConfig[name as keyof typeof chartConfig]
-																		?.color || '#666'
-															} as React.CSSProperties
-														}
-													/>
-													{chartConfig[name as keyof typeof chartConfig]?.label || name}
+										return (
+											<ChartTooltipContent
+												// `ChartTooltipContent` mixes recharts' tooltip props with a
+												// div's, and the two disagree on what `content` is; the cast
+												// settles that rather than either type being wrong
+												{...(props as React.ComponentProps<typeof ChartTooltipContent>)}
+												payload={payload}
+												labelFormatter={() => {
+													const raw = payload[0]?.payload?.[xAxisKey] as number | undefined;
+													if (raw === undefined) return null;
+													if (isExtruderMode) return formatXAxisValue(raw);
 
-													<div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-														{typeof value === 'number'
-															? `${value.toFixed(2)} ${yAxisUnit}`
-															: value}
-													</div>
-												</>
-											)}
-										/>
-									}
+													// Gantry mode shows both units at once, so the reading
+													// is useful whichever one the axis is currently in
+													const mms = `${Math.round(raw)} mm/s`;
+													const rpmValue = mmsToRpm(raw);
+													if (!Number.isFinite(rpmValue)) return mms;
+
+													const rpm = `${Math.round(rpmValue)} RPM`;
+													return unit === 'rpm' ? `${rpm} · ${mms}` : `${mms} · ${rpm}`;
+												}}
+												formatter={(value, name) => (
+													<>
+														<div
+															className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[var(--color-bg)]"
+															style={
+																{
+																	'--color-bg':
+																		chartConfig[name as keyof typeof chartConfig]
+																			?.color || '#666'
+																} as React.CSSProperties
+															}
+														/>
+														{chartConfig[name as keyof typeof chartConfig]?.label || name}
+
+														<div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+															{typeof value === 'number'
+																? `${value.toFixed(2)} ${yAxisUnit}`
+																: value}
+														</div>
+													</>
+												)}
+											/>
+										);
+									}}
 								/>
 								{steppers.map((stepper) => {
 									const key = generateKey(stepper);
@@ -522,13 +542,12 @@ export function Graph() {
 											dataKey={key}
 											type="monotone"
 											dot={false}
-											// A switched-off curve is out of the hover entirely: no marker riding
-											// an invisible line, and no row in the tooltip for something the
-											// chart is not currently drawing. `true` is spelled out rather than
-											// left as `undefined`: relying on the default that way turned the
-											// marker off for every series, not only the hidden ones.
+											// A switched-off curve is out of the hover entirely: no marker riding an
+											// invisible line, and the tooltip drops its row too (see the filter
+											// on `ChartTooltip`). `true` is spelled out rather than left as
+											// `undefined`: relying on the default that way turned the marker off
+											// for every series, not only the hidden ones.
 											activeDot={hidden ? false : true}
-											tooltipType={hidden ? 'none' : undefined}
 											// `stroke` stays put while only its opacity changes, so the legend —
 											// which takes its colour from this prop — keeps saying which motor
 											// the entry belongs to after the curve is switched off
@@ -544,6 +563,9 @@ export function Graph() {
 								 * companion carrying the hit area and the handler. `pointer-events: stroke`
 								 * makes the whole band clickable despite there being nothing to see, and
 								 * keeping the handler solely here means one click is one toggle.
+								 *
+								 * These share their curve's `dataKey`, so they would otherwise double every
+								 * entry in the tooltip; `ChartTooltip` filters them back out.
 								 */}
 								{steppers.map((stepper) => {
 									const key = generateKey(stepper);
@@ -559,7 +581,6 @@ export function Graph() {
 											stroke="transparent"
 											strokeWidth={CLICK_TARGET_WIDTH}
 											legendType="none"
-											tooltipType="none"
 											isAnimationActive={false}
 											onClick={() => toggleSeries(key)}
 											style={{ cursor: 'pointer', pointerEvents: hidden ? 'none' : 'stroke' }}
