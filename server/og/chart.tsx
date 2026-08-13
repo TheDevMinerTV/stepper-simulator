@@ -99,6 +99,20 @@ function dashedGridLine({ x1, y1, x2, y2, key }: GridLineProps) {
 	);
 }
 
+/** A stub off the axis rather than a full-height rule, which would crowd the plot */
+function crossingTickHeight(model: OgModel): number {
+	const peak = model.points.reduce((highest, point) => {
+		for (const series of model.series) {
+			const value = point[series.key];
+			if (typeof value === 'number' && value > highest) highest = value;
+		}
+
+		return highest;
+	}, 0);
+
+	return peak * 0.06;
+}
+
 /** Six evenly spaced ticks: recharts cannot measure text server-side, so tick placement is ours */
 function xAxisTicks(maxX: number): number[] {
 	return Array.from({ length: 6 }, (_, i) => Math.round((maxX / 5) * i));
@@ -150,6 +164,20 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 			))}
 			{model.required !== null && (
 				<ReferenceLine y={model.required} stroke={COLORS.required} strokeWidth={2} strokeDasharray="10 8" />
+			)}
+			{/* Where each motor gives up, marked on the axis in that motor's own colour */}
+			{model.series.map((series) =>
+				series.crossing === null ? null : (
+					<ReferenceLine
+						key={`${series.key}-crossing`}
+						segment={[
+							{ x: series.crossing, y: 0 },
+							{ x: series.crossing, y: crossingTickHeight(model) }
+						]}
+						stroke={series.color}
+						strokeWidth={3}
+					/>
+				)
 			)}
 		</LineChart>
 	);

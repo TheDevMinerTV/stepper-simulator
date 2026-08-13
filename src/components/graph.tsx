@@ -11,6 +11,7 @@ import {
 	DEFAULT_MAX_VELOCITY,
 	autoMaxVelocity,
 	buildTorqueCurve,
+	seriesCrossing,
 	stepperSeriesColor,
 	stepperSeriesKey as generateKey
 } from '@/lib/torque-curve';
@@ -188,6 +189,35 @@ export function Graph() {
 	const xAxisTicks = isExtruderMode
 		? generateEvenTicks(displayedMaxFlow, AXIS_TICK_COUNT).map(displayToFlow)
 		: generateEvenTicks(maxVelocity, AXIS_TICK_COUNT);
+
+	// Each motor's crossing of the requirement, to be marked on the axis. A motor that never
+	// crosses has nothing to mark: it is either short of the line already or still above it at
+	// the end of the range.
+	const requiredValue = isExtruderMode ? requiredForce : requiredTorque;
+	const crossings = useMemo(() => {
+		if (!Number.isFinite(requiredValue) || requiredValue <= 0) return [];
+
+		return steppers.flatMap((stepper) => {
+			const key = generateKey(stepper);
+			const x = seriesCrossing(chartData, xAxisKey, key, requiredValue);
+
+			return x === null ? [] : [{ key, x, color: chartConfig[key]?.color ?? '#666' }];
+		});
+	}, [steppers, chartData, xAxisKey, requiredValue, chartConfig]);
+
+	/** A stub off the axis rather than a full-height rule, which would crowd the plot */
+	const crossingTickHeight = useMemo(() => {
+		const peak = chartData.reduce((highest, point) => {
+			for (const stepper of steppers) {
+				const value = point[generateKey(stepper)];
+				if (typeof value === 'number' && value > highest) highest = value;
+			}
+
+			return highest;
+		}, 0);
+
+		return peak * 0.06;
+	}, [chartData, steppers]);
 
 	const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -451,6 +481,18 @@ export function Graph() {
 									stroke="red"
 									strokeDasharray="6 6"
 								/>
+								{/* Where each motor gives up, marked on the axis in that motor's own colour */}
+								{crossings.map(({ key, x, color }) => (
+									<ReferenceLine
+										key={`${key}-crossing`}
+										segment={[
+											{ x, y: 0 },
+											{ x, y: crossingTickHeight }
+										]}
+										stroke={color}
+										strokeWidth={2}
+									/>
+								))}
 
 								<ChartLegend />
 							</LineChart>
