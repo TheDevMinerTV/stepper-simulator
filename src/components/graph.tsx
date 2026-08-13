@@ -3,16 +3,8 @@ import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import {
-	calculateDeratedMotorRotationsPerSecond,
-	calculateDriveCurrent,
-	calculateFilamentCrossSectionArea,
-	calculateForceFromMotorTorque,
-	calculateMaxCurrentAtSpecifiedPower,
-	calculateMotorRotationsPerSecondForFlowRate,
-	calculateRequiredTorque,
-	calculateSingleCoilTorque
-} from '@/lib/formulas';
+import { calculateFilamentCrossSectionArea, calculateRequiredTorque } from '@/lib/formulas';
+import { DEFAULT_MAX_FLOW_RATE, buildExtruderCurve } from '@/lib/extruder-curve';
 import {
 	DEFAULT_MAX_VELOCITY,
 	autoMaxVelocity,
@@ -32,9 +24,6 @@ import { useAtomValue } from 'jotai';
 import { useMemo, useState } from 'react';
 import { CartesianGrid, Line, LineChart, ReferenceLine, XAxis, YAxis } from 'recharts';
 
-/** Flow-rate resolution of the sampled extruder curve, in mm³/s */
-const FLOW_STEP_SIZE = 2;
-const DEFAULT_MAX_FLOW_RATE = 100;
 const DEFAULT_EXTRUSION_WIDTH = 0.4;
 const DEFAULT_LAYER_HEIGHT = 0.2;
 const DEFAULT_MAX_PRINT_SPEED = DEFAULT_MAX_FLOW_RATE / (DEFAULT_EXTRUSION_WIDTH * DEFAULT_LAYER_HEIGHT);
@@ -99,38 +88,12 @@ export function Graph() {
 
 	const chartData = useMemo(() => {
 		if (isExtruderMode) {
-			const flowPoints = Array.from(
-				{ length: Math.floor((effectiveMaxFlowRate + FLOW_STEP_SIZE) / FLOW_STEP_SIZE) },
-				(_, i) => i * FLOW_STEP_SIZE
-			);
-
-			return flowPoints.map((flowRate) => {
-				const dataPoint: Record<string, number> = { flowRate };
-
-				const rawRps = calculateMotorRotationsPerSecondForFlowRate(extruderSettings, flowRate);
-				const rps = calculateDeratedMotorRotationsPerSecond(extruderSettings, rawRps);
-
-				for (const stepper of steppers) {
-					const maxCurrentAtSpecifiedPower = calculateMaxCurrentAtSpecifiedPower(maxPower, stepper);
-					const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
-
-					const motorTorque = calculateSingleCoilTorque(
-						driveSettings.motorModel,
-						stepper.stepAngle,
-						stepper.ratedCurrent,
-						stepper.torque,
-						stepper.inductance,
-						stepper.resistance,
-						driveSettings.inputVoltage,
-						driveCurrent,
-						rps
-					);
-
-					const force = Math.max(calculateForceFromMotorTorque(extruderSettings, motorTorque), 0);
-					dataPoint[generateKey(stepper)] = force;
-				}
-
-				return dataPoint;
+			return buildExtruderCurve({
+				steppers,
+				driveSettings,
+				extruderSettings,
+				maxPower,
+				maxFlowRate: effectiveMaxFlowRate
 			});
 		}
 

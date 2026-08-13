@@ -75,8 +75,8 @@ function text(
 }
 
 /** Six evenly spaced ticks: recharts cannot measure text server-side, so tick placement is ours */
-function xAxisTicks(maxVelocity: number): number[] {
-	return Array.from({ length: 6 }, (_, i) => Math.round((maxVelocity / 5) * i));
+function xAxisTicks(maxX: number): number[] {
+	return Array.from({ length: 6 }, (_, i) => Math.round((maxX / 5) * i));
 }
 
 function renderPlot(model: OgModel, width: number, height: number): string {
@@ -91,17 +91,17 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 		>
 			<CartesianGrid vertical={false} stroke={COLORS.grid} />
 			<XAxis
-				dataKey="velocity"
+				dataKey={model.xKey}
 				type="number"
-				domain={[0, model.maxVelocity]}
-				ticks={xAxisTicks(model.maxVelocity)}
+				domain={[0, model.maxX]}
+				ticks={xAxisTicks(model.maxX)}
 				interval={0}
 				tickLine={false}
 				axisLine={false}
 				tickMargin={12}
 				height={44}
 				tick={{ fill: COLORS.muted, fontSize: 20, fontFamily: FONT_FAMILY }}
-				tickFormatter={(value: number) => `${formatNumber(value, 0)} mm/s`}
+				tickFormatter={(value: number) => `${formatNumber(value, 0)} ${model.xUnit}`}
 			/>
 			<YAxis
 				tickLine={false}
@@ -109,7 +109,8 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 				tickMargin={12}
 				width={110}
 				tick={{ fill: COLORS.muted, fontSize: 20, fontFamily: FONT_FAMILY }}
-				tickFormatter={(value: number) => `${formatNumber(value, 0)} Ncm`}
+				// Grip force runs 0-10 kgf, where whole numbers throw away most of the range
+				tickFormatter={(value: number) => `${formatNumber(value, model.yUnit === 'kgf' ? 1 : 0)} ${model.yUnit}`}
 			/>
 			{model.series.map((series) => (
 				<Line
@@ -122,13 +123,8 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 					isAnimationActive={false}
 				/>
 			))}
-			{model.requiredTorque !== null && (
-				<ReferenceLine
-					y={model.requiredTorque}
-					stroke={COLORS.required}
-					strokeWidth={2}
-					strokeDasharray="10 8"
-				/>
+			{model.required !== null && (
+				<ReferenceLine y={model.required} stroke={COLORS.required} strokeWidth={2} strokeDasharray="10 8" />
 			)}
 		</LineChart>
 	);
@@ -152,7 +148,7 @@ function renderLegend(model: OgModel, top: number): string {
 		// a bare label there reads as missing data rather than as the answer
 		const verdict =
 			series.crossing !== null
-				? ` · ${formatNumber(series.crossing, 0)} mm/s`
+				? ` · ${formatNumber(series.crossing, 0)} ${model.xUnit}`
 				: series.belowRequired
 					? ' · below required'
 					: '';
@@ -239,9 +235,9 @@ export function renderOgSvg(model: OgModel, siteName: string): string {
 			})
 		);
 
-		if (model.requiredTorque !== null) {
+		if (model.required !== null) {
 			body.push(
-				text(`Required torque: ${formatNumber(model.requiredTorque, 1)} Ncm`, {
+				text(`${model.requiredLabel}: ${formatNumber(model.required, 1)} ${model.yUnit}`, {
 					x: OG_WIDTH - PADDING_X,
 					y: 108,
 					size: 20,

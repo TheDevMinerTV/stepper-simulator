@@ -157,23 +157,39 @@ export function autoMaxVelocity({
 }
 
 /**
+ * Position on `xKey` at which a series drops below `required`, linearly interpolated between
+ * samples. `null` when the series never crosses inside the sampled range: either it is already
+ * below the line at the origin, or it stays above it all the way to the end.
+ *
+ * Shared with the extruder curve, which has the same falling shape against a different axis.
+ */
+export function seriesCrossing(
+	points: Record<string, number>[],
+	xKey: string,
+	seriesKey: string,
+	required: number
+): number | null {
+	if (points.length === 0 || points[0][seriesKey] < required) return null;
+
+	for (let i = 1; i < points.length; i++) {
+		const previous = points[i - 1];
+		const current = points[i];
+		if (current[seriesKey] >= required) continue;
+
+		const span = previous[seriesKey] - current[seriesKey];
+		const ratio = span === 0 ? 0 : (previous[seriesKey] - required) / span;
+
+		return previous[xKey] + ratio * (current[xKey] - previous[xKey]);
+	}
+
+	return null;
+}
+
+/**
  * Velocity (mm/s) at which a series drops below the required torque, linearly interpolated between
  * samples. `null` when the series never crosses inside the sampled range: either it is already
  * below the line at standstill, or it stays above it all the way to `maxVelocity`.
  */
 export function crossingVelocity(points: TorqueCurvePoint[], seriesKey: string, requiredTorque: number): number | null {
-	if (points.length === 0 || points[0][seriesKey] < requiredTorque) return null;
-
-	for (let i = 1; i < points.length; i++) {
-		const previous = points[i - 1];
-		const current = points[i];
-		if (current[seriesKey] >= requiredTorque) continue;
-
-		const span = previous[seriesKey] - current[seriesKey];
-		const ratio = span === 0 ? 0 : (previous[seriesKey] - requiredTorque) / span;
-
-		return previous.velocity + ratio * (current.velocity - previous.velocity);
-	}
-
-	return null;
+	return seriesCrossing(points, 'velocity', seriesKey, requiredTorque);
 }
