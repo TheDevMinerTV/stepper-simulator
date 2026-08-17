@@ -3300,6 +3300,33 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 		])
 	],
 	[
+		'Sanyo Denki',
+		new Map<string, StepperDefinition>([
+			[
+				'SF2424-10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SF2424-10B41',
+					nemaSize: 17,
+					bodyLength: 59.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 80 as NewtonCentimeter,
+					inductance: 16 as MilliHenry,
+					resistance: 6.5 as Ohm,
+					rotorInertia: 94 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'5mm shaft',
+						'connector type',
+						'dual shaft variant: SF2424-10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			]
+		])
+	],
+	[
 		'Lerdge',
 		new Map<string, StepperDefinition>([
 			[
