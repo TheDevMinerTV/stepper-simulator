@@ -19,6 +19,7 @@ KeliMotor	BJ42D15-26V12	17	34	1,8	0,84	38	8,8	6	38	Ender 3 S1 (and more, probabl
 KeliMotor	BJ42D16-26V09	17	34	1,8	0,84	38	8.8	6	57	Apparently identical to BJ42D15-26V09
 KeliMotor	BJ42D09-20V02	17	26	1,8	0,84	15	3	1,75	30	Creality Sprite Extruder
 KeliMotor	BJ42D29-76V01	17	48	1,8	4	56	0,7	0,4	76	FLSun T1 Pro A/B/C; Preinstalled with GT2 30T pulley; https://s3.devminer.xyz/archive/BJ42D29-76V01%20Drawing.pdf
+KeliMotor	BJY36D12-04V24	14	20	1,8	1,2	10	1,2	2	17	Snapmaker U1 Extruder;9T Helical Gear;https://s3.devminer.xyz/archive/BJY36D12-04V24-drawing.pdf
 Creativity	BJ42D29-100V02	14	20	1,8	1	12	1	2,3	16	Bambulab X1/P1 extruder replacement; 9T helical gear; most motors with four screws in the front plate appear to be this model
 Twotrees	36STH20-1004HG	14	22	1.8	1,0	10	1.6	2.1	16	Sketchy motor sold for VORONS with similar P/N to LDO 36STH20-1004(A/HG)
 ACT	17HS5425	17	48	1,8	2,5	48	1,9	1,2	68	Seem to be clones/rebadges of Wantai 42BYGHW811
