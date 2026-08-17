@@ -22,7 +22,8 @@ const COLORS = {
 	foreground: '#fafafa',
 	muted: '#a1a1aa',
 	dim: '#71717a',
-	grid: '#27272a',
+	/** Axis lines and grid share one grey, so the frame reads as a single system */
+	grid: '#3f3f46',
 	required: '#f87171'
 };
 
@@ -74,12 +75,78 @@ function text(
 	return `<text x="${x}" y="${y}" font-family="${FONT_FAMILY}" font-size="${size}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">${escapeXml(value)}</text>`;
 }
 
+/** The verticals are a reading aid, not part of the frame, so they sit back from the solid lines */
+const GRID_LINE_OPACITY = 0.5;
+
+type GridLineProps = { x1: number; y1: number; x2: number; y2: number; key?: string };
+
+/**
+ * recharts only renders the first `CartesianGrid` child, so the dashed verticals cannot be a
+ * second grid laid over the solid horizontals; they are a custom line renderer on the one grid.
+ */
+function dashedGridLine({ x1, y1, x2, y2, key }: GridLineProps) {
+	return (
+		<line
+			key={key}
+			x1={x1}
+			y1={y1}
+			x2={x2}
+			y2={y2}
+			stroke={COLORS.grid}
+			strokeOpacity={GRID_LINE_OPACITY}
+			strokeDasharray="4 4"
+		/>
+	);
+}
+
+/** Crossings closer together than this fraction of the axis get their labels stacked */
+const CROSSING_LABEL_MIN_GAP = 0.06;
+/** Vertical step between stacked crossing labels, in pixels */
+const CROSSING_LABEL_STEP = 22;
+
+/**
+ * How many labels each crossing has to clear. Motors often give up within a hair of each other,
+ * which would print their numbers on top of one another.
+ */
+function crossingLevels(model: OgModel): Map<string, number> {
+	const ordered = model.series
+		.filter((series): series is typeof series & { crossing: number } => series.crossing !== null)
+		.sort((a, b) => a.crossing - b.crossing);
+
+	const levels = new Map<string, number>();
+	let previous = Number.NEGATIVE_INFINITY;
+	let level = 0;
+
+	for (const series of ordered) {
+		level = series.crossing - previous < model.maxX * CROSSING_LABEL_MIN_GAP ? level + 1 : 0;
+		levels.set(series.key, level);
+		previous = series.crossing;
+	}
+
+	return levels;
+}
+
+/** A stub off the axis rather than a full-height rule, which would crowd the plot */
+function crossingTickHeight(model: OgModel): number {
+	const peak = model.points.reduce((highest, point) => {
+		for (const series of model.series) {
+			const value = point[series.key];
+			if (typeof value === 'number' && value > highest) highest = value;
+		}
+
+		return highest;
+	}, 0);
+
+	return peak * 0.06;
+}
+
 /** Six evenly spaced ticks: recharts cannot measure text server-side, so tick placement is ours */
-function xAxisTicks(maxVelocity: number): number[] {
-	return Array.from({ length: 6 }, (_, i) => Math.round((maxVelocity / 5) * i));
+function xAxisTicks(maxX: number): number[] {
+	return Array.from({ length: 6 }, (_, i) => Math.round((maxX / 5) * i));
 }
 
 function renderPlot(model: OgModel, width: number, height: number): string {
+	const levels = crossingLevels(model);
 	const markup = renderToStaticMarkup(
 		<LineChart
 			width={width}
@@ -89,27 +156,28 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 			// it server-side and would let it run off the canvas
 			margin={{ top: 8, right: 72, bottom: 8, left: 8 }}
 		>
-			<CartesianGrid vertical={false} stroke={COLORS.grid} />
+			<CartesianGrid stroke={COLORS.grid} vertical={dashedGridLine} />
 			<XAxis
-				dataKey="velocity"
+				dataKey={model.xKey}
 				type="number"
-				domain={[0, model.maxVelocity]}
-				ticks={xAxisTicks(model.maxVelocity)}
+				domain={[0, model.maxX]}
+				ticks={xAxisTicks(model.maxX)}
 				interval={0}
 				tickLine={false}
-				axisLine={false}
+				axisLine={{ stroke: COLORS.grid }}
 				tickMargin={12}
 				height={44}
 				tick={{ fill: COLORS.muted, fontSize: 20, fontFamily: FONT_FAMILY }}
-				tickFormatter={(value: number) => `${formatNumber(value, 0)} mm/s`}
+				tickFormatter={(value: number) => `${formatNumber(value, 0)} ${model.xUnit}`}
 			/>
 			<YAxis
 				tickLine={false}
-				axisLine={false}
+				axisLine={{ stroke: COLORS.grid }}
 				tickMargin={12}
 				width={110}
 				tick={{ fill: COLORS.muted, fontSize: 20, fontFamily: FONT_FAMILY }}
-				tickFormatter={(value: number) => `${formatNumber(value, 0)} Ncm`}
+				// Grip force runs 0-10 kgf, where whole numbers throw away most of the range
+				tickFormatter={(value: number) => `${formatNumber(value, model.yUnit === 'kgf' ? 1 : 0)} ${model.yUnit}`}
 			/>
 			{model.series.map((series) => (
 				<Line
@@ -122,13 +190,31 @@ function renderPlot(model: OgModel, width: number, height: number): string {
 					isAnimationActive={false}
 				/>
 			))}
-			{model.requiredTorque !== null && (
-				<ReferenceLine
-					y={model.requiredTorque}
-					stroke={COLORS.required}
-					strokeWidth={2}
-					strokeDasharray="10 8"
-				/>
+			{model.required !== null && (
+				<ReferenceLine y={model.required} stroke={COLORS.required} strokeWidth={2} strokeDasharray="10 8" />
+			)}
+			{/* Where each motor gives up, marked on the axis in that motor's own colour */}
+			{model.series.map((series) =>
+				series.crossing === null ? null : (
+					<ReferenceLine
+						key={`${series.key}-crossing`}
+						segment={[
+							{ x: series.crossing, y: 0 },
+							{ x: series.crossing, y: crossingTickHeight(model) }
+						]}
+						stroke={series.color}
+						strokeWidth={3}
+						// Bare number: the axis right below it already names the unit
+						label={{
+							value: formatNumber(series.crossing, 0),
+							position: 'top',
+							offset: 6 + (levels.get(series.key) ?? 0) * CROSSING_LABEL_STEP,
+							fill: series.color,
+							fontSize: 18,
+							fontFamily: FONT_FAMILY
+						}}
+					/>
+				)
 			)}
 		</LineChart>
 	);
@@ -152,7 +238,7 @@ function renderLegend(model: OgModel, top: number): string {
 		// a bare label there reads as missing data rather than as the answer
 		const verdict =
 			series.crossing !== null
-				? ` · ${formatNumber(series.crossing, 0)} mm/s`
+				? ` · ${formatNumber(series.crossing, 0)} ${model.xUnit}`
 				: series.belowRequired
 					? ' · below required'
 					: '';
@@ -239,9 +325,9 @@ export function renderOgSvg(model: OgModel, siteName: string): string {
 			})
 		);
 
-		if (model.requiredTorque !== null) {
+		if (model.required !== null) {
 			body.push(
-				text(`Required torque: ${formatNumber(model.requiredTorque, 1)} Ncm`, {
+				text(`${model.requiredLabel}: ${formatNumber(model.required, 1)} ${model.yUnit}`, {
 					x: OG_WIDTH - PADDING_X,
 					y: 108,
 					size: 20,

@@ -18,7 +18,7 @@ const OG_BLOCK = /<!--\s*og:start\s*-->[\s\S]*?<!--\s*og:end\s*-->/;
  * card once never asks again. Without a token in the URL, a change to the renderer would only be
  * visible on links nobody had unfurled yet.
  */
-const OG_IMAGE_VERSION = 2;
+const OG_IMAGE_VERSION = 6;
 
 function escapeAttribute(value: string): string {
 	return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
