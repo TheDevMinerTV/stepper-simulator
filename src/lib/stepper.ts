@@ -5,6 +5,7 @@ export const NEMASize = {
 	NEMA11: 11,
 	NEMA14: 14,
 	NEMA17: 17,
+	NEMA20: 20,
 	NEMA23: 23,
 	NEMA24: 24,
 	NEMA34: 34
