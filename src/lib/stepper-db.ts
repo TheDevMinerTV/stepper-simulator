@@ -358,6 +358,26 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 						'https://s3.devminer.xyz/archive/BJ42D29-76V01%20Drawing.pdf'
 					]
 				}
+			],
+			[
+				'BJY36D12-04V24',
+				{
+					brand: 'KeliMotor',
+					model: 'BJY36D12-04V24',
+					nemaSize: 14,
+					bodyLength: 20 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.2 as Ampere,
+					torque: 10 as NewtonCentimeter,
+					inductance: 1.2 as MilliHenry,
+					resistance: 2 as Ohm,
+					rotorInertia: 17 as GramSquareCentimeter,
+					comments: [
+						'Snapmaker U1 Extruder',
+						'9T Helical Gear',
+						'https://s3.devminer.xyz/archive/BJY36D12-04V24-drawing.pdf'
+					]
+				}
 			]
 		])
 	],
@@ -3295,6 +3315,1623 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 6.6 as Ohm,
 					rotorInertia: 54 as GramSquareCentimeter,
 					comments: []
+				}
+			]
+		])
+	],
+	[
+		'Sanyo Denki',
+		new Map<string, StepperDefinition>([
+			[
+				'SF2424-10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SF2424-10B41',
+					nemaSize: 17,
+					bodyLength: 59.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 80 as NewtonCentimeter,
+					inductance: 16 as MilliHenry,
+					resistance: 6.5 as Ohm,
+					rotorInertia: 94 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'5mm shaft',
+						'connector type',
+						'dual shaft variant: SF2424-10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2281-5671',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2281-5671',
+					nemaSize: 11,
+					bodyLength: 32 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.5 as Ampere,
+					torque: 7 as NewtonCentimeter,
+					inductance: 7.2 as MilliHenry,
+					resistance: 10.5 as Ohm,
+					rotorInertia: 10 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2281-5631',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2281-5771',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2281-5771',
+					nemaSize: 11,
+					bodyLength: 32 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 7 as NewtonCentimeter,
+					inductance: 1.85 as MilliHenry,
+					resistance: 2.6 as Ohm,
+					rotorInertia: 10 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2281-5731',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2285-5671',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2285-5671',
+					nemaSize: 11,
+					bodyLength: 51.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.5 as Ampere,
+					torque: 14.5 as NewtonCentimeter,
+					inductance: 13.5 as MilliHenry,
+					resistance: 15 as Ohm,
+					rotorInertia: 22 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2285-5631',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2285-5771',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2285-5771',
+					nemaSize: 11,
+					bodyLength: 51.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 14.5 as NewtonCentimeter,
+					inductance: 3.4 as MilliHenry,
+					resistance: 3.75 as Ohm,
+					rotorInertia: 22 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2285-5731',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH3533-10B40',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH3533-10B40',
+					nemaSize: 14,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 15.5 as NewtonCentimeter,
+					inductance: 3.9 as MilliHenry,
+					resistance: 3.3 as Ohm,
+					rotorInertia: 20 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH3533-10B10',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH3537-10B40',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH3537-10B40',
+					nemaSize: 14,
+					bodyLength: 37 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 19.5 as NewtonCentimeter,
+					inductance: 5.5 as MilliHenry,
+					resistance: 3.9 as Ohm,
+					rotorInertia: 25 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH3537-10B10',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH3552-10B40',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH3552-10B40',
+					nemaSize: 14,
+					bodyLength: 52 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 32 as NewtonCentimeter,
+					inductance: 7 as MilliHenry,
+					resistance: 4.45 as Ohm,
+					rotorInertia: 43 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH3552-10B10',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1421-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1421-5041',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 23 as NewtonCentimeter,
+					inductance: 8 as MilliHenry,
+					resistance: 3.3 as Ohm,
+					rotorInertia: 44 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1421-5011',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1421-5241',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1421-5241',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 23 as NewtonCentimeter,
+					inductance: 2.1 as MilliHenry,
+					resistance: 0.85 as Ohm,
+					rotorInertia: 44 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1421-5211',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1422-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1422-5041',
+					nemaSize: 17,
+					bodyLength: 39 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 34 as NewtonCentimeter,
+					inductance: 14 as MilliHenry,
+					resistance: 4 as Ohm,
+					rotorInertia: 66 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1422-5011',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1422-5241',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1422-5241',
+					nemaSize: 17,
+					bodyLength: 39 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 34 as NewtonCentimeter,
+					inductance: 3.6 as MilliHenry,
+					resistance: 1.05 as Ohm,
+					rotorInertia: 66 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1422-5211',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1424-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1424-5041',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 48 as NewtonCentimeter,
+					inductance: 15 as MilliHenry,
+					resistance: 4.7 as Ohm,
+					rotorInertia: 89 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1424-5011',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1424-5241',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1424-5241',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 48 as NewtonCentimeter,
+					inductance: 3.75 as MilliHenry,
+					resistance: 1.25 as Ohm,
+					rotorInertia: 89 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1424-5211',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SS2421-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SS2421-5041',
+					nemaSize: 17,
+					bodyLength: 11.6 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 8.3 as NewtonCentimeter,
+					inductance: 1.2 as MilliHenry,
+					resistance: 3.5 as Ohm,
+					rotorInertia: 15 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SS2421-5011',
+						'thin-profile',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SS2422-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SS2422-5041',
+					nemaSize: 17,
+					bodyLength: 18.6 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 18.6 as NewtonCentimeter,
+					inductance: 2.9 as MilliHenry,
+					resistance: 5.4 as Ohm,
+					rotorInertia: 28 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SS2422-5011',
+						'thin-profile',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SS2421-50400',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SS2421-50400',
+					nemaSize: 17,
+					bodyLength: 14.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 8.3 as NewtonCentimeter,
+					inductance: 1.2 as MilliHenry,
+					resistance: 3.5 as Ohm,
+					rotorInertia: 15 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SS2421-50100',
+						'thin-profile heavy duty',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SS2422-50400',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SS2422-50400',
+					nemaSize: 17,
+					bodyLength: 21.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 18.6 as NewtonCentimeter,
+					inductance: 2.9 as MilliHenry,
+					resistance: 5.4 as Ohm,
+					rotorInertia: 28 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SS2422-50100',
+						'thin-profile heavy duty',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SF2421-10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SF2421-10B41',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 29 as NewtonCentimeter,
+					inductance: 7 as MilliHenry,
+					resistance: 3.6 as Ohm,
+					rotorInertia: 31 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SF2421-10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SF2422-10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SF2422-10B41',
+					nemaSize: 17,
+					bodyLength: 39 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 43 as NewtonCentimeter,
+					inductance: 9.6 as MilliHenry,
+					resistance: 4.6 as Ohm,
+					rotorInertia: 46 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SF2422-10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SF2423-10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SF2423-10B41',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 56 as NewtonCentimeter,
+					inductance: 12.5 as MilliHenry,
+					resistance: 5.3 as Ohm,
+					rotorInertia: 63 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SF2423-10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'103H6701-5040',
+				{
+					brand: 'Sanyo Denki',
+					model: '103H6701-5040',
+					nemaSize: 20,
+					bodyLength: 39.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 28 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 0.6 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: 103H6701-5010',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'103H6703-5040',
+				{
+					brand: 'Sanyo Denki',
+					model: '103H6703-5040',
+					nemaSize: 20,
+					bodyLength: 51.3 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 49 as NewtonCentimeter,
+					inductance: 3.2 as MilliHenry,
+					resistance: 0.8 as Ohm,
+					rotorInertia: 118 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: 103H6703-5010',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'103H6704-5040',
+				{
+					brand: 'Sanyo Denki',
+					model: '103H6704-5040',
+					nemaSize: 20,
+					bodyLength: 55.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 52 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 0.9 as Ohm,
+					rotorInertia: 140 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: 103H6704-5010',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SS2501-8040',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SS2501-8040',
+					nemaSize: 20,
+					bodyLength: 11.4 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 10 as NewtonCentimeter,
+					inductance: 2 as MilliHenry,
+					resistance: 4.5 as Ohm,
+					rotorInertia: 26 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SS2501-8010',
+						'thin-profile',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SS2502-8040',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SS2502-8040',
+					nemaSize: 20,
+					bodyLength: 16.4 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 21.5 as NewtonCentimeter,
+					inductance: 3.2 as MilliHenry,
+					resistance: 5.9 as Ohm,
+					rotorInertia: 49 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SS2502-8010',
+						'thin-profile',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2561C10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2561C10B41',
+					nemaSize: 23,
+					bodyLength: 41.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 75 as NewtonCentimeter,
+					inductance: 13.5 as MilliHenry,
+					resistance: 4.6 as Ohm,
+					rotorInertia: 140 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2561C10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2561C20B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2561C20B41',
+					nemaSize: 23,
+					bodyLength: 41.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 75 as NewtonCentimeter,
+					inductance: 3.5 as MilliHenry,
+					resistance: 1.1 as Ohm,
+					rotorInertia: 140 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2561C20B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2561C30B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2561C30B41',
+					nemaSize: 23,
+					bodyLength: 41.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 3 as Ampere,
+					torque: 75 as NewtonCentimeter,
+					inductance: 1.5 as MilliHenry,
+					resistance: 0.51 as Ohm,
+					rotorInertia: 140 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2561C30B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2561C40B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2561C40B41',
+					nemaSize: 23,
+					bodyLength: 41.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 75 as NewtonCentimeter,
+					inductance: 0.85 as MilliHenry,
+					resistance: 0.28 as Ohm,
+					rotorInertia: 140 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2561C40B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2561C60B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2561C60B41',
+					nemaSize: 23,
+					bodyLength: 41.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 75 as NewtonCentimeter,
+					inductance: 0.38 as MilliHenry,
+					resistance: 0.14 as Ohm,
+					rotorInertia: 140 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2561C60B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2562C10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2562C10B41',
+					nemaSize: 23,
+					bodyLength: 53.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 140 as NewtonCentimeter,
+					inductance: 25.5 as MilliHenry,
+					resistance: 6.3 as Ohm,
+					rotorInertia: 280 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2562C10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2562C20B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2562C20B41',
+					nemaSize: 23,
+					bodyLength: 53.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 140 as NewtonCentimeter,
+					inductance: 6.5 as MilliHenry,
+					resistance: 1.5 as Ohm,
+					rotorInertia: 280 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2562C20B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2562C30B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2562C30B41',
+					nemaSize: 23,
+					bodyLength: 53.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 3 as Ampere,
+					torque: 140 as NewtonCentimeter,
+					inductance: 2.9 as MilliHenry,
+					resistance: 0.68 as Ohm,
+					rotorInertia: 280 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2562C30B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2562C40B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2562C40B41',
+					nemaSize: 23,
+					bodyLength: 53.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 140 as NewtonCentimeter,
+					inductance: 1.5 as MilliHenry,
+					resistance: 0.37 as Ohm,
+					rotorInertia: 280 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2562C40B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2562C60B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2562C60B41',
+					nemaSize: 23,
+					bodyLength: 53.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 140 as NewtonCentimeter,
+					inductance: 0.72 as MilliHenry,
+					resistance: 0.18 as Ohm,
+					rotorInertia: 280 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2562C60B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2563C10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2563C10B41',
+					nemaSize: 23,
+					bodyLength: 75.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 235 as NewtonCentimeter,
+					inductance: 36 as MilliHenry,
+					resistance: 8.6 as Ohm,
+					rotorInertia: 500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2563C10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2563C20B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2563C20B41',
+					nemaSize: 23,
+					bodyLength: 75.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 235 as NewtonCentimeter,
+					inductance: 9.5 as MilliHenry,
+					resistance: 2.1 as Ohm,
+					rotorInertia: 500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2563C20B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2563C30B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2563C30B41',
+					nemaSize: 23,
+					bodyLength: 75.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 3 as Ampere,
+					torque: 235 as NewtonCentimeter,
+					inductance: 4.2 as MilliHenry,
+					resistance: 0.95 as Ohm,
+					rotorInertia: 500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2563C30B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2563C40B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2563C40B41',
+					nemaSize: 23,
+					bodyLength: 75.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 235 as NewtonCentimeter,
+					inductance: 2.4 as MilliHenry,
+					resistance: 0.52 as Ohm,
+					rotorInertia: 500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2563C40B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2563C60B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2563C60B41',
+					nemaSize: 23,
+					bodyLength: 75.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 235 as NewtonCentimeter,
+					inductance: 1.05 as MilliHenry,
+					resistance: 0.25 as Ohm,
+					rotorInertia: 500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2563C60B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2564C10B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2564C10B41',
+					nemaSize: 23,
+					bodyLength: 85.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 250 as NewtonCentimeter,
+					inductance: 41 as MilliHenry,
+					resistance: 9.4 as Ohm,
+					rotorInertia: 600 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2564C10B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2564C20B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2564C20B41',
+					nemaSize: 23,
+					bodyLength: 85.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 250 as NewtonCentimeter,
+					inductance: 11 as MilliHenry,
+					resistance: 2.1 as Ohm,
+					rotorInertia: 600 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2564C20B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2564C30B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2564C30B41',
+					nemaSize: 23,
+					bodyLength: 85.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 3 as Ampere,
+					torque: 250 as NewtonCentimeter,
+					inductance: 4.9 as MilliHenry,
+					resistance: 0.95 as Ohm,
+					rotorInertia: 600 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2564C30B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2564C40B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2564C40B41',
+					nemaSize: 23,
+					bodyLength: 85.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 250 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 0.59 as Ohm,
+					rotorInertia: 600 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2564C40B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2564C60B41',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2564C60B41',
+					nemaSize: 23,
+					bodyLength: 85.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 250 as NewtonCentimeter,
+					inductance: 1.15 as MilliHenry,
+					resistance: 0.27 as Ohm,
+					rotorInertia: 600 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar connector type',
+						'dual shaft variant: SM2564C60B11',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1601-5240',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1601-5240',
+					nemaSize: 24,
+					bodyLength: 42 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 69 as NewtonCentimeter,
+					inductance: 3.5 as MilliHenry,
+					resistance: 1.2 as Ohm,
+					rotorInertia: 240 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1601-5210',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1602-5240',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1602-5240',
+					nemaSize: 24,
+					bodyLength: 54 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 128 as NewtonCentimeter,
+					inductance: 6.1 as MilliHenry,
+					resistance: 1.65 as Ohm,
+					rotorInertia: 400 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1602-5210',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH1603-5240',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH1603-5240',
+					nemaSize: 24,
+					bodyLength: 76 as Millimeter,
+					stepAngle: 0.9 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 215 as NewtonCentimeter,
+					inductance: 8.8 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 750 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH1603-5210',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2861-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2861-5041',
+					nemaSize: 34,
+					bodyLength: 66 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 15 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2861-5011',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2861-5141',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2861-5141',
+					nemaSize: 34,
+					bodyLength: 66 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 3.7 as MilliHenry,
+					resistance: 0.56 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2861-5111',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2861-5241',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2861-5241',
+					nemaSize: 34,
+					bodyLength: 66 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 1.7 as MilliHenry,
+					resistance: 0.29 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2861-5211',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2862-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2862-5041',
+					nemaSize: 34,
+					bodyLength: 96.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 25 as MilliHenry,
+					resistance: 3.2 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2862-5011',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2862-5141',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2862-5141',
+					nemaSize: 34,
+					bodyLength: 96.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 6.4 as MilliHenry,
+					resistance: 0.83 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2862-5111',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2862-5241',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2862-5241',
+					nemaSize: 34,
+					bodyLength: 96.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 0.36 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2862-5211',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2863-5041',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2863-5041',
+					nemaSize: 34,
+					bodyLength: 127 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 32 as MilliHenry,
+					resistance: 4 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2863-5011',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2863-5141',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2863-5141',
+					nemaSize: 34,
+					bodyLength: 127 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 7.9 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2863-5111',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SH2863-5241',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SH2863-5241',
+					nemaSize: 34,
+					bodyLength: 127 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 0.46 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SH2863-5211',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2861-5051',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2861-5051',
+					nemaSize: 34,
+					bodyLength: 66 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 15 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2861-5021',
+						'CE/UKCA/UL model of SH2861-5041',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2861-5151',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2861-5151',
+					nemaSize: 34,
+					bodyLength: 66 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 3.7 as MilliHenry,
+					resistance: 0.56 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2861-5121',
+						'CE/UKCA/UL model of SH2861-5141',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2861-5251',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2861-5251',
+					nemaSize: 34,
+					bodyLength: 66 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 1.7 as MilliHenry,
+					resistance: 0.29 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2861-5221',
+						'CE/UKCA/UL model of SH2861-5241',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2862-5051',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2862-5051',
+					nemaSize: 34,
+					bodyLength: 96.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 25 as MilliHenry,
+					resistance: 3.2 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2862-5021',
+						'CE/UKCA/UL model of SH2862-5041',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2862-5151',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2862-5151',
+					nemaSize: 34,
+					bodyLength: 96.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 6.4 as MilliHenry,
+					resistance: 0.83 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2862-5121',
+						'CE/UKCA/UL model of SH2862-5141',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2862-5251',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2862-5251',
+					nemaSize: 34,
+					bodyLength: 96.5 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 0.36 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2862-5221',
+						'CE/UKCA/UL model of SH2862-5241',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2863-5051',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2863-5051',
+					nemaSize: 34,
+					bodyLength: 127 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 32 as MilliHenry,
+					resistance: 4 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2863-5021',
+						'CE/UKCA/UL model of SH2863-5041',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2863-5151',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2863-5151',
+					nemaSize: 34,
+					bodyLength: 127 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 7.9 as MilliHenry,
+					resistance: 1 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2863-5121',
+						'CE/UKCA/UL model of SH2863-5141',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2863-5251',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2863-5251',
+					nemaSize: 34,
+					bodyLength: 127 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 0.46 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar lead type',
+						'dual shaft variant: SM2863-5221',
+						'CE/UKCA/UL model of SH2863-5241',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2861-5066',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2861-5066',
+					nemaSize: 34,
+					bodyLength: 97.9 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 15 as MilliHenry,
+					resistance: 2.03 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2861-5166',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2861-5166',
+					nemaSize: 34,
+					bodyLength: 97.9 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 3.7 as MilliHenry,
+					resistance: 0.52 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2861-5266',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2861-5266',
+					nemaSize: 34,
+					bodyLength: 97.9 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 330 as NewtonCentimeter,
+					inductance: 1.7 as MilliHenry,
+					resistance: 0.27 as Ohm,
+					rotorInertia: 1480 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2862-5066',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2862-5066',
+					nemaSize: 34,
+					bodyLength: 128.4 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 25 as MilliHenry,
+					resistance: 3.08 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2862-5166',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2862-5166',
+					nemaSize: 34,
+					bodyLength: 128.4 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 6.4 as MilliHenry,
+					resistance: 0.79 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2862-5266',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2862-5266',
+					nemaSize: 34,
+					bodyLength: 128.4 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 640 as NewtonCentimeter,
+					inductance: 2.8 as MilliHenry,
+					resistance: 0.33 as Ohm,
+					rotorInertia: 3000 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2863-5066',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2863-5066',
+					nemaSize: 34,
+					bodyLength: 158.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 32 as MilliHenry,
+					resistance: 3.83 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2863-5166',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2863-5166',
+					nemaSize: 34,
+					bodyLength: 158.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 7.9 as MilliHenry,
+					resistance: 0.96 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
+				}
+			],
+			[
+				'SM2863-5266',
+				{
+					brand: 'Sanyo Denki',
+					model: 'SM2863-5266',
+					nemaSize: 34,
+					bodyLength: 158.8 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 6 as Ampere,
+					torque: 900 as NewtonCentimeter,
+					inductance: 3.8 as MilliHenry,
+					resistance: 0.48 as Ohm,
+					rotorInertia: 4500 as GramSquareCentimeter,
+					comments: [
+						'SANMOTION F2',
+						'bipolar terminal block type',
+						'length incl. terminal box',
+						'https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf'
+					]
 				}
 			]
 		])

@@ -19,6 +19,7 @@ KeliMotor	BJ42D15-26V12	17	34	1,8	0,84	38	8,8	6	38	Ender 3 S1 (and more, probabl
 KeliMotor	BJ42D16-26V09	17	34	1,8	0,84	38	8.8	6	57	Apparently identical to BJ42D15-26V09
 KeliMotor	BJ42D09-20V02	17	26	1,8	0,84	15	3	1,75	30	Creality Sprite Extruder
 KeliMotor	BJ42D29-76V01	17	48	1,8	4	56	0,7	0,4	76	FLSun T1 Pro A/B/C; Preinstalled with GT2 30T pulley; https://s3.devminer.xyz/archive/BJ42D29-76V01%20Drawing.pdf
+KeliMotor	BJY36D12-04V24	14	20	1,8	1,2	10	1,2	2	17	Snapmaker U1 Extruder;9T Helical Gear;https://s3.devminer.xyz/archive/BJY36D12-04V24-drawing.pdf
 Creativity	BJ42D29-100V02	14	20	1,8	1	12	1	2,3	16	Bambulab X1/P1 extruder replacement; 9T helical gear; most motors with four screws in the front plate appear to be this model
 Twotrees	36STH20-1004HG	14	22	1.8	1,0	10	1.6	2.1	16	Sketchy motor sold for VORONS with similar P/N to LDO 36STH20-1004(A/HG)
 ACT	17HS5425	17	48	1,8	2,5	48	1,9	1,2	68	Seem to be clones/rebadges of Wantai 42BYGHW811
@@ -152,3 +153,79 @@ JUST MOTION CONTROL	28J1832-407-8-1510-01	11	32	1,8	0,75	6	4,6	4,7	18	5mm ID 8mm
 Honeybadger	Classified	17	60	1,8	2,85	88,3	2,3	1,1	102	Integrated thermistor; 8mm shaft; Insulation Class F (155c)
 Longrunner/Zyltech	17HD48002H-22B	17	48	1,8	1,7	50	3,8	1,8	82	https://s3.devminer.xyz/archive/Zyltech_17HD48002H-22B.jpg
 Vexta	PK244-01A	17	41	1,8	1,2	33	12,8	6,6	54
+Sanyo Denki	SF2424-10B41	17	59,5	1,8	1	80	16	6,5	94	SANMOTION F2; 5mm shaft; connector type; dual shaft variant: SF2424-10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2281-5671	11	32	1.8	0.5	7	7.2	10.5	10	SANMOTION F2; bipolar lead type; dual shaft variant: SH2281-5631; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2281-5771	11	32	1.8	1	7	1.85	2.6	10	SANMOTION F2; bipolar lead type; dual shaft variant: SH2281-5731; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2285-5671	11	51.5	1.8	0.5	14.5	13.5	15	22	SANMOTION F2; bipolar lead type; dual shaft variant: SH2285-5631; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2285-5771	11	51.5	1.8	1	14.5	3.4	3.75	22	SANMOTION F2; bipolar lead type; dual shaft variant: SH2285-5731; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH3533-10B40	14	33	1.8	1	15.5	3.9	3.3	20	SANMOTION F2; bipolar lead type; dual shaft variant: SH3533-10B10; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH3537-10B40	14	37	1.8	1	19.5	5.5	3.9	25	SANMOTION F2; bipolar lead type; dual shaft variant: SH3537-10B10; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH3552-10B40	14	52	1.8	1	32	7	4.45	43	SANMOTION F2; bipolar lead type; dual shaft variant: SH3552-10B10; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1421-5041	17	33	0.9	1	23	8.0	3.3	44	SANMOTION F2; bipolar lead type; dual shaft variant: SH1421-5011; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1421-5241	17	33	0.9	2	23	2.1	0.85	44	SANMOTION F2; bipolar lead type; dual shaft variant: SH1421-5211; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1422-5041	17	39	0.9	1	34	14.0	4.0	66	SANMOTION F2; bipolar lead type; dual shaft variant: SH1422-5011; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1422-5241	17	39	0.9	2	34	3.6	1.05	66	SANMOTION F2; bipolar lead type; dual shaft variant: SH1422-5211; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1424-5041	17	48	0.9	1	48	15.0	4.7	89	SANMOTION F2; bipolar lead type; dual shaft variant: SH1424-5011; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1424-5241	17	48	0.9	2	48	3.75	1.25	89	SANMOTION F2; bipolar lead type; dual shaft variant: SH1424-5211; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SS2421-5041	17	11.6	1.8	1	8.3	1.2	3.5	15	SANMOTION F2; bipolar lead type; dual shaft variant: SS2421-5011; thin-profile; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SS2422-5041	17	18.6	1.8	1	18.6	2.9	5.4	28	SANMOTION F2; bipolar lead type; dual shaft variant: SS2422-5011; thin-profile; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SS2421-50400	17	14.5	1.8	1	8.3	1.2	3.5	15	SANMOTION F2; bipolar lead type; dual shaft variant: SS2421-50100; thin-profile heavy duty; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SS2422-50400	17	21.5	1.8	1	18.6	2.9	5.4	28	SANMOTION F2; bipolar lead type; dual shaft variant: SS2422-50100; thin-profile heavy duty; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SF2421-10B41	17	33	1.8	1	29	7	3.6	31	SANMOTION F2; bipolar connector type; dual shaft variant: SF2421-10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SF2422-10B41	17	39	1.8	1	43	9.6	4.6	46	SANMOTION F2; bipolar connector type; dual shaft variant: SF2422-10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SF2423-10B41	17	48	1.8	1	56	12.5	5.3	63	SANMOTION F2; bipolar connector type; dual shaft variant: SF2423-10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	103H6701-5040	20	39.8	1.8	2	28	1.6	0.6	57	SANMOTION F2; bipolar lead type; dual shaft variant: 103H6701-5010; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	103H6703-5040	20	51.3	1.8	2	49	3.2	0.8	118	SANMOTION F2; bipolar lead type; dual shaft variant: 103H6703-5010; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	103H6704-5040	20	55.8	1.8	2	52	3.8	0.9	140	SANMOTION F2; bipolar lead type; dual shaft variant: 103H6704-5010; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SS2501-8040	20	11.4	1.8	1	10	2	4.5	26	SANMOTION F2; bipolar lead type; dual shaft variant: SS2501-8010; thin-profile; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SS2502-8040	20	16.4	1.8	1	21.5	3.2	5.9	49	SANMOTION F2; bipolar lead type; dual shaft variant: SS2502-8010; thin-profile; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2561C10B41	23	41.8	1.8	1	75	13.5	4.6	140	SANMOTION F2; bipolar connector type; dual shaft variant: SM2561C10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2561C20B41	23	41.8	1.8	2	75	3.5	1.1	140	SANMOTION F2; bipolar connector type; dual shaft variant: SM2561C20B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2561C30B41	23	41.8	1.8	3	75	1.5	0.51	140	SANMOTION F2; bipolar connector type; dual shaft variant: SM2561C30B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2561C40B41	23	41.8	1.8	4	75	0.85	0.28	140	SANMOTION F2; bipolar connector type; dual shaft variant: SM2561C40B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2561C60B41	23	41.8	1.8	6	75	0.38	0.14	140	SANMOTION F2; bipolar connector type; dual shaft variant: SM2561C60B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2562C10B41	23	53.8	1.8	1	140	25.5	6.3	280	SANMOTION F2; bipolar connector type; dual shaft variant: SM2562C10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2562C20B41	23	53.8	1.8	2	140	6.5	1.5	280	SANMOTION F2; bipolar connector type; dual shaft variant: SM2562C20B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2562C30B41	23	53.8	1.8	3	140	2.9	0.68	280	SANMOTION F2; bipolar connector type; dual shaft variant: SM2562C30B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2562C40B41	23	53.8	1.8	4	140	1.5	0.37	280	SANMOTION F2; bipolar connector type; dual shaft variant: SM2562C40B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2562C60B41	23	53.8	1.8	6	140	0.72	0.18	280	SANMOTION F2; bipolar connector type; dual shaft variant: SM2562C60B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2563C10B41	23	75.8	1.8	1	235	36	8.6	500	SANMOTION F2; bipolar connector type; dual shaft variant: SM2563C10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2563C20B41	23	75.8	1.8	2	235	9.5	2.1	500	SANMOTION F2; bipolar connector type; dual shaft variant: SM2563C20B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2563C30B41	23	75.8	1.8	3	235	4.2	0.95	500	SANMOTION F2; bipolar connector type; dual shaft variant: SM2563C30B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2563C40B41	23	75.8	1.8	4	235	2.4	0.52	500	SANMOTION F2; bipolar connector type; dual shaft variant: SM2563C40B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2563C60B41	23	75.8	1.8	6	235	1.05	0.25	500	SANMOTION F2; bipolar connector type; dual shaft variant: SM2563C60B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2564C10B41	23	85.8	1.8	1	250	41	9.4	600	SANMOTION F2; bipolar connector type; dual shaft variant: SM2564C10B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2564C20B41	23	85.8	1.8	2	250	11	2.1	600	SANMOTION F2; bipolar connector type; dual shaft variant: SM2564C20B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2564C30B41	23	85.8	1.8	3	250	4.9	0.95	600	SANMOTION F2; bipolar connector type; dual shaft variant: SM2564C30B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2564C40B41	23	85.8	1.8	4	250	2.8	0.59	600	SANMOTION F2; bipolar connector type; dual shaft variant: SM2564C40B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2564C60B41	23	85.8	1.8	6	250	1.15	0.27	600	SANMOTION F2; bipolar connector type; dual shaft variant: SM2564C60B11; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1601-5240	24	42	0.9	2	69	3.5	1.2	240	SANMOTION F2; bipolar lead type; dual shaft variant: SH1601-5210; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1602-5240	24	54	0.9	2	128	6.1	1.65	400	SANMOTION F2; bipolar lead type; dual shaft variant: SH1602-5210; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH1603-5240	24	76	0.9	2	215	8.8	2.3	750	SANMOTION F2; bipolar lead type; dual shaft variant: SH1603-5210; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2861-5041	34	66	1.8	2	330	15	2.2	1480	SANMOTION F2; bipolar lead type; dual shaft variant: SH2861-5011; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2861-5141	34	66	1.8	4	330	3.7	0.56	1480	SANMOTION F2; bipolar lead type; dual shaft variant: SH2861-5111; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2861-5241	34	66	1.8	6	330	1.7	0.29	1480	SANMOTION F2; bipolar lead type; dual shaft variant: SH2861-5211; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2862-5041	34	96.5	1.8	2	640	25	3.2	3000	SANMOTION F2; bipolar lead type; dual shaft variant: SH2862-5011; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2862-5141	34	96.5	1.8	4	640	6.4	0.83	3000	SANMOTION F2; bipolar lead type; dual shaft variant: SH2862-5111; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2862-5241	34	96.5	1.8	6	640	2.8	0.36	3000	SANMOTION F2; bipolar lead type; dual shaft variant: SH2862-5211; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2863-5041	34	127	1.8	2	900	32	4.0	4500	SANMOTION F2; bipolar lead type; dual shaft variant: SH2863-5011; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2863-5141	34	127	1.8	4	900	7.9	1.0	4500	SANMOTION F2; bipolar lead type; dual shaft variant: SH2863-5111; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SH2863-5241	34	127	1.8	6	900	3.8	0.46	4500	SANMOTION F2; bipolar lead type; dual shaft variant: SH2863-5211; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2861-5051	34	66	1.8	2	330	15	2.2	1480	SANMOTION F2; bipolar lead type; dual shaft variant: SM2861-5021; CE/UKCA/UL model of SH2861-5041; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2861-5151	34	66	1.8	4	330	3.7	0.56	1480	SANMOTION F2; bipolar lead type; dual shaft variant: SM2861-5121; CE/UKCA/UL model of SH2861-5141; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2861-5251	34	66	1.8	6	330	1.7	0.29	1480	SANMOTION F2; bipolar lead type; dual shaft variant: SM2861-5221; CE/UKCA/UL model of SH2861-5241; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2862-5051	34	96.5	1.8	2	640	25	3.2	3000	SANMOTION F2; bipolar lead type; dual shaft variant: SM2862-5021; CE/UKCA/UL model of SH2862-5041; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2862-5151	34	96.5	1.8	4	640	6.4	0.83	3000	SANMOTION F2; bipolar lead type; dual shaft variant: SM2862-5121; CE/UKCA/UL model of SH2862-5141; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2862-5251	34	96.5	1.8	6	640	2.8	0.36	3000	SANMOTION F2; bipolar lead type; dual shaft variant: SM2862-5221; CE/UKCA/UL model of SH2862-5241; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2863-5051	34	127	1.8	2	900	32	4.0	4500	SANMOTION F2; bipolar lead type; dual shaft variant: SM2863-5021; CE/UKCA/UL model of SH2863-5041; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2863-5151	34	127	1.8	4	900	7.9	1.0	4500	SANMOTION F2; bipolar lead type; dual shaft variant: SM2863-5121; CE/UKCA/UL model of SH2863-5141; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2863-5251	34	127	1.8	6	900	3.8	0.46	4500	SANMOTION F2; bipolar lead type; dual shaft variant: SM2863-5221; CE/UKCA/UL model of SH2863-5241; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2861-5066	34	97.9	1.8	2	330	15	2.03	1480	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2861-5166	34	97.9	1.8	4	330	3.7	0.52	1480	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2861-5266	34	97.9	1.8	6	330	1.7	0.27	1480	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2862-5066	34	128.4	1.8	2	640	25	3.08	3000	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2862-5166	34	128.4	1.8	4	640	6.4	0.79	3000	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2862-5266	34	128.4	1.8	6	640	2.8	0.33	3000	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2863-5066	34	158.8	1.8	2	900	32	3.83	4500	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2863-5166	34	158.8	1.8	4	900	7.9	0.96	4500	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
+Sanyo Denki	SM2863-5266	34	158.8	1.8	6	900	3.8	0.48	4500	SANMOTION F2; bipolar terminal block type; length incl. terminal box; https://www.mouser.de/datasheet/3/971/1/SANMOTION_F2_E.pdf
