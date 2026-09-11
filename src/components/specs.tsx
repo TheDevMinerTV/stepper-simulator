@@ -45,7 +45,7 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 			</div>
 			<div className="flex items-center gap-2">
 				<ZapIcon />
-				<span>{stepper.ratedCurrent.toFixed(1)} A</span>
+				<span>{stepper.ratedCurrent.toFixed(1)} A peak</span>
 			</div>
 			<div className="flex items-center gap-2">
 				<BicepsFlexedIcon />
@@ -95,11 +95,11 @@ function DebugStepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 
 			<div className="flex items-center gap-2">
 				<span>max current at specified power</span>
-				<span>{maxCurrentAtSpecifiedPower.toFixed(2)} A</span>
+				<span>{maxCurrentAtSpecifiedPower.toFixed(2)} A peak</span>
 			</div>
 			<div className="flex items-center gap-2">
 				<span>drive current</span>
-				<span>{driveCurrent.toFixed(2)} A</span>
+				<span>{driveCurrent.toFixed(2)} A peak</span>
 			</div>
 			<div className="flex items-center gap-2">
 				<span>torque rotor</span>

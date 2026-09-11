@@ -58,6 +58,8 @@ export const searchModeAtom = atomWithLocalStorage<SearchMode>('searchMode', 'fu
 export type ViewMode = 'table' | 'cards';
 export const viewModeAtom = atomWithLocalStorage<ViewMode>('viewMode', 'cards');
 
+export const filtersCollapsedAtom = atomWithLocalStorage<boolean>('filtersCollapsed', false);
+
 // Persisted layer: private on purpose. Components must use the `current*` atoms so
 // imported (shared-link) configs are respected
 const debugAtom = atomWithLocalStorage<boolean>('debug', DEFAULT_DEBUG);

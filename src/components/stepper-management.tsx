@@ -305,7 +305,7 @@ export function CustomStepperModal() {
 						</div>
 
 						<div className="space-y-2">
-							<Label htmlFor="ratedCurrent">Rated Current (A)</Label>
+							<Label htmlFor="ratedCurrent">Rated Current (A, peak per phase)</Label>
 							<Input
 								id="ratedCurrent"
 								type="number"

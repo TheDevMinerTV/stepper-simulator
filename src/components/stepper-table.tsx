@@ -106,12 +106,12 @@ export const columns: ColumnDef<StepperDefinition>[] = [
 		header: ({ column }) => {
 			return (
 				<Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-					Rated Current
+					Rated Current (peak)
 					<ArrowUpDown />
 				</Button>
 			);
 		},
-		cell: ({ row }) => <div>{row.getValue('ratedCurrent')} A</div>
+		cell: ({ row }) => <div>{row.getValue('ratedCurrent')} A peak</div>
 	},
 	{
 		accessorKey: 'torque',

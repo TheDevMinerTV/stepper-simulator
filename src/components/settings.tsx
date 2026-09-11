@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { CURRENT_UNIT_LABEL, type CurrentUnit, formatCurrent, peakToUnit, unitToPeak } from '@/lib/current-unit';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
 import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
 import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
@@ -14,6 +15,7 @@ import {
 	GaugeIcon,
 	PercentIcon,
 	PlugIcon,
+	TriangleAlertIcon,
 	WeightIcon,
 	ZapIcon
 } from 'lucide-react';
@@ -22,6 +24,7 @@ export function DriveSettings() {
 	const [driveSettings, setDriveSettings] = useAtom(currentDriveSettingsAtom);
 	const maxPower = useAtomValue(maxPowerAtom);
 	const debug = useAtomValue(currentDebugAtom);
+	const currentUnit = driveSettings.currentUnit ?? 'peak';
 
 	return (
 		<Card className="w-full">
@@ -49,24 +52,46 @@ export function DriveSettings() {
 					/>
 					<span>V</span>
 				</div>
-				<div className="flex w-full max-w-sm items-center gap-2">
-					<div className="size-5">
-						<ZapIcon className="w-5 h-5" />
+				<div className="flex w-full max-w-sm flex-col gap-1">
+					<div className="flex w-full items-center gap-2">
+						<div className="size-5">
+							<ZapIcon className="w-5 h-5" />
+						</div>
+						<Input
+							type="number"
+							placeholder={`Max Drive Current (${CURRENT_UNIT_LABEL[currentUnit]}, per phase)`}
+							min={0}
+							max={5}
+							step="any"
+							value={formatCurrent(peakToUnit(driveSettings.maxDriveCurrent, currentUnit))}
+							onChange={(e) =>
+								setDriveSettings({
+									...driveSettings,
+									maxDriveCurrent: unitToPeak(e.target.valueAsNumber as Ampere, currentUnit)
+								})
+							}
+						/>
+						<ToggleGroup
+							type="single"
+							variant="outline"
+							size="sm"
+							value={currentUnit}
+							onValueChange={(value) => {
+								if (value === 'peak' || value === 'rms') {
+									setDriveSettings({ ...driveSettings, currentUnit: value satisfies CurrentUnit });
+								}
+							}}
+						>
+							<ToggleGroupItem value="peak">Peak</ToggleGroupItem>
+							<ToggleGroupItem value="rms">RMS</ToggleGroupItem>
+						</ToggleGroup>
 					</div>
-					<Input
-						type="number"
-						placeholder="Max Drive Current"
-						min={0}
-						max={5}
-						value={driveSettings.maxDriveCurrent}
-						onChange={(e) =>
-							setDriveSettings({
-								...driveSettings,
-								maxDriveCurrent: e.target.valueAsNumber as Ampere
-							})
-						}
-					/>
-					<span>A</span>
+					<span className="flex items-start gap-1.5 pl-7 text-xs text-muted-foreground">
+						<TriangleAlertIcon className="mt-px size-3.5 shrink-0 text-amber-500" />
+						{currentUnit === 'rms'
+							? 'RMS is not what datasheets quote. Rated currents in the stepper DB are peak per phase.'
+							: 'Peak is not what Klipper / TMC drivers take. Their run_current is RMS. Switch to RMS to enter that value directly.'}
+					</span>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
 					<div className="size-5">

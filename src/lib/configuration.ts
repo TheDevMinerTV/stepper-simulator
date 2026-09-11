@@ -1,3 +1,4 @@
+import type { CurrentUnit } from '@/lib/current-unit';
 import type { MotorModel } from '@/lib/formulas';
 import type {
 	Ampere,
@@ -18,7 +19,10 @@ import type {
 
 export type DriveSettings = {
 	inputVoltage: Volts;
+	/** stored in peak current */
 	maxDriveCurrent: Ampere;
+	/** just how it's displayed */
+	currentUnit: CurrentUnit;
 	maxDrivePercent: Percent;
 	motorModel: MotorModel;
 };
@@ -46,6 +50,7 @@ export const DEFAULT_DEBUG = false;
 export const DEFAULT_DRIVE_SETTINGS: DriveSettings = {
 	inputVoltage: 24 as Volts,
 	maxDriveCurrent: 1 as Ampere,
+	currentUnit: 'peak',
 	maxDrivePercent: 100 as Percent,
 	motorModel: 'classic'
 };

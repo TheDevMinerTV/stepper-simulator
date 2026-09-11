@@ -32,11 +32,13 @@ import {
 export const SHARE_FORMAT_VERSION = 1;
 
 const MotorModel = z.enum(['classic', 'spreadCycle', 'fieldWeakening']);
+const CurrentUnit = z.enum(['peak', 'rms']);
 
 const LegacyShareableConfigurationSchema = z.object({
 	driveSettings: z.object({
 		inputVoltage: Volts,
 		maxDriveCurrent: Ampere,
+		currentUnit: CurrentUnit.default('peak'),
 		maxDrivePercent: Percent,
 		motorModel: MotorModel.default('classic')
 	}),
@@ -82,7 +84,8 @@ const SharedConfigSchema = z.object({
 	d: z
 		.object({
 			v: Volts.optional(), // inputVoltage
-			c: Ampere.optional(), // maxDriveCurrent
+			c: Ampere.optional(), // maxDriveCurrent (always peak)
+			cu: CurrentUnit.optional(), // currentUnit
 			p: Percent.optional(), // maxDrivePercent
 			m: MotorModel.optional() // motorModel
 		})
@@ -199,6 +202,7 @@ function packDriveSettings(settings: DriveSettings): SharedConfig['d'] {
 
 	if (settings.inputVoltage !== DEFAULT_DRIVE_SETTINGS.inputVoltage) packed.v = settings.inputVoltage;
 	if (settings.maxDriveCurrent !== DEFAULT_DRIVE_SETTINGS.maxDriveCurrent) packed.c = settings.maxDriveCurrent;
+	if (settings.currentUnit !== DEFAULT_DRIVE_SETTINGS.currentUnit) packed.cu = settings.currentUnit;
 	if (settings.maxDrivePercent !== DEFAULT_DRIVE_SETTINGS.maxDrivePercent) packed.p = settings.maxDrivePercent;
 	if (settings.motorModel !== DEFAULT_DRIVE_SETTINGS.motorModel) packed.m = settings.motorModel;
 
@@ -209,6 +213,7 @@ function unpackDriveSettings(packed: SharedConfig['d']): DriveSettings {
 	return {
 		inputVoltage: packed?.v ?? DEFAULT_DRIVE_SETTINGS.inputVoltage,
 		maxDriveCurrent: packed?.c ?? DEFAULT_DRIVE_SETTINGS.maxDriveCurrent,
+		currentUnit: packed?.cu ?? DEFAULT_DRIVE_SETTINGS.currentUnit,
 		maxDrivePercent: packed?.p ?? DEFAULT_DRIVE_SETTINGS.maxDrivePercent,
 		motorModel: packed?.m ?? DEFAULT_DRIVE_SETTINGS.motorModel
 	};
@@ -365,4 +370,3 @@ export function decodeConfig(param: string): ImportedConfiguration | null {
 
 	return { config: legacy.data as ShareableConfiguration, unresolvedSteppers: [] };
 }
-
