@@ -1,10 +1,12 @@
 import type { Ampere } from '@/lib/stepper';
+import z from 'zod/v4';
 
 /**
  * Internally every current value is the per-phase peak amplitude, as the datasheets specify them.
  * Firmware (TMC `run_current` in Klipper, etc.) uses RMS so the UI can convert at the boundary.
  */
-export type CurrentUnit = 'peak' | 'rms';
+export const CurrentUnit = z.enum(['peak', 'rms']);
+export type CurrentUnit = z.infer<typeof CurrentUnit>;
 
 export const CURRENT_UNIT_LABEL: Record<CurrentUnit, string> = {
 	peak: 'A peak',

@@ -3,12 +3,15 @@ import {
 	DEFAULT_DRIVE_SETTINGS,
 	DEFAULT_GANTRY_SETTINGS,
 	type DriveSettings,
+	DriveSettingsSchema,
 	type GantrySettings,
+	GantrySettingsSchema,
 	type ShareableConfiguration
 } from '@/lib/configuration';
 import { calculateMaxPower } from '@/lib/formulas';
 import type { StepperDefinition, Watts } from '@/lib/stepper';
 import { atom } from 'jotai';
+import type z from 'zod/v4';
 
 type SetStateAction<T> = T | ((prev: T) => T);
 
@@ -28,17 +31,20 @@ export const showImportWarningAtom = atom<boolean>(false);
 /** Ids (`brand|model`) referenced by an imported link that could not be resolved */
 export const unresolvedImportedSteppersAtom = atom<string[]>([]);
 
-function atomWithLocalStorage<T>(key: string, initialValue: T) {
+function atomWithLocalStorage<T>(key: string, initialValue: T, schema?: z.ZodType<T>) {
 	const getInitialValue = () => {
 		const item = localStorage.getItem(key);
-		if (item !== null) {
-			const parsed = JSON.parse(item) as T;
-			if (typeof initialValue === 'object' && initialValue !== null && !Array.isArray(initialValue)) {
-				return { ...initialValue, ...parsed };
-			}
-			return parsed;
+		if (item === null) return initialValue;
+
+		const parsed: unknown = JSON.parse(item);
+		if (schema) {
+			const result = schema.safeParse(parsed);
+			return result.success ? result.data : initialValue;
 		}
-		return initialValue;
+		if (typeof initialValue === 'object' && initialValue !== null && !Array.isArray(initialValue)) {
+			return { ...initialValue, ...(parsed as T) };
+		}
+		return parsed as T;
 	};
 	const baseAtom = atom(getInitialValue());
 	const derivedAtom = atom(
@@ -63,8 +69,16 @@ export const filtersCollapsedAtom = atomWithLocalStorage<boolean>('filtersCollap
 // Persisted layer: private on purpose. Components must use the `current*` atoms so
 // imported (shared-link) configs are respected
 const debugAtom = atomWithLocalStorage<boolean>('debug', DEFAULT_DEBUG);
-const driveSettingsAtom = atomWithLocalStorage<DriveSettings>('driveSettings', DEFAULT_DRIVE_SETTINGS);
-const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>('gantrySettings', DEFAULT_GANTRY_SETTINGS);
+const driveSettingsAtom = atomWithLocalStorage<DriveSettings>(
+	'driveSettings',
+	DEFAULT_DRIVE_SETTINGS,
+	DriveSettingsSchema
+);
+const gantrySettingsAtom = atomWithLocalStorage<GantrySettings>(
+	'gantrySettings',
+	DEFAULT_GANTRY_SETTINGS,
+	GantrySettingsSchema
+);
 const rawCustomSteppersAtom = atomWithLocalStorage<StepperDefinition[]>('customSteppers', []);
 const customSteppersAtom = atom(
 	(get) => {

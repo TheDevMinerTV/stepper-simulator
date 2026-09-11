@@ -1,14 +1,15 @@
-import type { CurrentUnit } from '@/lib/current-unit';
-import type { MotorModel } from '@/lib/formulas';
-import type {
+import { CurrentUnit } from '@/lib/current-unit';
+import type { MotorModel as MotorModelName } from '@/lib/formulas';
+import {
 	Ampere,
 	Grams,
 	MillimetersPerSecondSquared,
 	NewtonCentimeter,
 	Percent,
-	StepperDefinition,
+	type StepperDefinition,
 	Volts
 } from '@/lib/stepper';
+import z from 'zod/v4';
 
 /**
  * The configuration shape and its defaults, kept free of anything browser-only.
@@ -17,6 +18,8 @@ import type {
  * as well (share-link decoding, the OpenGraph renderer) imports from here instead.
  */
 
+export const MotorModel = z.enum(['classic', 'spreadCycle', 'fieldWeakening']) satisfies z.ZodType<MotorModelName>;
+
 export type DriveSettings = {
 	inputVoltage: Volts;
 	/** stored in peak current */
@@ -24,7 +27,7 @@ export type DriveSettings = {
 	/** just how it's displayed */
 	currentUnit: CurrentUnit;
 	maxDrivePercent: Percent;
-	motorModel: MotorModel;
+	motorModel: MotorModelName;
 };
 
 export type GantrySettings = {
@@ -64,3 +67,21 @@ export const DEFAULT_GANTRY_SETTINGS: GantrySettings = {
 	toolheadAndYAxisMass: 500 as Grams,
 	manualRequiredTorque: null
 };
+
+export const DriveSettingsSchema = z.object({
+	inputVoltage: Volts.catch(DEFAULT_DRIVE_SETTINGS.inputVoltage),
+	maxDriveCurrent: Ampere.catch(DEFAULT_DRIVE_SETTINGS.maxDriveCurrent),
+	currentUnit: CurrentUnit.catch(DEFAULT_DRIVE_SETTINGS.currentUnit),
+	maxDrivePercent: Percent.catch(DEFAULT_DRIVE_SETTINGS.maxDrivePercent),
+	motorModel: MotorModel.catch(DEFAULT_DRIVE_SETTINGS.motorModel)
+}) satisfies z.ZodType<DriveSettings>;
+
+export const GantrySettingsSchema = z.object({
+	pulleyTeeth: z.number().catch(DEFAULT_GANTRY_SETTINGS.pulleyTeeth),
+	toothPitch: z.number().catch(DEFAULT_GANTRY_SETTINGS.toothPitch),
+	gearA: z.number().catch(DEFAULT_GANTRY_SETTINGS.gearA),
+	gearB: z.number().catch(DEFAULT_GANTRY_SETTINGS.gearB),
+	acceleration: MillimetersPerSecondSquared.catch(DEFAULT_GANTRY_SETTINGS.acceleration),
+	toolheadAndYAxisMass: Grams.catch(DEFAULT_GANTRY_SETTINGS.toolheadAndYAxisMass),
+	manualRequiredTorque: NewtonCentimeter.nullable().catch(DEFAULT_GANTRY_SETTINGS.manualRequiredTorque)
+}) satisfies z.ZodType<GantrySettings>;

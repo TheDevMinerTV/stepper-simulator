@@ -5,8 +5,10 @@ import {
 	DEFAULT_GANTRY_SETTINGS,
 	type DriveSettings,
 	type GantrySettings,
+	MotorModel,
 	type ShareableConfiguration
 } from '@/lib/configuration';
+import { CurrentUnit } from '@/lib/current-unit';
 import { z } from 'zod/v4';
 import {
 	Ampere,
@@ -30,9 +32,6 @@ import {
  * `ShareableConfiguration` JSON, with no version marker.
  */
 export const SHARE_FORMAT_VERSION = 1;
-
-const MotorModel = z.enum(['classic', 'spreadCycle', 'fieldWeakening']);
-const CurrentUnit = z.enum(['peak', 'rms']);
 
 const LegacyShareableConfigurationSchema = z.object({
 	driveSettings: z.object({
