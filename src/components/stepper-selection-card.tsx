@@ -174,7 +174,10 @@ export function StepperSelectionCard() {
 						<Button
 							type="button"
 							variant="secondary"
-							className={cn('rounded-r-none p-2 transition-colors', viewMode === 'cards' && 'bg-white/30 hover:bg-white/20')}
+							className={cn(
+								'rounded-r-none p-2 transition-colors',
+								viewMode === 'cards' && 'bg-white/30 hover:bg-white/20'
+							)}
 							onClick={(e) => {
 								e.preventDefault();
 								setViewMode('cards');
@@ -185,7 +188,10 @@ export function StepperSelectionCard() {
 						<Button
 							type="button"
 							variant="secondary"
-							className={cn('rounded-l-none p-2 transition-colors', viewMode === 'table' && 'bg-white/30 hover:bg-white/20')}
+							className={cn(
+								'rounded-l-none p-2 transition-colors',
+								viewMode === 'table' && 'bg-white/30 hover:bg-white/20'
+							)}
 							onClick={(e) => {
 								e.preventDefault();
 								setViewMode('table');
