@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { NumberInput } from '@/components/ui/number-input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
@@ -278,13 +279,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="bodyLength">Body Length (mm)</Label>
-							<Input
+							<NumberInput
 								id="bodyLength"
-								type="number"
 								step="0.1"
 								min="0"
 								value={formData.bodyLength}
-								onChange={(e) => setFormData({ ...formData, bodyLength: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, bodyLength: v as number })}
 								className={errors.bodyLength ? 'border-red-500' : ''}
 							/>
 							{errors.bodyLength && <span className="text-sm text-red-500">{errors.bodyLength}</span>}
@@ -292,13 +292,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="stepAngle">Step Angle (°)</Label>
-							<Input
+							<NumberInput
 								id="stepAngle"
-								type="number"
 								step="0.1"
 								min="0"
 								value={formData.stepAngle}
-								onChange={(e) => setFormData({ ...formData, stepAngle: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, stepAngle: v as number })}
 								className={errors.stepAngle ? 'border-red-500' : ''}
 							/>
 							{errors.stepAngle && <span className="text-sm text-red-500">{errors.stepAngle}</span>}
@@ -306,13 +305,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="ratedCurrent">Rated Current (A, peak per phase)</Label>
-							<Input
+							<NumberInput
 								id="ratedCurrent"
-								type="number"
 								step="0.01"
 								min="0"
 								value={formData.ratedCurrent}
-								onChange={(e) => setFormData({ ...formData, ratedCurrent: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, ratedCurrent: v as number })}
 								className={errors.ratedCurrent ? 'border-red-500' : ''}
 							/>
 							{errors.ratedCurrent && <span className="text-sm text-red-500">{errors.ratedCurrent}</span>}
@@ -320,13 +318,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="torque">Torque (Ncm)</Label>
-							<Input
+							<NumberInput
 								id="torque"
-								type="number"
 								step="0.1"
 								min="0"
 								value={formData.torque}
-								onChange={(e) => setFormData({ ...formData, torque: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, torque: v as number })}
 								className={errors.torque ? 'border-red-500' : ''}
 							/>
 							{errors.torque && <span className="text-sm text-red-500">{errors.torque}</span>}
@@ -334,13 +331,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="inductance">Inductance (mH)</Label>
-							<Input
+							<NumberInput
 								id="inductance"
-								type="number"
 								step="0.1"
 								min="0"
 								value={formData.inductance}
-								onChange={(e) => setFormData({ ...formData, inductance: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, inductance: v as number })}
 								className={errors.inductance ? 'border-red-500' : ''}
 							/>
 							{errors.inductance && <span className="text-sm text-red-500">{errors.inductance}</span>}
@@ -348,13 +344,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="resistance">Resistance (Ω)</Label>
-							<Input
+							<NumberInput
 								id="resistance"
-								type="number"
 								step="0.01"
 								min="0"
 								value={formData.resistance}
-								onChange={(e) => setFormData({ ...formData, resistance: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, resistance: v as number })}
 								className={errors.resistance ? 'border-red-500' : ''}
 							/>
 							{errors.resistance && <span className="text-sm text-red-500">{errors.resistance}</span>}
@@ -362,13 +357,12 @@ export function CustomStepperModal() {
 
 						<div className="space-y-2">
 							<Label htmlFor="rotorInertia">Rotor Inertia (gcm²)</Label>
-							<Input
+							<NumberInput
 								id="rotorInertia"
-								type="number"
 								step="0.1"
 								min="0"
 								value={formData.rotorInertia}
-								onChange={(e) => setFormData({ ...formData, rotorInertia: e.target.valueAsNumber })}
+								onValueChange={(v) => setFormData({ ...formData, rotorInertia: v as number })}
 								className={errors.rotorInertia ? 'border-red-500' : ''}
 							/>
 							{errors.rotorInertia && <span className="text-sm text-red-500">{errors.rotorInertia}</span>}

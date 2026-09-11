@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Input } from '@/components/ui/input';
+import { NumberInput } from '@/components/ui/number-input';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { calculateRequiredTorque } from '@/lib/formulas';
 import {
@@ -75,16 +75,13 @@ export function Graph() {
 						<ToggleGroupItem value="mm/s">mm/s</ToggleGroupItem>
 						<ToggleGroupItem value="rpm">RPM</ToggleGroupItem>
 					</ToggleGroup>
-					<Input
-						type="number"
+					<NumberInput
 						value={Number.isFinite(displayedMax) ? Math.round(displayedMax) : 0}
 						className="w-24"
 						step={100}
-						onChange={(e) => {
-							const v = e.target.valueAsNumber;
-							if (Number.isNaN(v)) return;
-							setManualMaxVelocity(unit === 'rpm' ? rpmToMms(v) : v);
-						}}
+						onValueChange={(v) =>
+							setManualMaxVelocity(unit === 'rpm' ? rpmToMms(v as number) : (v as number))
+						}
 					/>
 					<span>{unit}</span>
 				</div>

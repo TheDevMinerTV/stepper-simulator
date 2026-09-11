@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { NumberInput } from '@/components/ui/number-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -38,17 +38,11 @@ export function DriveSettings() {
 					<div className="size-5">
 						<PlugIcon className="w-5 h-5" />
 					</div>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Input Voltage"
 						min={8}
 						value={driveSettings.inputVoltage}
-						onChange={(e) =>
-							setDriveSettings({
-								...driveSettings,
-								inputVoltage: e.target.valueAsNumber as Volts
-							})
-						}
+						onValueChange={(v) => setDriveSettings({ ...driveSettings, inputVoltage: v as Volts })}
 					/>
 					<span>V</span>
 				</div>
@@ -57,17 +51,16 @@ export function DriveSettings() {
 						<div className="size-5">
 							<ZapIcon className="w-5 h-5" />
 						</div>
-						<Input
-							type="number"
+						<NumberInput
 							placeholder={`Max Drive Current (${CURRENT_UNIT_LABEL[currentUnit]}, per phase)`}
 							min={0}
 							max={5}
 							step="any"
 							value={formatCurrent(peakToUnit(driveSettings.maxDriveCurrent, currentUnit))}
-							onChange={(e) =>
+							onValueChange={(v) =>
 								setDriveSettings({
 									...driveSettings,
-									maxDriveCurrent: unitToPeak(e.target.valueAsNumber as Ampere, currentUnit)
+									maxDriveCurrent: unitToPeak(v as Ampere, currentUnit)
 								})
 							}
 						/>
@@ -97,18 +90,12 @@ export function DriveSettings() {
 					<div className="size-5">
 						<PercentIcon className="w-5 h-5" />
 					</div>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Max Drive Percent"
 						value={driveSettings.maxDrivePercent}
 						min={0}
 						max={100}
-						onChange={(e) =>
-							setDriveSettings({
-								...driveSettings,
-								maxDrivePercent: e.target.valueAsNumber as Percent
-							})
-						}
+						onValueChange={(v) => setDriveSettings({ ...driveSettings, maxDrivePercent: v as Percent })}
 					/>
 					<span>%</span>
 				</div>
@@ -177,16 +164,10 @@ export function GantrySettings() {
 			</CardHeader>
 			<CardContent className="space-y-2">
 				<div className="flex w-full max-w-sm items-center gap-2">
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Pulley Teeth"
 						value={gantrySettings.pulleyTeeth}
-						onChange={(e) =>
-							setGantrySettings({
-								...gantrySettings,
-								pulleyTeeth: e.target.valueAsNumber
-							})
-						}
+						onValueChange={(v) => setGantrySettings({ ...gantrySettings, pulleyTeeth: v as number })}
 					/>
 					<span>Teeth</span>
 				</div>
@@ -214,45 +195,29 @@ export function GantrySettings() {
 					<div className="size-5">
 						<CogIcon className="w-5 h-5" />
 					</div>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Gear A"
 						value={gantrySettings.gearA}
 						min={1}
-						onChange={(e) =>
-							setGantrySettings({
-								...gantrySettings,
-								gearA: e.target.valueAsNumber
-							})
-						}
+						onValueChange={(v) => setGantrySettings({ ...gantrySettings, gearA: v as number })}
 					/>
 					<span>:</span>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Gear B"
 						value={gantrySettings.gearB}
 						min={1}
-						onChange={(e) =>
-							setGantrySettings({
-								...gantrySettings,
-								gearB: e.target.valueAsNumber
-							})
-						}
+						onValueChange={(v) => setGantrySettings({ ...gantrySettings, gearB: v as number })}
 					/>
 				</div>
 				<div className="flex w-full max-w-sm items-center gap-2">
 					<div className="size-5">
 						<ArrowRightFromLineIcon className="w-5 h-5" />
 					</div>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Acceleration"
 						value={gantrySettings.acceleration}
-						onChange={(e) =>
-							setGantrySettings({
-								...gantrySettings,
-								acceleration: e.target.valueAsNumber as MillimetersPerSecondSquared
-							})
+						onValueChange={(v) =>
+							setGantrySettings({ ...gantrySettings, acceleration: v as MillimetersPerSecondSquared })
 						}
 					/>
 					<span>mm/s²</span>
@@ -261,15 +226,11 @@ export function GantrySettings() {
 					<div className="size-5">
 						<WeightIcon className="w-5 h-5" />
 					</div>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Toolhead and Y Axis Mass"
 						value={gantrySettings.toolheadAndYAxisMass}
-						onChange={(e) =>
-							setGantrySettings({
-								...gantrySettings,
-								toolheadAndYAxisMass: e.target.valueAsNumber as Grams
-							})
+						onValueChange={(v) =>
+							setGantrySettings({ ...gantrySettings, toolheadAndYAxisMass: v as Grams })
 						}
 					/>
 					<span>g</span>
@@ -278,18 +239,14 @@ export function GantrySettings() {
 					<div className="size-5">
 						<GaugeIcon className="w-5 h-5" />
 					</div>
-					<Input
-						type="number"
+					<NumberInput
 						placeholder="Required Torque (auto)"
 						min={0}
-						value={gantrySettings.manualRequiredTorque ?? ''}
-						onChange={(e) => {
-							const v = e.target.valueAsNumber;
-							setGantrySettings({
-								...gantrySettings,
-								manualRequiredTorque: Number.isFinite(v) ? (v as NewtonCentimeter) : null
-							});
-						}}
+						allowEmpty
+						value={gantrySettings.manualRequiredTorque}
+						onValueChange={(v) =>
+							setGantrySettings({ ...gantrySettings, manualRequiredTorque: v as NewtonCentimeter | null })
+						}
 					/>
 					<span>Ncm</span>
 				</div>
