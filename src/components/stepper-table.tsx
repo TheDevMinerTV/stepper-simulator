@@ -16,6 +16,7 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { trackStepperSelected } from '@/lib/analytics';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { steppersAtom } from '@/state/atoms';
 import { useAtom } from 'jotai';
@@ -204,7 +205,11 @@ export function StepperTable({ steppers }: { steppers: Map<string, Map<string, S
 			const newSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
 			setRowSelection(newSelection);
 			const selectedRows = table.getRowModel().rows.filter((row) => newSelection[row.id]);
-			setSelectedSteppers(selectedRows.map((row) => row.original));
+			const next = selectedRows.map((row) => row.original);
+			for (const stepper of next) {
+				if (!selectedSteppers.includes(stepper)) trackStepperSelected(stepper, 'table');
+			}
+			setSelectedSteppers(next);
 		},
 		onPaginationChange: setPagination,
 		state: {

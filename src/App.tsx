@@ -6,6 +6,7 @@ import { ShareConfigButton } from '@/components/share-config';
 import { StepperSpecsCard } from '@/components/specs';
 import { StepperSelection } from '@/components/stepper-management';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { track } from '@/lib/analytics';
 import { clearUrlConfig, parseConfigFromUrl } from '@/lib/share-url';
 import type { StepperDefinition } from '@/lib/stepper';
 import { loadImportedConfigurationAtom, steppersAtom, unresolvedImportedSteppersAtom } from '@/state/atoms';
@@ -23,6 +24,10 @@ export function App() {
 			loadImportedConfig(imported.config);
 			setUnresolvedSteppers(imported.unresolvedSteppers);
 			clearUrlConfig();
+			track('Shared Config Opened', {
+				steppers: imported.config.selectedSteppers.length,
+				unresolved: imported.unresolvedSteppers.length
+			});
 		}
 	}, [loadImportedConfig, setUnresolvedSteppers]);
 

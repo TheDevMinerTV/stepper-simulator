@@ -7,6 +7,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { track } from '@/lib/analytics';
 import type {
 	Ampere,
 	Degree,
@@ -82,6 +83,7 @@ export function ContributeSteppersButton() {
 
 		try {
 			const csvData = convertSteppersToCSV(customSteppers);
+			track('Contribute Clicked', { steppers: customSteppers.length });
 
 			await navigator.clipboard.writeText(csvData);
 
@@ -165,6 +167,7 @@ export function CustomStepperModal() {
 		};
 
 		setCustomSteppers((previous: StepperDefinition[]) => [...previous, customStepper]);
+		track('Custom Stepper Created');
 
 		// Reset form and close modal
 		setFormData({

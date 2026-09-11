@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { track } from '@/lib/analytics';
 import { buildShareUrl } from '@/lib/share-url';
 import { getCurrentConfigurationAtom } from '@/state/atoms';
 import { useAtomValue } from 'jotai';
@@ -13,6 +14,7 @@ export function ShareConfigButton() {
 		const shareUrl = buildShareUrl(currentConfig);
 
 		await navigator.clipboard.writeText(shareUrl);
+		track('Config Shared', { steppers: currentConfig.selectedSteppers.length });
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
 	};

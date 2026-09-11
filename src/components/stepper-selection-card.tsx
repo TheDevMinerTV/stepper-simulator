@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.t
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input.tsx';
 import { Switch } from '@/components/ui/switch.tsx';
+import { track, trackStepperSelected } from '@/lib/analytics.ts';
 import { STEPPER_DB } from '@/lib/stepper-db.ts';
 import type { StepperDefinition } from '@/lib/stepper.ts';
 import { cn } from '@/lib/utils.ts';
@@ -181,6 +182,7 @@ export function StepperSelectionCard() {
 							onClick={(e) => {
 								e.preventDefault();
 								setViewMode('cards');
+								track('View Mode Changed', { mode: 'cards' });
 							}}
 						>
 							<IdCardIcon />
@@ -195,6 +197,7 @@ export function StepperSelectionCard() {
 							onClick={(e) => {
 								e.preventDefault();
 								setViewMode('table');
+								track('View Mode Changed', { mode: 'table' });
 							}}
 						>
 							<Table2Icon />
@@ -248,6 +251,7 @@ function ToggleableStepperSpec({ stepper }: { stepper: StepperDefinition }) {
 				setSteppers((previous) =>
 					isEnabled ? previous.filter((s) => s.model !== stepper.model) : [...previous, stepper]
 				);
+				if (!isEnabled) trackStepperSelected(stepper, 'cards');
 			}}
 		>
 			<Card

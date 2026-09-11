@@ -3,6 +3,7 @@ import { NumberInput } from '@/components/ui/number-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { track } from '@/lib/analytics';
 import { CURRENT_UNIT_LABEL, type CurrentUnit, formatCurrent, peakToUnit, unitToPeak } from '@/lib/current-unit';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
 import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
@@ -72,6 +73,7 @@ export function DriveSettings() {
 							onValueChange={(value) => {
 								if (value === 'peak' || value === 'rms') {
 									setDriveSettings({ ...driveSettings, currentUnit: value satisfies CurrentUnit });
+									track('Current Unit Changed', { unit: value });
 								}
 							}}
 						>
@@ -116,6 +118,7 @@ export function DriveSettings() {
 									...driveSettings,
 									motorModel: value satisfies MotorModel
 								});
+								track('Motor Model Changed', { model: value });
 							}
 						}}
 					>

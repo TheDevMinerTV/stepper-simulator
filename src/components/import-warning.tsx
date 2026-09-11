@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { track } from '@/lib/analytics';
 import { saveImportedConfigurationAtom, showImportWarningAtom, unresolvedImportedSteppersAtom } from '@/state/atoms';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { SaveIcon, XIcon } from 'lucide-react';
@@ -15,6 +16,7 @@ export function ImportWarning() {
 
 	const handleSave = () => {
 		saveConfiguration();
+		track('Shared Config Saved');
 	};
 
 	const handleDismiss = () => {
