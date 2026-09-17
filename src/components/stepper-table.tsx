@@ -1,15 +1,23 @@
 import {
+	columnFilteringFeature,
+	columnVisibilityFeature,
+	createFilteredRowModel,
+	createPaginatedRowModel,
+	createSortedRowModel,
+	flexRender,
+	rowPaginationFeature,
+	rowSelectionFeature,
+	rowSortingFeature,
+	sortFn_alphanumeric,
+	sortFn_basic,
+	sortFn_text,
+	tableFeatures,
 	type ColumnDef,
 	type ColumnFiltersState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
 	type PaginationState,
 	type RowSelectionState,
 	type SortingState,
-	useReactTable
+	useTable
 } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 
@@ -22,7 +30,19 @@ import { steppersAtom } from '@/state/atoms';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo, useState } from 'react';
 
-export const columns: ColumnDef<StepperDefinition>[] = [
+const features = tableFeatures({
+	columnFilteringFeature,
+	columnVisibilityFeature,
+	rowPaginationFeature,
+	rowSelectionFeature,
+	rowSortingFeature,
+	filteredRowModel: createFilteredRowModel(),
+	paginatedRowModel: createPaginatedRowModel(),
+	sortedRowModel: createSortedRowModel(),
+	sortFns: { alphanumeric: sortFn_alphanumeric, basic: sortFn_basic, text: sortFn_text }
+});
+
+export const columns: ColumnDef<typeof features, StepperDefinition>[] = [
 	{
 		id: 'select',
 		header: ({ table }) => (
@@ -192,15 +212,12 @@ export function StepperTable({ steppers }: { steppers: Map<string, Map<string, S
 		pageSize: data.length
 	});
 
-	const table = useReactTable({
+	const table = useTable({
+		features,
 		data,
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
 		onRowSelectionChange: (updater) => {
 			const newSelection = typeof updater === 'function' ? updater(rowSelection) : updater;
 			setRowSelection(newSelection);
