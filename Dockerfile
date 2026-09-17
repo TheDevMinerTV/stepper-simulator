@@ -13,6 +13,9 @@ RUN pnpm data:update-stepper-db
 
 ARG VITE_BASE_URL=https://stepper-sim.devminer.xyz
 ENV VITE_BASE_URL=$VITE_BASE_URL
+# Plausible site name for usage tracking; build with an empty value to ship without analytics
+ARG VITE_PLAUSIBLE_DOMAIN=
+ENV VITE_PLAUSIBLE_DOMAIN=$VITE_PLAUSIBLE_DOMAIN
 RUN pnpm build
 
 ####
@@ -32,6 +35,8 @@ ARG VITE_BASE_URL=https://stepper-sim.devminer.xyz
 # the one the request arrives with
 ENV PUBLIC_BASE_URL=$VITE_BASE_URL
 ENV OG_FONT_FAMILY="DejaVu Sans"
+# Plausible instance that /api/event relays to, empty to disable
+ENV PLAUSIBLE_HOST=
 ENV NODE_ENV=production
 ENV PORT=3000
 
