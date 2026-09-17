@@ -9,17 +9,33 @@ KeliMotor	BJY36D12-04V28	14	20,5	1,8	1,2	10	1,2	2,0	17	Preinstalled Involute 10T
 KeliMotor	BJY36D12-04V01	14	20,5	1,8	1	11	1,3	2,0	17	Bambulab X1/P1 extruder; 9T helical gear
 KeliMotor	BJY36d13-01V01	14	20	1.8	1,0	19	3.4	3.2	11	12T pinion gear; Creality K1 series extruder; https://s3.devminer.xyz/archive/Creativity_BJY36d13-01V01.webp
 KeliMotor	BJ42D29-100V02	17	48	1,8	2,0	45	1,9	1,1	76	Bambulab X1/P1 A/B; https://s3.devminer.xyz/archive/BJ42D29-100V02%20drawing.pdf
-KeliMotor	BJ42D22-23V47	17	40	1,8	1,0	37	6,9	2,8	57	Bambulab X1/P1 Z; https://s3.devminer.xyz/archive/BJ42D22-24V47%20drawing.pdf
+KeliMotor	BJ42D22-23V47	17	40	1,8	1,0	37	6,9	2,8	57	Bambulab X1/P1 Z; https://s3.devminer.xyz/archive/BJ42D22-23V47%20drawing.pdf
+KeliMotor	BJ42D22-44V16	17	40	1,8	1,0	40	8	3,6	57	Renamed from BJ42D22-23V16; Creality Ender 5 Pro X/Y/E (reported); Preinstalled 40T straight-knurled gear; https://s3.devminer.xyz/archive/KeliMotor_BJ42D22-44V16.pdf
 KeliMotor	BJ42D29-28V17	17	48	1,8	1,5	41	2,6	1,4	76	QIDI Plus 4 A/B; Preinstalled with GT1.5 pulley
 KeliMotor	BJY36D15-01V01	14	20,5	1,8	1	22	5	4,3	31	
 KeliMotor	BJ42D15-26V02	17	34	1,8	0,84	28	8.8	6	38	https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V02%20drawing.pdf
-KeliMotor	BJ42D15-26V09	17	34	1,8	0,84	38	8.8	6	38	Apparently identical to BJ42D16-26V09; https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V09.png
+KeliMotor	BJ42D15-26V09	17	34	1,8	0,84	28	8.8	6	38	Apparently identical to BJ42D16-26V09; Preinstalled with GT2 20T pulley; https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V09.pdf
 KeliMotor	BJ42D15-26V10	17	34	1,8	0,84	28	8.8	6	38	Preinstalled with GT2 pulley; https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V10.pdf
-KeliMotor	BJ42D15-26V12	17	34	1,8	0,84	38	8,8	6	38	Ender 3 S1 (and more, probably)
+KeliMotor	BJ42D15-26V12	17	34	1,8	0,84	28	8,8	6	38	Ender 3 S1 (and more, probably); https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V12.pdf
 KeliMotor	BJ42D16-26V09	17	34	1,8	0,84	38	8.8	6	57	Apparently identical to BJ42D15-26V09
-KeliMotor	BJ42D09-20V02	17	26	1,8	0,84	15	3	1,75	30	Creality Sprite Extruder
+KeliMotor	BJ42D09-20V02	17	26	1,8	0,84	15	3	1,75	30	Creality Sprite Extruder; https://s3.devminer.xyz/archive/KeliMotor_BJ42D09-20V02.png
 KeliMotor	BJ42D29-76V01	17	48	1,8	4	56	0,7	0,4	76	FLSun T1 Pro A/B/C; Preinstalled with GT2 30T pulley; https://s3.devminer.xyz/archive/BJ42D29-76V01%20Drawing.pdf
 KeliMotor	BJY36D12-04V24	14	20	1,8	1,2	10	1,2	2	17	Snapmaker U1 Extruder;9T Helical Gear;https://s3.devminer.xyz/archive/BJY36D12-04V24-drawing.pdf
+KeliMotor	BJ42D09-02V02	17	25	1,8	0,4	20	31	25	20	Scanner HB BJ42D series; https://s3.devminer.xyz/archive/KeliMotor_Scanner-HB-BJ42D-series.pdf
+KeliMotor	BJ42D09-07V05	17	25	1,8	0,6	20	14	12	30	Scanner HB BJ42D series; https://s3.devminer.xyz/archive/KeliMotor_Scanner-HB-BJ42D-series.pdf
+KeliMotor	BJ42D15-Y1V01	17	33	1,8	0,4	34	51	30	38	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D15-Y2V01	17	33	1,8	0,6	25	15	8	35	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D15-Y3V01	17	33	1,8	1	21	6,4	4,5	35	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D15-Y4V01	17	33	1,8	1,5	21	1,4	1,4	35	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D22-Y1V01	17	40	1,8	0,6	40	20	9,6	54	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D22-Y2V01	17	40	1,8	1	40	7,9	4	54	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D22-Y3V01	17	40	1,8	1,5	40	4,3	2,3	54	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D22-Y4V01	17	40	1,8	2	40	2	1,06	54	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D29-Y1V01	17	47	1,8	0,6	48	28	12	77	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D29-Y2V01	17	47	1,8	1,5	60	4,5	2,2	72	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D29-Y3V01	17	47	1,8	2	48	2,9	1,35	77	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D29-Y4V01	17	47	1,8	2,5	60	1,6	0,9	72	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
+KeliMotor	BJ42D41-Y1V01	17	59	1,8	0,6	72	37,4	15,5	110	Printer HB BJ42D series; bipolar; https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf
 Creativity	BJ42D29-100V02	14	20	1,8	1	12	1	2,3	16	Bambulab X1/P1 extruder replacement; 9T helical gear; most motors with four screws in the front plate appear to be this model
 Twotrees	36STH20-1004HG	14	22	1.8	1,0	10	1.6	2.1	16	Sketchy motor sold for VORONS with similar P/N to LDO 36STH20-1004(A/HG)
 ACT	17HS5425	17	48	1,8	2,5	48	1,9	1,2	68	Seem to be clones/rebadges of Wantai 42BYGHW811
@@ -121,6 +137,8 @@ Cloudray	17CS01A-100	17	34	1,8	1	15	1,89	1,28	41
 Cloudray	17CS05A-180E	17	48	1,8	1,8	52	5,8	2,4	82
 JKongMotor	JK42HS40-1004-02F	17	40	1,8	1	42	8,9	3,9	54
 JKongMotor	JK42HS40-1704	17	40	1,8	1,7	42	2,3	1,5	54
+JKongMotor	JK42HS40-1004AC	17	40	1,8	1	39,2	8,9	3,9	54	4.0 kg-cm holding torque; 4 leads; https://s3.devminer.xyz/archive/JKongMotor_JK42HS40-1004AC.pdf
+JKongMotor	JK42HS34-0844YA-01	17	34	1,8	0,84	27,5	9,3	5,75	34	2.8 kg-cm holding torque; 4 leads; https://s3.devminer.xyz/archive/JKongMotor_JK42HS34-0844YA-01.pdf
 Noname	B0459	17	47	1,8	2	56	1,9	1,3	82
 Hanpose	17HS8401	17	48	1,8	1,8	52	3,2	1,8	68
 G-Penny	42HS4825A4	17	48	1,8	2,5	50	1,8	1,6	68

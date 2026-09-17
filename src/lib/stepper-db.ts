@@ -202,7 +202,28 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 6.9 as MilliHenry,
 					resistance: 2.8 as Ohm,
 					rotorInertia: 57 as GramSquareCentimeter,
-					comments: ['Bambulab X1/P1 Z', 'https://s3.devminer.xyz/archive/BJ42D22-24V47%20drawing.pdf']
+					comments: ['Bambulab X1/P1 Z', 'https://s3.devminer.xyz/archive/BJ42D22-23V47%20drawing.pdf']
+				}
+			],
+			[
+				'BJ42D22-44V16',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-44V16',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 8 as MilliHenry,
+					resistance: 3.6 as Ohm,
+					rotorInertia: 57 as GramSquareCentimeter,
+					comments: [
+						'Renamed from BJ42D22-23V16',
+						'Creality Ender 5 Pro X/Y/E (reported)',
+						'Preinstalled 40T straight-knurled gear',
+						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D22-44V16.pdf'
+					]
 				}
 			],
 			[
@@ -262,13 +283,14 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					bodyLength: 34 as Millimeter,
 					stepAngle: 1.8 as Degree,
 					ratedCurrent: 0.84 as Ampere,
-					torque: 38 as NewtonCentimeter,
+					torque: 28 as NewtonCentimeter,
 					inductance: 8.8 as MilliHenry,
 					resistance: 6 as Ohm,
 					rotorInertia: 38 as GramSquareCentimeter,
 					comments: [
 						'Apparently identical to BJ42D16-26V09',
-						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V09.png'
+						'Preinstalled with GT2 20T pulley',
+						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V09.pdf'
 					]
 				}
 			],
@@ -300,11 +322,14 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					bodyLength: 34 as Millimeter,
 					stepAngle: 1.8 as Degree,
 					ratedCurrent: 0.84 as Ampere,
-					torque: 38 as NewtonCentimeter,
+					torque: 28 as NewtonCentimeter,
 					inductance: 8.8 as MilliHenry,
 					resistance: 6 as Ohm,
 					rotorInertia: 38 as GramSquareCentimeter,
-					comments: ['Ender 3 S1 (and more, probably)']
+					comments: [
+						'Ender 3 S1 (and more, probably)',
+						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D15-26V12.pdf'
+					]
 				}
 			],
 			[
@@ -336,7 +361,10 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 3 as MilliHenry,
 					resistance: 1.75 as Ohm,
 					rotorInertia: 30 as GramSquareCentimeter,
-					comments: ['Creality Sprite Extruder']
+					comments: [
+						'Creality Sprite Extruder',
+						'https://s3.devminer.xyz/archive/KeliMotor_BJ42D09-20V02.png'
+					]
 				}
 			],
 			[
@@ -376,6 +404,304 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 						'Snapmaker U1 Extruder',
 						'9T Helical Gear',
 						'https://s3.devminer.xyz/archive/BJY36D12-04V24-drawing.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D09-02V02',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D09-02V02',
+					nemaSize: 17,
+					bodyLength: 25 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.4 as Ampere,
+					torque: 20 as NewtonCentimeter,
+					inductance: 31 as MilliHenry,
+					resistance: 25 as Ohm,
+					rotorInertia: 20 as GramSquareCentimeter,
+					comments: [
+						'Scanner HB BJ42D series',
+						'https://s3.devminer.xyz/archive/KeliMotor_Scanner-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D09-07V05',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D09-07V05',
+					nemaSize: 17,
+					bodyLength: 25 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.6 as Ampere,
+					torque: 20 as NewtonCentimeter,
+					inductance: 14 as MilliHenry,
+					resistance: 12 as Ohm,
+					rotorInertia: 30 as GramSquareCentimeter,
+					comments: [
+						'Scanner HB BJ42D series',
+						'https://s3.devminer.xyz/archive/KeliMotor_Scanner-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D15-Y1V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-Y1V01',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.4 as Ampere,
+					torque: 34 as NewtonCentimeter,
+					inductance: 51 as MilliHenry,
+					resistance: 30 as Ohm,
+					rotorInertia: 38 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D15-Y2V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-Y2V01',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.6 as Ampere,
+					torque: 25 as NewtonCentimeter,
+					inductance: 15 as MilliHenry,
+					resistance: 8 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D15-Y3V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-Y3V01',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 21 as NewtonCentimeter,
+					inductance: 6.4 as MilliHenry,
+					resistance: 4.5 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D15-Y4V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D15-Y4V01',
+					nemaSize: 17,
+					bodyLength: 33 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 21 as NewtonCentimeter,
+					inductance: 1.4 as MilliHenry,
+					resistance: 1.4 as Ohm,
+					rotorInertia: 35 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D22-Y1V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-Y1V01',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.6 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 20 as MilliHenry,
+					resistance: 9.6 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D22-Y2V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-Y2V01',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 7.9 as MilliHenry,
+					resistance: 4 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D22-Y3V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-Y3V01',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 4.3 as MilliHenry,
+					resistance: 2.3 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D22-Y4V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D22-Y4V01',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 40 as NewtonCentimeter,
+					inductance: 2 as MilliHenry,
+					resistance: 1.06 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D29-Y1V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D29-Y1V01',
+					nemaSize: 17,
+					bodyLength: 47 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.6 as Ampere,
+					torque: 48 as NewtonCentimeter,
+					inductance: 28 as MilliHenry,
+					resistance: 12 as Ohm,
+					rotorInertia: 77 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D29-Y2V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D29-Y2V01',
+					nemaSize: 17,
+					bodyLength: 47 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1.5 as Ampere,
+					torque: 60 as NewtonCentimeter,
+					inductance: 4.5 as MilliHenry,
+					resistance: 2.2 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D29-Y3V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D29-Y3V01',
+					nemaSize: 17,
+					bodyLength: 47 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2 as Ampere,
+					torque: 48 as NewtonCentimeter,
+					inductance: 2.9 as MilliHenry,
+					resistance: 1.35 as Ohm,
+					rotorInertia: 77 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D29-Y4V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D29-Y4V01',
+					nemaSize: 17,
+					bodyLength: 47 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 2.5 as Ampere,
+					torque: 60 as NewtonCentimeter,
+					inductance: 1.6 as MilliHenry,
+					resistance: 0.9 as Ohm,
+					rotorInertia: 72 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
+					]
+				}
+			],
+			[
+				'BJ42D41-Y1V01',
+				{
+					brand: 'KeliMotor',
+					model: 'BJ42D41-Y1V01',
+					nemaSize: 17,
+					bodyLength: 59 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.6 as Ampere,
+					torque: 72 as NewtonCentimeter,
+					inductance: 37.4 as MilliHenry,
+					resistance: 15.5 as Ohm,
+					rotorInertia: 110 as GramSquareCentimeter,
+					comments: [
+						'Printer HB BJ42D series',
+						'bipolar',
+						'https://s3.devminer.xyz/archive/KeliMotor_Printer-HB-BJ42D-series.pdf'
 					]
 				}
 			]
@@ -2686,6 +3012,46 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					resistance: 1.5 as Ohm,
 					rotorInertia: 54 as GramSquareCentimeter,
 					comments: []
+				}
+			],
+			[
+				'JK42HS40-1004AC',
+				{
+					brand: 'JKongMotor',
+					model: 'JK42HS40-1004AC',
+					nemaSize: 17,
+					bodyLength: 40 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 1 as Ampere,
+					torque: 39.2 as NewtonCentimeter,
+					inductance: 8.9 as MilliHenry,
+					resistance: 3.9 as Ohm,
+					rotorInertia: 54 as GramSquareCentimeter,
+					comments: [
+						'4.0 kg-cm holding torque',
+						'4 leads',
+						'https://s3.devminer.xyz/archive/JKongMotor_JK42HS40-1004AC.pdf'
+					]
+				}
+			],
+			[
+				'JK42HS34-0844YA-01',
+				{
+					brand: 'JKongMotor',
+					model: 'JK42HS34-0844YA-01',
+					nemaSize: 17,
+					bodyLength: 34 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 0.84 as Ampere,
+					torque: 27.5 as NewtonCentimeter,
+					inductance: 9.3 as MilliHenry,
+					resistance: 5.75 as Ohm,
+					rotorInertia: 34 as GramSquareCentimeter,
+					comments: [
+						'2.8 kg-cm holding torque',
+						'4 leads',
+						'https://s3.devminer.xyz/archive/JKongMotor_JK42HS34-0844YA-01.pdf'
+					]
 				}
 			]
 		])
