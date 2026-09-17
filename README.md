@@ -23,6 +23,8 @@ A simple website that allows you to simulate how different stepper motors perfor
 
 `pnpm build` produces the SPA in `dist/public`, its shell in `dist/template` and a Nitro server in `.output`; `pnpm preview` runs the built server. The server only exists to give crawlers per-link OpenGraph tags and a rendered torque graph, see [ADR-0003](./docs/adr/0003-request-time-opengraph-server.md).
 
+Usage tracking goes to a self-hosted [Plausible](https://plausible.io) instance through `src/lib/analytics.ts`; there is no third-party script. The app posts to its own `/api/event`, which `server/routes/api/event.post.ts` relays to `PLAUSIBLE_HOST`. It is off in `pnpm dev` (localhost) and whenever `VITE_PLAUSIBLE_DOMAIN` is unset at build time. Set `localStorage.plausible_ignore = "true"` in your browser to exclude yourself on the live site. The events and the reasoning are in [ADR-0004](./docs/adr/0004-plausible-events-without-the-script.md).
+
 You can add more stepper motors by adding a new row to the `data/steppers.tsv` file and then running `pnpm data:update-stepper-db`.
 
 Removing a row is fine too: share links reference steppers by `brand|model`, so `pnpm data:update-stepper-db` moves anything that left the source files into `data/archived-steppers.json` and into `ARCHIVED_STEPPER_DB` in the generated `src/lib/stepper-db.ts`. Archived motors are hidden from the picker but old links still resolve them, so commit both files together. If a motor was renamed rather than removed, map its old id to the new one in `data/stepper-aliases.json`.
