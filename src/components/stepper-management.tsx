@@ -297,7 +297,7 @@ export function CustomStepperModal() {
 							<Label htmlFor="stepAngle">Step Angle (°)</Label>
 							<NumberInput
 								id="stepAngle"
-								step="0.1"
+								step="0.001"
 								min="0"
 								value={formData.stepAngle}
 								onValueChange={(v) => setFormData({ ...formData, stepAngle: v as number })}
