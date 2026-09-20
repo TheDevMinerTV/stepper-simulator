@@ -3559,7 +3559,26 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.4 as Ohm,
 					rotorInertia: 82 as GramSquareCentimeter,
-					comments: ['Sovol Zero A/B']
+					comments: [
+						'Sovol Zero A/B @ 3.5 A RMS',
+						'https://s3.devminer.xyz/archive/Shengyang%20Motor__42BYGH3025-3M-25D.pdf'
+					]
+				}
+			],
+			[
+				'42BYGH3025-4M-25D',
+				{
+					brand: 'Shengyang Motor',
+					model: '42BYGH3025-4M-25D',
+					nemaSize: 17,
+					bodyLength: 48 as Millimeter,
+					stepAngle: 1.8 as Degree,
+					ratedCurrent: 4 as Ampere,
+					torque: 56 as NewtonCentimeter,
+					inductance: 0.6 as MilliHenry,
+					resistance: 0.45 as Ohm,
+					rotorInertia: 82 as GramSquareCentimeter,
+					comments: ['https://s3.devminer.xyz/archive/Shengyang%20Motor__42BYGH3025-4M-25D.pdf']
 				}
 			],
 			[
@@ -3596,7 +3615,7 @@ export const STEPPER_DB: Map<string, Map<string, StepperDefinition>> = new Map([
 					inductance: 0.6 as MilliHenry,
 					resistance: 0.45 as Ohm,
 					rotorInertia: 82 as GramSquareCentimeter,
-					comments: []
+					comments: ['55mm shaft', 'Insulation Class H (180c)']
 				}
 			]
 		])
