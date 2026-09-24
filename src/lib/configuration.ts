@@ -5,7 +5,6 @@ import {
 	Grams,
 	MillimetersPerSecondSquared,
 	NewtonCentimeter,
-	Percent,
 	type StepperDefinition,
 	Volts
 } from '@/lib/stepper';
@@ -26,7 +25,6 @@ export type DriveSettings = {
 	maxDriveCurrent: Ampere;
 	/** just how it's displayed */
 	currentUnit: CurrentUnit;
-	maxDrivePercent: Percent;
 	motorModel: MotorModelName;
 };
 
@@ -54,7 +52,6 @@ export const DEFAULT_DRIVE_SETTINGS: DriveSettings = {
 	inputVoltage: 24 as Volts,
 	maxDriveCurrent: 1 as Ampere,
 	currentUnit: 'peak',
-	maxDrivePercent: 100 as Percent,
 	motorModel: 'classic'
 };
 
@@ -72,7 +69,6 @@ export const DriveSettingsSchema = z.object({
 	inputVoltage: Volts.catch(DEFAULT_DRIVE_SETTINGS.inputVoltage),
 	maxDriveCurrent: Ampere.catch(DEFAULT_DRIVE_SETTINGS.maxDriveCurrent),
 	currentUnit: CurrentUnit.catch(DEFAULT_DRIVE_SETTINGS.currentUnit),
-	maxDrivePercent: Percent.catch(DEFAULT_DRIVE_SETTINGS.maxDrivePercent),
 	motorModel: MotorModel.catch(DEFAULT_DRIVE_SETTINGS.motorModel)
 }) satisfies z.ZodType<DriveSettings>;
 

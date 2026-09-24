@@ -71,7 +71,7 @@ export function buildTorqueCurve({
 
 		for (const stepper of steppers) {
 			const maxCurrentAtSpecifiedPower = calculateMaxCurrentAtSpecifiedPower(maxPower, stepper);
-			const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
+			const driveCurrent = calculateDriveCurrent(driveSettings, maxCurrentAtSpecifiedPower);
 			const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
 
 			const rps = velocity / pulleyCircumferenceMm;

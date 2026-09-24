@@ -6,7 +6,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { track } from '@/lib/analytics';
 import { CURRENT_UNIT_LABEL, type CurrentUnit, formatCurrent, peakToUnit, unitToPeak } from '@/lib/current-unit';
 import { calculateGearRatio, calculateRequiredTorque, type MotorModel } from '@/lib/formulas';
-import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Percent, Volts } from '@/lib/stepper';
+import type { Ampere, Grams, MillimetersPerSecondSquared, NewtonCentimeter, Volts } from '@/lib/stepper';
 import { currentDebugAtom, currentDriveSettingsAtom, currentGantrySettingsAtom, maxPowerAtom } from '@/state/atoms';
 import { useAtom, useAtomValue } from 'jotai';
 import {
@@ -14,7 +14,6 @@ import {
 	CogIcon,
 	CpuIcon,
 	GaugeIcon,
-	PercentIcon,
 	PlugIcon,
 	TriangleAlertIcon,
 	WeightIcon,
@@ -87,19 +86,6 @@ export function DriveSettings() {
 							? 'RMS is not what datasheets quote. Rated currents in the stepper DB are peak per phase.'
 							: 'Peak is not what Klipper / TMC drivers take. Their run_current is RMS. Switch to RMS to enter that value directly.'}
 					</span>
-				</div>
-				<div className="flex w-full max-w-sm items-center gap-2">
-					<div className="size-5">
-						<PercentIcon className="w-5 h-5" />
-					</div>
-					<NumberInput
-						placeholder="Max Drive Percent"
-						value={driveSettings.maxDrivePercent}
-						min={0}
-						max={100}
-						onValueChange={(v) => setDriveSettings({ ...driveSettings, maxDrivePercent: v as Percent })}
-					/>
-					<span>%</span>
 				</div>
 				<div className="flex w-full max-w-sm items-start gap-2">
 					<div className="size-5 pt-1.5">

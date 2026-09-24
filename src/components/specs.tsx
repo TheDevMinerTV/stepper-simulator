@@ -23,13 +23,21 @@ import {
 	OmegaIcon,
 	RedoDotIcon,
 	RulerDimensionLineIcon,
+	TriangleAlertIcon,
 	TriangleRightIcon,
 	XIcon,
 	ZapIcon
 } from 'lucide-react';
 
+const OVERDRIVE_TOLERANCE = 1.001;
+
 export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 	const debug = useAtomValue(currentDebugAtom);
+	const driveSettings = useAtomValue(currentDriveSettingsAtom);
+	const maxPower = useAtomValue(maxPowerAtom);
+
+	const driveCurrent = calculateDriveCurrent(driveSettings, calculateMaxCurrentAtSpecifiedPower(maxPower, stepper));
+	const overdriven = driveCurrent > stepper.ratedCurrent * OVERDRIVE_TOLERANCE;
 
 	return (
 		<div className="flex flex-col gap-2">
@@ -47,6 +55,14 @@ export function StepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 				<ZapIcon />
 				<span>{stepper.ratedCurrent.toFixed(1)} A peak</span>
 			</div>
+			{overdriven && (
+				<span className="flex items-start gap-1.5 text-xs text-muted-foreground">
+					<TriangleAlertIcon className="mt-px size-3.5 shrink-0 text-amber-500" />
+					Out of spec: driven at {driveCurrent.toFixed(2)} A peak (
+					{Math.round((driveCurrent / stepper.ratedCurrent) * 100)}% of rated). This is extrapolated! Monitor
+					your stepper temperatures closely!
+				</span>
+			)}
 			<div className="flex items-center gap-2">
 				<BicepsFlexedIcon />
 				<span>{stepper.torque.toFixed(1)} Ncm</span>
@@ -85,7 +101,7 @@ function DebugStepperSpecs({ stepper }: { stepper: StepperDefinition }) {
 	const maxPower = useAtomValue(maxPowerAtom);
 
 	const maxCurrentAtSpecifiedPower = calculateMaxCurrentAtSpecifiedPower(maxPower, stepper);
-	const driveCurrent = calculateDriveCurrent(driveSettings, stepper, maxCurrentAtSpecifiedPower);
+	const driveCurrent = calculateDriveCurrent(driveSettings, maxCurrentAtSpecifiedPower);
 	const torqueRotor = calculateTorqueRotor(gantrySettings, stepper);
 	const powerAtDriveCurrent = calculatePowerAtDriveCurrent(driveCurrent, stepper);
 

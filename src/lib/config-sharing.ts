@@ -21,7 +21,6 @@ import {
 	NEMASize,
 	NewtonCentimeter,
 	Ohm,
-	Percent,
 	StepperDefinition,
 	Volts
 } from './stepper';
@@ -38,7 +37,6 @@ const LegacyShareableConfigurationSchema = z.object({
 		inputVoltage: Volts,
 		maxDriveCurrent: Ampere,
 		currentUnit: CurrentUnit.default('peak'),
-		maxDrivePercent: Percent,
 		motorModel: MotorModel.default('classic')
 	}),
 	gantrySettings: z.object({
@@ -85,7 +83,7 @@ const SharedConfigSchema = z.object({
 			v: Volts.optional(), // inputVoltage
 			c: Ampere.optional(), // maxDriveCurrent (always peak)
 			cu: CurrentUnit.optional(), // currentUnit
-			p: Percent.optional(), // maxDrivePercent
+			// p (maxDrivePercent) was removed.
 			m: MotorModel.optional() // motorModel
 		})
 		.optional(),
@@ -202,7 +200,6 @@ function packDriveSettings(settings: DriveSettings): SharedConfig['d'] {
 	if (settings.inputVoltage !== DEFAULT_DRIVE_SETTINGS.inputVoltage) packed.v = settings.inputVoltage;
 	if (settings.maxDriveCurrent !== DEFAULT_DRIVE_SETTINGS.maxDriveCurrent) packed.c = settings.maxDriveCurrent;
 	if (settings.currentUnit !== DEFAULT_DRIVE_SETTINGS.currentUnit) packed.cu = settings.currentUnit;
-	if (settings.maxDrivePercent !== DEFAULT_DRIVE_SETTINGS.maxDrivePercent) packed.p = settings.maxDrivePercent;
 	if (settings.motorModel !== DEFAULT_DRIVE_SETTINGS.motorModel) packed.m = settings.motorModel;
 
 	return Object.keys(packed).length > 0 ? packed : undefined;
@@ -213,7 +210,6 @@ function unpackDriveSettings(packed: SharedConfig['d']): DriveSettings {
 		inputVoltage: packed?.v ?? DEFAULT_DRIVE_SETTINGS.inputVoltage,
 		maxDriveCurrent: packed?.c ?? DEFAULT_DRIVE_SETTINGS.maxDriveCurrent,
 		currentUnit: packed?.cu ?? DEFAULT_DRIVE_SETTINGS.currentUnit,
-		maxDrivePercent: packed?.p ?? DEFAULT_DRIVE_SETTINGS.maxDrivePercent,
 		motorModel: packed?.m ?? DEFAULT_DRIVE_SETTINGS.motorModel
 	};
 }

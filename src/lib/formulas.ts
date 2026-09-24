@@ -12,16 +12,8 @@ export const calculateMaxPower = (driveSettings: DriveSettings) =>
 export const calculateMaxCurrentAtSpecifiedPower = (maxPower: Watts, stepper: StepperDefinition) =>
 	Math.sqrt(maxPower / 2 / stepper.resistance);
 
-export const calculateDriveCurrent = (
-	driveSettings: DriveSettings,
-	stepper: StepperDefinition,
-	maxCurrentAtSpecifiedPower: number
-) =>
-	Math.min(
-		driveSettings.maxDriveCurrent,
-		(driveSettings.maxDrivePercent / 100) * stepper.ratedCurrent,
-		maxCurrentAtSpecifiedPower
-	);
+export const calculateDriveCurrent = (driveSettings: DriveSettings, maxCurrentAtSpecifiedPower: number) =>
+	Math.min(driveSettings.maxDriveCurrent, maxCurrentAtSpecifiedPower);
 
 export const calculateTorqueRotor = (gantrySettings: GantrySettings, stepper: StepperDefinition) =>
 	(gantrySettings.acceleration / (gantrySettings.pulleyTeeth * gantrySettings.toothPitch)) *
