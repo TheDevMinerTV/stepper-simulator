@@ -37,6 +37,14 @@ const stepperDbPath = path.join(import.meta.dirname, '..', 'src', 'lib', 'steppe
 
 const stepperId = (stepper: { brand: string; model: string }) => `${stepper.brand}|${stepper.model}`;
 
+const toPeakCurrent = (cell: string, value: number | undefined) => {
+	if (value === undefined) return value;
+
+	if (/\brms\b/i.test(cell)) return Math.round(value * Math.SQRT2 * 1000) / 1000;
+
+	return value;
+};
+
 const readJsonFile = <T>(filePath: string, fallback: T): T => {
 	if (!fs.existsSync(filePath)) return fallback;
 	return JSON.parse(fs.readFileSync(filePath, 'utf-8')) as T;
@@ -97,7 +105,7 @@ const parseVoron3DWikiFormat = (line: string): ParsedStepperData | null => {
 	const nemaSize = parseFloat(nema);
 	const bodyLengthNum = parseFloat(bodyLength);
 	const stepAngleNum = parseFloat(stepAngle);
-	const ratedCurrentNum = parseFloat(ratedCurrent);
+	const ratedCurrentNum = toPeakCurrent(ratedCurrent, parseFloat(ratedCurrent))!;
 	// Just use N-mm as N-cm (their label is wrong)
 	const torqueNum = parseFloat(torque) ? parseFloat(torque) : undefined;
 	const inductanceNum = parseFloat(inductance);
@@ -218,7 +226,7 @@ async function convertCsvToTypeScript() {
 		const nemaSize = parseNumber(nema);
 		const bodyLengthNum = parseNumber(bodyLength);
 		const stepAngleNum = parseNumber(stepAngle);
-		const ratedCurrentNum = parseNumber(ratedCurrent);
+		const ratedCurrentNum = toPeakCurrent(ratedCurrent, parseNumber(ratedCurrent));
 		const torqueNum = parseNumber(torque);
 		const inductanceNum = parseNumber(inductance);
 		const resistanceNum = parseNumber(resistance);
@@ -299,7 +307,7 @@ async function convertCsvToTypeScript() {
 		const nemaSize = parseNemaSize(body);
 		const bodyLengthNum = parseNumberWithUnit(length);
 		const stepAngleNum = parseNumberWithUnit(stepAngle);
-		const ratedCurrentNum = parseNumberWithUnit(maxAmperage);
+		const ratedCurrentNum = toPeakCurrent(maxAmperage, parseNumberWithUnit(maxAmperage));
 		const torqueNum = parseNumberWithUnit(holdingTorque);
 		const inductanceNum = parseNumberWithUnit(inductance);
 		const resistanceNum = parseNumberWithUnit(resistance);
