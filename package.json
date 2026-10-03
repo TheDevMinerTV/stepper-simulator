@@ -44,7 +44,7 @@
 		"@types/react": "^19.1.10",
 		"@types/react-dom": "^19.1.7",
 		"@vitejs/plugin-react": "^6.0.0",
-		"h3": "1.15.11",
+		"h3": "2.0.1",
 		"nitropack": "^2.13.4",
 		"prettier": "^3.6.2",
 		"tsx": "^4.20.4",
