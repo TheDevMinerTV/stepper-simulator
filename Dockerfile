@@ -1,4 +1,4 @@
-FROM node:24-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app
 RUN corepack enable
 
@@ -21,7 +21,7 @@ RUN pnpm build
 ####
 # The app is still a static SPA; the server exists so crawlers get per-link OpenGraph tags and a
 # rendered torque graph, neither of which a JS-less crawler could ever get from the SPA itself
-FROM node:24-alpine
+FROM node:26-alpine
 WORKDIR /app
 
 # curl for healthchecks. The OG image rasterizer has no CSS engine and no webfonts: it renders
